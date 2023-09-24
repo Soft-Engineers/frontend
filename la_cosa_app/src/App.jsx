@@ -1,9 +1,11 @@
-import './App.css'
-function App() {
+import { Routes, Route } from "react-router-dom"
+import MainPage from "./screens/MainPage"
 
+const App = () => {
   return (
-      <div className="App">
-      </div>
+      <Routes>
+        <Route path="/" element={<MainPage/>} />
+      </Routes>
   )
 }
 
