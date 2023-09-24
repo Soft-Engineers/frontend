@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import RButton from '../../components/Button';
 import Table from '../../components/Table';
 import { Box, Grid } from '@mui/material';
 import VideogameAssetOutlinedIcon from '@mui/icons-material/VideogameAssetOutlined';
 import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
+import { getPartidas } from '../../utils/api';
 
 
 const styles = {
@@ -32,7 +34,21 @@ const styles = {
 
 
 
+
 const MainPage = () => {
+
+  const [partidas, setPartidas] = useState([]);
+
+  useEffect(() => {
+    getPartidas()
+      .then((res) => {
+        setPartidas(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, []);
+
   return (
     <Grid
       container
@@ -65,7 +81,9 @@ const MainPage = () => {
             icon={<RotateLeftOutlinedIcon />}
           />
         </Box>
-        <Table />
+        <Table
+          data={partidas}
+        />
       </Grid>
     </Grid>
   );
