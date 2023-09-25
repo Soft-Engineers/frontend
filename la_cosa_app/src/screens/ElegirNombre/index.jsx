@@ -51,13 +51,13 @@ const styles = {
 
 const ElegirNombre = () => {
     return (
-        <Grid container direction="column" style={styles.root}>
+        <Grid container xs={12} sm={6} md={4} lg={3} direction="column" style={styles.root}>
             <Grid item style={styles.header}>
                 <Header />
             </Grid>
-            <Grid item style={styles.content}>
+            <Grid item xs={12} sm={6} md={4} lg={3} style={styles.content}>
                 <Box style={styles.box}>
-                    <Grid item style={styles.form}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} style={styles.form}>
                         <h3 style={styles.title}>Elige un nombre de usuario</h3>
                         <Formik
                             initialValues={{
@@ -87,7 +87,7 @@ const ElegirNombre = () => {
                             </Form>
                         </Formik>
                     </Grid>
-                    <Grid item style={styles.button}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} style={styles.button}>
                         <Button
                             variant="contained"
                             size="small"
