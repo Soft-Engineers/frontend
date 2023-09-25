@@ -1,10 +1,11 @@
-import './App.css'
-function App() {
+import { Routes, Route } from "react-router-dom";
+import ElegirNombre from "./screens/ElegirNombre";
 
-  return (
-      <div className="App">
-      </div>
-  )
-}
-
-export default App
+    const App = () => {
+        return (
+            <Routes>
+                <Route path="/" element={<ElegirNombre/>} />
+            </Routes>
+        )
+    }
+export default App;
