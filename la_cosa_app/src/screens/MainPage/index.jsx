@@ -9,28 +9,22 @@ import FormPartida from '../../components/FormPartida';
 
 const styles = {
   root: {
-    height: '100vh',
-    display: 'flex',
+    minHeight: '100vh',
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   left: {
-    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   right: {
-    height: '100%',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
-    margin: '0 auto',
     padding: '10px',
   },
-}
+};
 
 const MainPage = () => {
   const [partidas, setPartidas] = useState([]);
@@ -43,26 +37,17 @@ const MainPage = () => {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }, []);
 
   const toggleFormVisibility = () => {
     setShowForm(!showForm);
-  }
+  };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={styles.root}
-    >
-
+    <Grid container spacing={2} sx={styles.root}>
       {/* Left part */}
-      <Grid 
-        item 
-        xs={5} 
-        sx={styles.left}
-      >
+      <Grid item xs={12} sm={6} md={5} sx={styles.left}>
         {!showForm && (
           <RButton
             text="Crear partida"
@@ -70,27 +55,25 @@ const MainPage = () => {
             icon={<VideogameAssetOutlinedIcon />}
           />
         )}
-        {showForm && (<FormPartida />)}
+        {showForm && <FormPartida />}
       </Grid>
 
       {/* Right part */}
-      <Grid item xs={7}>
+      <Grid item xs={12} sm={6} md={7}>
         <Box sx={styles.right}>
           <h1>Unete a una partida!</h1>
         </Box>
         <Box sx={styles.right}>
-          <RButton 
+          <RButton
             text="Recargar partidas"
             action={() => console.log("Recargar partida")}
             icon={<RotateLeftOutlinedIcon />}
           />
         </Box>
-        <Table
-          data={partidas}
-        />
+        <Table data={partidas} />
       </Grid>
     </Grid>
   );
-}
+};
 
 export default MainPage;
