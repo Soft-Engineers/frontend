@@ -5,7 +5,7 @@ import { Box, Grid } from '@mui/material';
 import VideogameAssetOutlinedIcon from '@mui/icons-material/VideogameAssetOutlined';
 import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
 import { getPartidas } from '../../utils/api';
-
+import FormPartida from '../../components/FormPartida';
 
 const styles = {
   root: {
@@ -22,7 +22,7 @@ const styles = {
     alignItems: 'center',
   },
 
-  right: { // Esto es para 
+  right: {
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -32,12 +32,9 @@ const styles = {
   },
 }
 
-
-
-
 const MainPage = () => {
-
   const [partidas, setPartidas] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     getPartidas()
@@ -49,6 +46,10 @@ const MainPage = () => {
       })
   }, []);
 
+  const toggleFormVisibility = () => {
+    setShowForm(!showForm);
+  }
+
   return (
     <Grid
       container
@@ -59,18 +60,21 @@ const MainPage = () => {
       {/* Left part */}
       <Grid 
         item 
-        xs={4} 
+        xs={5} 
         sx={styles.left}
       >
-        <RButton
-          text="Crear partida"
-          action={() => console.log("Crear partida")}
-          icon={<VideogameAssetOutlinedIcon />}
-        />
+        {!showForm && (
+          <RButton
+            text="Crear partida"
+            action={toggleFormVisibility}
+            icon={<VideogameAssetOutlinedIcon />}
+          />
+        )}
+        {showForm && (<FormPartida />)}
       </Grid>
 
       {/* Right part */}
-      <Grid item xs={8}>
+      <Grid item xs={7}>
         <Box sx={styles.right}>
           <h1>Unete a una partida!</h1>
         </Box>

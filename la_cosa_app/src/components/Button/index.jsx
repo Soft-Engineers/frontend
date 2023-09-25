@@ -6,9 +6,10 @@ const RButton = ({text, action, icon}) => {
   return (
     <Stack direction="row" spacing={2}>
       <Button 
+        type="submit"
         variant="outlined" 
         endIcon={icon}
-        onClick={action}
+        onClick={() => action()}
       >
         {text}
       </Button>
