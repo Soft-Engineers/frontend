@@ -6,12 +6,6 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
 const styles = {
-    root: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-    },
     title: {
         textAlign: 'center',
         marginTop: '20px', // Agrega espacio inferior para el título
@@ -44,7 +38,7 @@ const Lobby = () => {
     const players = ['Raul', 'Elpicante', 'El_lobby_esta_feaso']; // para probar playerlist
     return (
         <Container>
-            <Grid container spacing={2} sx={styles.root}>
+            <Grid container spacing={2}>
 
                 <Grid item xs={12} md={12} sx={styles.title}>
                     <Typography variant="h4" sx={styles.customText}>Lobby</Typography>
