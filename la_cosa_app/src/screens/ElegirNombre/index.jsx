@@ -70,11 +70,11 @@ const ElegirNombre = () => {
     };
 
     return (
-        <Grid container  direction="column" style={styles.root}>
-            <Grid item style={styles.header}>
+        <Grid container  direction="column" style={styles.root}  >
+            <Grid item style={styles.header} xs={12} >
                 <Header />
             </Grid>
-            <Grid item style={styles.content}>
+            <Grid item style={styles.content} xs={12}>
                 <Box style={styles.box}>
                         <h3 style={styles.title}>Elige un nombre de usuario</h3>
                         <Formik
@@ -86,24 +86,24 @@ const ElegirNombre = () => {
                         {() => (
                             <Form>
                                 <Grid container direction="column" alignItems="center">
-                                <Grid item style={styles.row}>
-                                    <label style={styles.label}> Nombre: </label>
-                                    <Field
-                                        type="text"
-                                        name="nombreJugador"
-                                        style={{
-                                            borderRadius: "50px",
-                                        }}
-                                        validate={(value) => {
-                                            if (!value) {
-                                                return "El nombre es obligatorio"; // Validation error message
-                                            }
-                                            return undefined; // No error
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Button
+                                    <Grid item style={styles.row} xs={12}>
+                                        <label style={styles.label}> Nombre: </label>
+                                        <Field
+                                            type="text"
+                                            name="nombreJugador"
+                                            style={{
+                                                borderRadius: "50px",
+                                            }}
+                                            //validate={(value) => {
+                                                //if (!value) {
+                                                 //   return "Nombre vacio";
+                                                //}
+                                                //return undefined;
+                                            //}}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
                                             variant="contained"
                                             size="small"
                                             type="submit"
@@ -114,8 +114,8 @@ const ElegirNombre = () => {
                                             }}
                                         >
                                             Ok
-                                    </Button>
-                                </Grid>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </Form>
                             )}
