@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 
 const headerStyles = {
     backgroundColor: "black",
+    marginBottom: "1px",
 };
 
 
@@ -14,11 +15,11 @@ const Header = () => {
                 target="_blank" // Opens the link in a new tab/window
             >
             <Button
-                variant="contained"
+                variant="outlined"
                 color="primary"
                 size="small"
                 sx={{
-                    fontSize: "12px",
+                    fontSize: "13px",
                     background: "black",
                 }}
             >

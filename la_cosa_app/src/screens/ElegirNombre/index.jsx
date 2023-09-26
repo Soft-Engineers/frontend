@@ -10,7 +10,7 @@ import Header from "../../components/Header";
 const styles = {
     root: {
         minHeight: "100vh",
-        background: "linear-gradient(0deg, #000000, #004400)",
+        background: "radial-gradient(circle, #000000, #004400)",
     },
     header: {
         background: "black",
