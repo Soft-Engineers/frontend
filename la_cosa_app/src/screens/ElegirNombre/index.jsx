@@ -10,10 +10,10 @@ import Header from "../../components/Header";
 const styles = {
     root: {
         minHeight: "100vh",
-        background: "radial-gradient(circle, #000000, #004400)",
+        background: "radial-gradient(circle at center, #001400 10%, black)",
     },
     header: {
-        background: "black",
+        background: "linear-gradient(0deg, #000000, #004400)",
     },
     content: {
         flex: "1",
@@ -25,7 +25,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        background: "rgba(0, 0, 0, 0.5)",
+        background: "#010001",
         maxWidth: "280px",
         width: "100%",
         borderRadius: "10%",
@@ -33,7 +33,7 @@ const styles = {
     title: {
         paddingBottom: "0.5px",
         marginBottom: "16px",
-        borderBottom: "2px solid white",
+        borderBottom: "2px solid red",
     },
     label: {
         paddingRight: "15px",
@@ -42,9 +42,9 @@ const styles = {
         fontSize: "14px",
     },
     row: {
-        background: "#001012",
+        background: "#202331",
         marginBottom: "20px",
-        paddingRight: "15px",
+        paddingRight: "1px",
         paddingLeft: "15px",
         borderRadius: "50px",
     },
@@ -110,7 +110,7 @@ const ElegirNombre = () => {
                                             sx={{
                                                 fontSize: "12px",
                                                 height: "70%",
-                                                background: "#001012",
+                                                background: "#202331",
                                             }}
                                         >
                                             Ok
