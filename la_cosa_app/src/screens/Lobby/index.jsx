@@ -1,9 +1,11 @@
-import PlayerList from "../../components/PlayerList";
+import ListaJugadores from "../../components/ListaJugadores";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import { useEffect, useState } from "react";
+import { getJugadores } from "../../utils/api";
 
 const styles = {
     title: {
@@ -34,8 +36,20 @@ const styles = {
 
 };
 
-const Lobby = () => {
-    const players = ['Raul', 'Elpicante', 'El_lobby_esta_feaso']; // para probar playerlist
+const Lobby = (/*match_id*/) => {
+    const match_id = 0;
+
+    const [jugadores, setJugadores] = useState([]);
+    useEffect(() => {
+        getJugadores(match_id)
+            .then((res) => {
+                setJugadores(res.players);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     return (
         <Container>
             <Grid container spacing={2}>
@@ -46,7 +60,7 @@ const Lobby = () => {
 
                 <Grid item xs={12} md={12} sx={styles.content}>
                     <Box>
-                        <PlayerList players={players} />
+                        <ListaJugadores jugadores={jugadores} />
                     </Box>
 
                     <Box sx={styles.button}>
