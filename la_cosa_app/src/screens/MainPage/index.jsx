@@ -40,10 +40,6 @@ const MainPage = () => {
       });
   }, []);
 
-  const toggleFormVisibility = () => {
-    setShowForm(!showForm);
-  };
-
   return (
     <Grid container spacing={2} sx={styles.root}>
       {/* Left part */}
@@ -51,7 +47,7 @@ const MainPage = () => {
         {!showForm && (
           <RButton
             text="Crear partida"
-            action={toggleFormVisibility}
+            action={() => setShowForm(!showForm)}
             icon={<VideogameAssetOutlinedIcon />}
           />
         )}

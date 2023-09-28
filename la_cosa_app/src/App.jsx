@@ -4,7 +4,7 @@ import MainPage from "./screens/MainPage"
 const App = () => {
   return (
       <Routes>
-        <Route path="/" element={<MainPage/>} />
+        <Route path="/mainpage" element={<MainPage/>} />
       </Routes>
   )
 }
