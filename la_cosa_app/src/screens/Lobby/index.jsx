@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from "react";
 import { getJugadores } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
     title: {
@@ -38,7 +39,7 @@ const styles = {
 
 const Lobby = (/*match_id*/) => {
     const match_id = 0;
-
+    const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
     useEffect(() => {
         getJugadores(match_id)
@@ -63,7 +64,11 @@ const Lobby = (/*match_id*/) => {
                         <ListaJugadores jugadores={jugadores} />
                     </Box>
 
-                    <Box sx={styles.button}>
+                    <Box sx={styles.button}
+                        onClick={() => {
+                            navigate("/Partida_iniciada");
+                        }}
+                    >
                         <Button variant="outlined" color="success">
                             Iniciar Partida
                         </Button>
