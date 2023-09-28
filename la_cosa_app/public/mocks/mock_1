@@ -1,0 +1,12 @@
+import axios from "axios";
+import MockAdapter from 'axios-mock-adapter';
+
+const mock = new MockAdapter(axios);
+
+mock.onGet('http://localhost:8000/match/players').reply(200, {
+    "status": "ok",
+    "players": ["quien_hizo_el_lobby", "Elpicante", "xXellobbynosirveXx"]
+}
+);
+
+export default mock;
