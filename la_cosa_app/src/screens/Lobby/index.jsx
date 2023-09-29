@@ -13,6 +13,7 @@ const styles = {
         textAlign: 'center',
         marginTop: '20px', // Agrega espacio inferior para el título
         marginBottom: '20px',
+        backgroundColor: 'black'
     },
     content: {
         display: 'flex',
@@ -30,7 +31,7 @@ const styles = {
     customText: {
         fontSize: '40px',
         fontFamily: 'monospace, sans-serif',
-        color: 'green',
+        color: '#0FFF55',
         fontWeight: 'bold',
     },
 
@@ -53,7 +54,7 @@ const Lobby = (/*match_id*/) => {
 
     return (
         <Container>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} >
 
                 <Grid item xs={12} md={12} sx={styles.title}>
                     <Typography variant="h4" sx={styles.customText}>Lobby</Typography>
@@ -64,12 +65,11 @@ const Lobby = (/*match_id*/) => {
                         <ListaJugadores jugadores={jugadores} />
                     </Box>
 
-                    <Box sx={styles.button}
-                        onClick={() => {
-                            navigate("/Partida_iniciada");
-                        }}
-                    >
-                        <Button variant="outlined" color="success">
+                    <Box sx={styles.button}>
+                        <Button variant="outlined" color="success"
+                            onClick={() => {
+                                navigate("/Partida_iniciada");
+                            }}>
                             Iniciar Partida
                         </Button>
                     </Box>

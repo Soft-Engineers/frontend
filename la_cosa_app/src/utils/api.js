@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import mock from "../../public/mocks/mock_1"; //para testear
 
 export const getJugadores = async (match_id) => {
     try {
