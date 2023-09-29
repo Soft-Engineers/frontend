@@ -11,9 +11,11 @@ import { useNavigate } from "react-router-dom";
 const styles = {
     title: {
         textAlign: 'center',
-        marginTop: '20px', // Agrega espacio inferior para el título
+        marginTop: '20px',
         marginBottom: '20px',
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        margin: 'auto',
+
     },
     content: {
         display: 'flex',
@@ -31,7 +33,7 @@ const styles = {
     customText: {
         fontSize: '40px',
         fontFamily: 'monospace, sans-serif',
-        color: '#0FFF55',
+        color: '#E3E014',
         fontWeight: 'bold',
     },
 
@@ -53,11 +55,13 @@ const Lobby = (/*match_id*/) => {
     }, []);
 
     return (
-        <Container>
-            <Grid container spacing={2} >
+        <Container maxWidth={false}>
+            <Grid container spacing={2}>
 
-                <Grid item xs={12} md={12} sx={styles.title}>
-                    <Typography variant="h4" sx={styles.customText}>Lobby</Typography>
+                <Grid item xs={12} md={12}>
+                    <Box sx={styles.title} >
+                        <Typography variant="h4" sx={styles.customText}>Lobby</Typography>
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12} md={12} sx={styles.content}>
@@ -66,13 +70,14 @@ const Lobby = (/*match_id*/) => {
                     </Box>
 
                     <Box sx={styles.button}>
-                        <Button variant="outlined" color="success"
+                        <Button variant="otlined" sx={{ backgroundColor: '#E3E014', color: '#000000' }}
                             onClick={() => {
                                 navigate("/Partida_iniciada");
                             }}>
                             Iniciar Partida
                         </Button>
                     </Box>
+
                 </Grid>
             </Grid>
         </Container>
