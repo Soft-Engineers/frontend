@@ -33,8 +33,8 @@ const styles = {
 
 };
 
-const Lobby = (/*match_id*/) => {
-    const match_id = 0;
+const Lobby = (/*{ match_id, is_host }*/) => {
+    const match_id = 123;
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
     useEffect(() => {
