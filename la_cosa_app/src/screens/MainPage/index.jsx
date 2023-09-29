@@ -31,13 +31,11 @@ const MainPage = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    getPartidas()
-      .then((res) => {
-        setPartidas(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = async () => {
+      const res = await getPartidas();
+      setPartidas(res);
+    }
+    fetchData();
   }, []);
 
   return (
@@ -62,8 +60,16 @@ const MainPage = () => {
         <Box sx={styles.right}>
           <RButton
             text="Recargar partidas"
-            action={() => console.log("Recargar partida")}
             icon={<RotateLeftOutlinedIcon />}
+            action={
+              () => {
+                const fetchData = async () => {
+                  const res = await getPartidas();
+                  setPartidas(res);
+                }
+                fetchData();
+              }
+            }
           />
         </Box>
         <Table data={partidas} />

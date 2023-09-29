@@ -40,14 +40,14 @@ const CustomizedTables = ({ data }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
+          {data && data.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.minPlayers}</StyledTableCell>
-              <StyledTableCell align="right">{row.maxPlayers}</StyledTableCell>
-              <StyledTableCell align="right">{row.actualPlayers}</StyledTableCell>
+              <StyledTableCell align="right">{row.min_players}</StyledTableCell>
+              <StyledTableCell align="right">{row.max_players}</StyledTableCell>
+              <StyledTableCell align="right">{row.current_players}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -17,9 +17,9 @@ export const createPartida = async (nombre) => {
 // Obtener todas las partidas
 export const getPartidas = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/partidas");
+    const response = await axios.get("http://localhost:8000/match/list");
     if (response.status === 200) {
-      return response.data;
+      return response.data.Matches;
     }
   } catch (error) {
     console.log(error);
