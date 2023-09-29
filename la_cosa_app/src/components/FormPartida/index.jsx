@@ -30,7 +30,7 @@ const FormPartida = () => {
       onSubmit={async (values) => {
         console.log(values);
         try {
-          const response = await createPartida(values);
+          const response = await createPartida(values.nombrePartida, values.minJugadores, values.maxJugadores); //TODO: Pasar id
           if (response.status === 200) {
             alert('Partida creada exitosamente');
           }

@@ -38,6 +38,7 @@ const MainPage = () => {
     fetchData();
   }, []);
 
+
   return (
     <Grid container spacing={2} sx={styles.root}>
       {/* Left part */}
