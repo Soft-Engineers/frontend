@@ -11,17 +11,10 @@ import { useNavigate } from "react-router-dom";
 const styles = {
     title: {
         textAlign: 'center',
-        marginTop: '20px',
-        marginBottom: '20px',
         backgroundColor: 'black',
-        margin: 'auto',
-
     },
     content: {
         display: 'flex',
-        justifyContent: 'space-between', // Espacio entre la lista y el botón
-        alignItems: 'flex-start', // Alinea la lista en la parte superior
-        width: '100%',
     },
     button: {
         //boton esquina inferior derecha
@@ -70,7 +63,7 @@ const Lobby = (/*match_id*/) => {
                     </Box>
 
                     <Box sx={styles.button}>
-                        <Button variant="otlined" sx={{ backgroundColor: '#E3E014', color: '#000000' }}
+                        <Button variant="outlined" color="success" sx={{ backgroundColor: '#E3E014', color: '#000000' }}
                             onClick={() => {
                                 navigate("/Partida_iniciada");
                             }}>
