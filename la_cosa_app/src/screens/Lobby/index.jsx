@@ -7,7 +7,6 @@ import Grid from '@mui/material/Grid';
 import { useEffect, useState } from "react";
 import { getJugadores } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 const styles = {
     title: {
@@ -39,14 +38,13 @@ const Lobby = () => {
     const is_host = true;
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
+
     useEffect(() => {
-        getJugadores(match_id)
-            .then((res) => {
-                setJugadores(res.players);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const fetchData = async () => {
+            const res = await getJugadores(match_id);
+            setJugadores(res);
+        }
+        fetchData();
     }, []);
 
     return (

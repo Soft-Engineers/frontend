@@ -9,10 +9,10 @@ mock.onGet('http://localhost:8000/match/players').reply((config) => {
     // Comprueba si se pasó el parámetro 'match_id' con un valor específico
     if (params && params.match_id === "123") {
         // Si coincide con el valor esperado, devuelve una respuesta exitosa
-        return [200, { status: "ok", players: ["Jugador1", "Que_feo_lobby", "HOLAA"] }];
+        return [200, { players: ["Jugador1", "Que_feo_lobby", "HOLAA"] }];
     } else {
         // Si no coincide, devuelve un error 400 con un mensaje
-        return [400, { error: "Parámetro 'match_id' inválido" }];
+        return [404, { error: "Match not found" }];
     }
 });
 
