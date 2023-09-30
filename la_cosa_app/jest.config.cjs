@@ -1,10 +1,11 @@
 module.exports = {
-    // Las rutas donde Jest busca archivos de prueba
+    moduleFileExtensions: ['js', 'jsx'],
     roots: ["<rootDir>/public/tests"],
-
-    // Transforma archivos .js utilizando Babel y excluye node_modules
     transform: {
-        "^.+\\.js$": "babel-jest"
+        "^.+\\.jsx?$": "babel-jest"
     },
-
+    moduleNameMapper: {
+        '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    },
 };
+
