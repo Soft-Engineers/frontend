@@ -1,16 +1,15 @@
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-
-export const crearUsuario = async (values) => {
-    const navigate = useNavigate();
-    try {
-        navigate("/mainpage");
-        const response = await axios.post("http://localhost:8000/crear/usuario",
-            values);
-        if (response.status === 200) {
-            return response.data;
-        }
-    } catch (error) {
-        console.log(error);
-    }
+// pasar como formdata a name_player
+export const createUser = async (name_player) => {
+  const formData = new FormData();
+  formData.append("name_player", name_player);
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/player/create",
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
