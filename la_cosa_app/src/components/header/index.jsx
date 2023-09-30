@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import TheThingIcon from '../../../public/assets/TheThingIcon.webp'
-import RButton from '../../components/Button'
+import RButton from '../Button'
 
 const Header = () => {
   return (
@@ -12,7 +12,6 @@ const Header = () => {
       <AppBar position="static" sx={{ background: 'black' }}>
         <Toolbar variant="dense">
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            {/* TODO: La imagen tiene que ser responsive */}
             <img src={TheThingIcon} alt="The Thing Icon" width="40" height="50"/>
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
