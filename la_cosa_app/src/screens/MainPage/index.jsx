@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import RButton from '../../components/Button';
 import Table from '../../components/Table';
+import Header from '../../components/Header';
 import { Box, Grid } from '@mui/material';
 import VideogameAssetOutlinedIcon from '@mui/icons-material/VideogameAssetOutlined';
 import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
@@ -40,42 +41,45 @@ const MainPage = () => {
 
 
   return (
-    <Grid container spacing={2} sx={styles.root}>
-      {/* Left part */}
-      <Grid item xs={12} sm={6} md={5} sx={styles.left}>
-        {!showForm && (
-          <RButton
-            text="Crear partida"
-            action={() => setShowForm(!showForm)}
-            icon={<VideogameAssetOutlinedIcon />}
-          />
-        )}
-        {showForm && <FormPartida />}
-      </Grid>
+    <Box>
+      <Header/>
+      <Grid container spacing={1} sx={styles.root}>
+        {/* Left part */}
+        <Grid item xs={12} sm={6} md={5} sx={styles.left}>
+          {!showForm && (
+            <RButton
+              text="Crear partida"
+              action={() => setShowForm(!showForm)}
+              icon={<VideogameAssetOutlinedIcon />}
+            />
+          )}
+          {showForm && <FormPartida />}
+        </Grid>
 
-      {/* Right part */}
-      <Grid item xs={12} sm={6} md={7}>
-        <Box sx={styles.right}>
-          <h1>Unete a una partida!</h1>
-        </Box>
-        <Box sx={styles.right}>
-          <RButton
-            text="Recargar partidas"
-            icon={<RotateLeftOutlinedIcon />}
-            action={
-              () => {
-                const fetchData = async () => {
-                  const res = await getPartidas();
-                  setPartidas(res);
+        {/* Right part */}
+        <Grid item xs={12} sm={6} md={7}>
+          <Box sx={styles.right}>
+            <h1>Unete a una partida!</h1>
+          </Box>
+          <Box sx={styles.right}>
+            <RButton
+              text="Recargar partidas"
+              icon={<RotateLeftOutlinedIcon />}
+              action={
+                () => {
+                  const fetchData = async () => {
+                    const res = await getPartidas();
+                    setPartidas(res);
+                  }
+                  fetchData();
                 }
-                fetchData();
               }
-            }
-          />
-        </Box>
-        <Table data={partidas} />
+            />
+          </Box>
+          <Table data={partidas} />
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 
