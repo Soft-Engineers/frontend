@@ -1,13 +1,18 @@
 import axios from "axios";
 
 // Crear partida, recibe el nombre de la partida
-export const createPartida = async (nombre, id, min, max) => {
+export const createPartida = async (
+  match_name,
+  player_name,
+  min_players,
+  max_players
+) => {
   try {
-    const response = await axios.post("http://localhost:8000/partida/crear", {
-      nombre,
-      id,
-      min,
-      max,
+    const response = await axios.post("http://localhost:8000/match/create", {
+      match_name,
+      player_name,
+      min_players,
+      max_players,
     });
     if (response.status === 200) {
       return response.data;
