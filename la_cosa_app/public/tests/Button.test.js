@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import {render, fireEvent} from '@testing-library/react';
-import RButton from './../../../src/components/RButton';
+import RButton from '../../src/components/RButton/index.jsx';
 
 describe('RButton', () => {
     it('Renderiza sin errores', () => {

@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import SelectName from "./screens/SelectName";
-import Main from "./screens/Main"
+import MainPage from "./screens/MainPage"
 
     const App = () => {
         return (
             <Routes>
                 <Route path="/" element={<SelectName/>} />
-                <Route path="/mainpage" element={<Main/>} />
+                <Route path="/mainpage" element={<MainPage/>} />
             </Routes>
         )
     }

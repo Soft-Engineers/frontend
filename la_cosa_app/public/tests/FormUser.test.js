@@ -2,8 +2,8 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import SelectName from './../../../src/screens/SelectName';
-import Main from './../../../src/screens/Main';
+import SelectName from '../../src/screens/SelectName/index.jsx';
+import Main from '../../src/screens/MainPage/index.jsx';
 import axios from 'axios';
 
 jest.mock('axios', () => ({
@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(), // Mock de useNavigate
 }));
 
-describe('SelectName', () => {
+describe('FormUser', () => {
     it('Renderiza sin errores', () => {
         const { getByText, getByPlaceholderText } = render(
             <MemoryRouter initialEntries={['/']}>
@@ -28,6 +28,7 @@ describe('SelectName', () => {
 
         expect(getByText('Elija un nombre!')).toBeInTheDocument();
         expect(getByPlaceholderText('Por ejemplo: Juan')).toBeInTheDocument();
+        expect(getByText('Crear usuario')).toBeInTheDocument();
         // Checkeo que ciertos elementos se renderizen correctamente
     });
 

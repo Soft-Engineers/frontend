@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import {fireEvent, render, screen} from '@testing-library/react';
-import Header from './../../../src/components/Header';
+import Header from '../../src/components/Header/index.jsx';
 
 describe('Header', () => {
     it('Renderiza sin errores', () => {
