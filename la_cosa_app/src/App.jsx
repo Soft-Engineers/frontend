@@ -1,10 +1,13 @@
-import './App.css'
-function App() {
+import { Routes, Route } from "react-router-dom";
+import SelectName from "./screens/SelectName";
+import Main from "./screens/Main"
 
-  return (
-      <div className="App">
-      </div>
-  )
-}
-
-export default App
+    const App = () => {
+        return (
+            <Routes>
+                <Route path="/" element={<SelectName/>} />
+                <Route path="/mainpage" element={<Main/>} />
+            </Routes>
+        )
+    }
+export default App;
