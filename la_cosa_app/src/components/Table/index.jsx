@@ -47,7 +47,7 @@ const CustomizedTables = ({ data }) => {
               </StyledTableCell>
               <StyledTableCell align="right">{row.min_players}</StyledTableCell>
               <StyledTableCell align="right">{row.max_players}</StyledTableCell>
-              <StyledTableCell align="right">{row.current_players}</StyledTableCell>
+              <StyledTableCell align="right">{row.players}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
