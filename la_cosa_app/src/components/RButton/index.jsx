@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-// Regular Button
+// Regular RButton
 const RButton = ({text, action, icon}) => {
   return (
     <Stack direction="row" spacing={2}>

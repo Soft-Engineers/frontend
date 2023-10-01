@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import TheThingIcon from '../../../public/assets/TheThingIcon.webp'
-import RButton from '../Button'
+import TheThingIcon from '../../assets/TheThingIcon.webp'
+import RButton from '../RButton'
 
 const Header = () => {
   return (

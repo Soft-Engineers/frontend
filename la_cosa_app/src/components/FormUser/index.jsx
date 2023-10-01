@@ -1,9 +1,10 @@
 import { Formik, Form, Field } from 'formik';
 import { Grid, TextField } from '@mui/material';
-import RButton from '../../components/Button';
+import RButton from '../RButton';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
+
 
 const styles = {
   form: {
@@ -20,7 +21,7 @@ const styles = {
   },
 };
 
-const FormPartida = () => {
+const FormUser = () => {
   const navigate = useNavigate();
 
 
@@ -34,7 +35,7 @@ const FormPartida = () => {
           const response = await createUser(values.name_player);
           if (response) navigate("/mainpage");
         } catch (err) {
-          alert("Error al crear usuario")
+          alert("Error al crear usuario (El nombre debe tener entre 3 y 16 caracteres)")
           console.log(err);
         }
       }}
@@ -42,7 +43,7 @@ const FormPartida = () => {
       <Form>
         <Grid container spacing={2} sx={styles.form}>
           <Grid item xs={12}>
-            <h2>Eliga un nombre!</h2>
+            <h2>Elija un nombre!</h2>
             <Field
               as={TextField}
               id="name"
@@ -65,4 +66,4 @@ const FormPartida = () => {
   );
 };
 
-export default FormPartida;
+export default FormUser;
