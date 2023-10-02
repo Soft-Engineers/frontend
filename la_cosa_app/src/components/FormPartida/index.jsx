@@ -34,7 +34,7 @@ const FormPartida = () => {
           const player_name = localStorage.getItem('player_name');
           console.log("NOMBRE",player_name);
           const response = await createPartida(values.nombrePartida, player_name ,values.minJugadores, values.maxJugadores);
-          if (response) { // TODO: Verificar porque responnse es undefinded
+          if (response) { 
             alert('Partida creada exitosamente');
           }
         } catch (err) {

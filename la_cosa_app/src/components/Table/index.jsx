@@ -6,6 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { joinMatch } from '../../utils/api';
+import {useNavigate} from "react-router-dom";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,6 +31,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CustomizedTables = ({ data }) => {
+  const navigate = useNavigate();
+
+  const handleRowDoubleClick = async (player_name, match_name, password) => {
+    const response = await joinMatch(player_name, match_name, password);
+    if(response.status === 200){
+      navigate("/lobby");
+    }
+  };
+
+  const user_name = localStorage.getItem('player_name');
+  const password = ""
+
   return (
     <TableContainer component={Paper} style={{ maxHeight: '300px', overflowY: 'auto' }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -41,7 +56,7 @@ const CustomizedTables = ({ data }) => {
         </TableHead>
         <TableBody>
           {data && data.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.name} onDoubleClick={() => handleRowDoubleClick(user_name,row.name, password)}>
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>

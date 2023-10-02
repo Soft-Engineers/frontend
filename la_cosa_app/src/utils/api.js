@@ -48,3 +48,17 @@ export const createUser = async (name_player) => {
     console.log(error);
   }
 };
+
+// unirse a una partida
+export const joinMatch = async (player_name, match_name, password) => {
+  try {
+    const response = await axios.post("http://localhost:8000/match/join", {
+      player_name,
+      match_name,
+      password,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
