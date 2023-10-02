@@ -47,7 +47,7 @@ const FormUser = () => {
           localStorage.setItem("player_name", values.name_player);
           const response = await createUser(values.name_player);
           if (response.status === 200) {
-            navigate("/mainpage");
+            navigate(`/mainpage/${values.name_player}`);
           }
         } catch (err) {
           setOpen(true);
