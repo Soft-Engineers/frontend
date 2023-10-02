@@ -1,7 +1,7 @@
 import React from 'react';
 const Partida_iniciada = () => {
     return (
-        <h1>XD</h1>
+        <h1>Screen sin implementacion</h1>
     );
 };
 
