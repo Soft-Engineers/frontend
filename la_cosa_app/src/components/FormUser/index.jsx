@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Grid, TextField } from '@mui/material';
 import RButton from '../RButton';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
-
+import SnackBar from "../../components/SnackBar";
 
 const styles = {
   form: {
@@ -23,9 +24,21 @@ const styles = {
 
 const FormUser = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState("success");
+  const [body, setBody] = useState("Usuario creado con éxito");
+
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
 
 
   return (
+    <div>
     <Formik
       initialValues={{
         name_player: '',
@@ -35,10 +48,13 @@ const FormUser = () => {
           // Guardo el usuario en el localStorage
           localStorage.setItem("player_name", values.name_player);
           const response = await createUser(values.name_player);
-          if (response) navigate("/mainpage");
+          if (response.status === 200) {
+            navigate("/mainpage");
+          }
         } catch (err) {
-          alert("Error al crear usuario (El nombre debe tener entre 3 y 16 caracteres)")
-          console.log(err);
+          setOpen(true);
+          setSeverity("error");
+          setBody(err.response.data.detail);
         }
       }}
     >
@@ -65,7 +81,15 @@ const FormUser = () => {
         </Grid>
       </Form>
     </Formik>
+    <SnackBar
+      open={open}
+      body={body}
+      severity={severity}
+      handleClose={handleClose}
+    />
+    </div>
   );
 };
 
 export default FormUser;
+

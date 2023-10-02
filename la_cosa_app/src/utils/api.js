@@ -1,5 +1,21 @@
 import axios from "axios";
 
+// pasar como formdata a name_player
+export const createUser = async (name_player) => {
+  const formData = new FormData();
+  formData.append("name_player", name_player);
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/player/create",
+      formData
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const getJugadores = async (match_name) => {
   try {
     const Url = "http://localhost:8000/match/players";
@@ -41,21 +57,6 @@ export const getPartidas = async () => {
     if (response.status === 200) {
       return response.data.Matches;
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// pasar como formdata a name_player
-export const createUser = async (name_player) => {
-  const formData = new FormData();
-  formData.append("name_player", name_player);
-  try {
-    const response = await axios.post(
-      "http://localhost:8000/player/create",
-      formData
-    );
-    return response.data;
   } catch (error) {
     console.log(error);
   }
