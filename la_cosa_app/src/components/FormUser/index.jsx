@@ -26,7 +26,7 @@ const FormUser = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("success");
-  const [body, setBody] = useState("Usuario creado con éxito");
+  const [body, setBody] = useState("");
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -34,8 +34,6 @@ const FormUser = () => {
     }
     setOpen(false);
   };
-
-
 
   return (
     <div>
