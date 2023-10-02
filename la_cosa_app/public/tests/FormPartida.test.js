@@ -21,7 +21,6 @@ describe('FormPartida', () => {
 
         expect(getByLabelText('Ingrese nombre de la partida')).toBeInTheDocument();
         expect(getByPlaceholderText('Nombre de la partida')).toBeInTheDocument();
-        // Add additional assertions for other form elements as needed
     });
 
     it('Envio exitoso', async () => {

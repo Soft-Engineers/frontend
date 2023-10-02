@@ -16,7 +16,7 @@ describe('getJugadores', () => {
         });
 
         it('manejar error si match_id es inválido', async () => {
-            const jugadores= await getJugadores('456'); // Pass '456' as match_name
+            const jugadores= await getJugadores('456');
             expect(jugadores).toEqual([]);
         });
 });
