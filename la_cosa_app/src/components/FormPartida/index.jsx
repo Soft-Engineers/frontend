@@ -45,7 +45,6 @@ const FormPartida = () => {
         maxJugadores: '',
       }}
       onSubmit={async (values) => {
-        console.log(values);
         try {
           const player_name = localStorage.getItem('player_name');
           const response = await createPartida(values.nombrePartida, player_name ,values.minJugadores, values.maxJugadores);

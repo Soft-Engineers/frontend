@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { joinMatch } from '../../utils/api';
 import {useNavigate} from "react-router-dom";
+import { useState } from 'react';
+import SnackBar from "../../components/SnackBar";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,11 +33,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const CustomizedTables = ({ data }) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('success');
+  const [body, setBody] = useState('');
+
+  const handleClose = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };  
 
   const handleRowDoubleClick = async (player_name, match_name, password) => {
-    const response = await joinMatch(player_name, match_name, password);
-    if(response.status === 200){
-      navigate(`/lobby/${match_name}`);
+
+    try{
+      const response = await joinMatch(player_name, match_name, password);
+      if(response.status === 200){
+        navigate(`/lobby/${match_name}`);
+      }
+    }
+    catch(err){
+      setOpen(true);
+      setSeverity('error');
+      setBody(err.response.data.detail);
     }
   };
 
@@ -44,6 +63,7 @@ const CustomizedTables = ({ data }) => {
   const password = ""
 
   return (
+    <div>
     <TableContainer component={Paper} style={{ maxHeight: '300px', overflowY: 'auto' }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -68,6 +88,8 @@ const CustomizedTables = ({ data }) => {
         </TableBody>
       </Table>
     </TableContainer>
+    <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
+    </div>
   );
 }
 

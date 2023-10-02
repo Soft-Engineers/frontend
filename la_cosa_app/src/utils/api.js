@@ -74,5 +74,6 @@ export const joinMatch = async (player_name, match_name, password) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
