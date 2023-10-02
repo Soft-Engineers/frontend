@@ -6,6 +6,8 @@ import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
 import SnackBar from "../../components/SnackBar";
+import * as Yup from 'yup';
+
 
 const styles = {
   form: {
@@ -21,6 +23,11 @@ const styles = {
     marginBottom: '16px',
   },
 };
+
+const validationSchema = Yup.object().shape({
+  name_player: Yup.string()
+      .required('Este campo es obligatorio'),
+});
 
 const FormUser = () => {
   const navigate = useNavigate();
@@ -41,6 +48,7 @@ const FormUser = () => {
       initialValues={{
         name_player: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={async (values) => {
         try {
           // Guardo el usuario en el localStorage

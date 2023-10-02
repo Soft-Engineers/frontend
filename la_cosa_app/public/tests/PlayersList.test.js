@@ -3,28 +3,47 @@ import ListaJugadores from './../../src/components/PlayersList';
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import {getJugadores} from "../../src/utils/api.js";
-import {getByLabelText, getByPlaceholderText, render} from "@testing-library/react";
+import '@testing-library/jest-dom';
+import {screen, render} from "@testing-library/react";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import FormPartida from "../../src/components/FormPartida/index.jsx";
 
 const mock = new MockAdapter(axios);
 
 mock.onGet('http://localhost:8000/match/players', { params: { match_name: 'PartidaTest' } }).reply(200, { players: ["Jugador1", "Que_feo_lobby", "HOLAA"] });
 
 describe('getJugadores', () => {
-        it('retorna lista de jugadores si match_id es válido', async () => {
-            const response = await getJugadores('PartidaTest');
-            const jugadores = response.data.players;
-            expect(jugadores).toEqual(["Jugador1", "Que_feo_lobby", "HOLAA"]);
-        });
+    it('retorna lista de jugadores si match_id es válido', async () => {
+        const response = await getJugadores('PartidaTest');
+        const jugadores = response.data.players;
+        expect(jugadores).toEqual(["Jugador1", "Que_feo_lobby", "HOLAA"]);
+    });
 
-        it('manejar error si match_id es inválido', async () => {
-            const jugadores= await getJugadores('456');
-            expect(jugadores).toEqual([]);
-        });
+    it('manejar error si match_id es inválido', async () => {
+        const jugadores= await getJugadores('456');
+        expect(jugadores).toEqual([]);
+    });
 });
 
 describe('ListaJugadores', () => {
+
+    it('Renderiza sin errores', () => {
+
+        const jugadores = ["Jugador1", "Que_feo_lobby", "HOLAA"];
+
+
+        render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<ListaJugadores jugadores={jugadores}/>} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText('Lista de Jugadores')).toBeInTheDocument();
+        expect(screen.getByText('Jugador1')).toBeInTheDocument();
+        expect(screen.getByText('Que_feo_lobby')).toBeInTheDocument();
+        expect(screen.getByText('HOLAA')).toBeInTheDocument();
+    });
 
     it('props cuando no hay jugadores', () => {
         const jugadores = [];
@@ -52,6 +71,4 @@ describe('ListaJugadores', () => {
             const component = <ListaJugadores jugadores={[]} />;
         }).not.toThrow();
     });
-
-    // pruebas de representación visual: otra biblioteca
 });
