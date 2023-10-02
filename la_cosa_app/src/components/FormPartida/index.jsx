@@ -4,6 +4,8 @@ import RButton from '../../components/Button';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import { createPartida } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import SnackBar from '../../components/SnackBar';
 
 const styles = {
   form: {
@@ -22,8 +24,19 @@ const styles = {
 
 const FormPartida = () => {
   const Navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('success');
+  const [body, setBody] = useState('');
+
+  const handleClose = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
+    <div>
     <Formik
       initialValues={{
         nombrePartida: '',
@@ -39,7 +52,9 @@ const FormPartida = () => {
             Navigate(`/lobby/${values.nombrePartida}`)
           }
         } catch (err) {
-          console.log(err);
+          setOpen(true);
+          setSeverity('error');
+          setBody(err.response.data.detail);
         }
       }}
     >
@@ -62,7 +77,7 @@ const FormPartida = () => {
               as={TextField}
               id="minJugadores"
               name="minJugadores"
-              placeholder="Minimo de jugadores"
+              placeholder="Min 4"
               fullWidth
               sx={styles.input}
             />
@@ -73,7 +88,7 @@ const FormPartida = () => {
               as={TextField}
               id="maxJugadores"
               name="maxJugadores"
-              placeholder="Maximo de jugadores"
+              placeholder="Max 12"
               fullWidth
               sx={styles.input}
             />
@@ -88,6 +103,13 @@ const FormPartida = () => {
         </Grid>
       </Form>
     </Formik>
+    <SnackBar
+      open={open}
+      handleClose={handleClose}
+      severity={severity}
+      body={body}
+    />
+    </div>
   );
 };
 

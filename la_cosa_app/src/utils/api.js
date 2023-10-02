@@ -16,20 +16,6 @@ export const createUser = async (name_player) => {
   }
 };
 
-export const getJugadores = async (match_name) => {
-  try {
-    const Url = "http://localhost:8000/match/players";
-
-    const response = await axios.get(Url, {
-      params: { match_name: match_name },
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
 // Crear partida, recibe el nombre de la partida
 export const createPartida = async (
   match_name,
@@ -47,6 +33,21 @@ export const createPartida = async (
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+export const getJugadores = async (match_name) => {
+  try {
+    const Url = "http://localhost:8000/match/players";
+
+    const response = await axios.get(Url, {
+      params: { match_name: match_name },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 };
 
