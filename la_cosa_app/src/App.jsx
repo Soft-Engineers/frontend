@@ -9,7 +9,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<SelectName/>} />
       <Route path="/mainpage" element={<MainPage/>} />
-      <Route path="/lobby" element={<Lobby/>} />
+      <Route path="/lobby/:match_name" element={<Lobby/>} />
       <Route path="/Partida_iniciada" element={<Partida_iniciada />} />
   </Routes>
     )

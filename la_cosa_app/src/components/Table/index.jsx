@@ -36,7 +36,7 @@ const CustomizedTables = ({ data }) => {
   const handleRowDoubleClick = async (player_name, match_name, password) => {
     const response = await joinMatch(player_name, match_name, password);
     if(response.status === 200){
-      navigate("/lobby");
+      navigate(`/lobby/${match_name}`);
     }
   };
 

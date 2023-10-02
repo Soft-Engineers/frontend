@@ -3,6 +3,7 @@ import { Grid, TextField } from '@mui/material';
 import RButton from '../../components/Button';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import { createPartida } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
   form: {
@@ -20,6 +21,8 @@ const styles = {
 };
 
 const FormPartida = () => {
+  const Navigate = useNavigate();
+
   return (
     <Formik
       initialValues={{
@@ -30,12 +33,10 @@ const FormPartida = () => {
       onSubmit={async (values) => {
         console.log(values);
         try {
-          // Paso el nombre de usuario desde el localStorage
           const player_name = localStorage.getItem('player_name');
-          console.log("NOMBRE",player_name);
           const response = await createPartida(values.nombrePartida, player_name ,values.minJugadores, values.maxJugadores);
-          if (response) { 
-            alert('Partida creada exitosamente');
+          if (response.status === 201) { 
+            Navigate(`/lobby/${values.nombrePartida}`)
           }
         } catch (err) {
           console.log(err);

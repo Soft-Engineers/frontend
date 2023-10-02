@@ -7,21 +7,21 @@ import { getJugadores } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import VideogameAssetOutlinedIcon from '@mui/icons-material/VideogameAssetOutlined';
+import { useParams } from "react-router-dom";
+
 
 const Lobby = () => {
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
-    const match_id = 1;
+    const { match_name } = useParams();
+
 
     useEffect(() => {
-      getJugadores(match_id)
-        .then((res) => {
-          console.log('JUGADORES:', res.data) // TODO: Borrar
-          setJugadores(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const fetchJugadores = async () => {
+        const response = await getJugadores(match_name);
+        setJugadores(response.data.players);
+      }
+      fetchJugadores();
     }, []);
 
     return (
@@ -32,7 +32,7 @@ const Lobby = () => {
           {/* Primera mitad */}
           <Grid item xs={6}>
             <PlayerList // TODO: Cambiar por la lista de jugadores de la partida
-                jugadores={["Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4", "Jugador 5", "Jugador 6", "Jugador 7", "Jugador 8", "Jugador 9", "Jugador 10"]}
+              jugadores={jugadores}
             />
           </Grid>
           {/* Segunda mitad */}
