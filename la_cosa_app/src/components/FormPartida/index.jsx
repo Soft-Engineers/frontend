@@ -4,8 +4,9 @@ import RButton from '../../components/Button';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import { createPartida } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React , { useState } from 'react';
 import SnackBar from '../../components/SnackBar';
+
 
 const styles = {
   form: {

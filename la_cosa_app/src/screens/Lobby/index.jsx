@@ -2,7 +2,7 @@ import PlayerList from "../../components/PlayersList";
 import Header from "../../components/Header";
 import RButton from "../../components/Button";
 import Container from '@mui/material/Container';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getJugadores } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';

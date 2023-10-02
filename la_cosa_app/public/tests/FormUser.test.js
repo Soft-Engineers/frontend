@@ -7,7 +7,7 @@ import Main from '../../src/screens/MainPage/index.jsx';
 import axios from 'axios';
 
 jest.mock('axios', () => ({
-    post: jest.fn(() => Promise.resolve({ data: 'success' })),
+    post: jest.fn(() => Promise.resolve({ status: 200, data: 'success' })),
 }));
 
 jest.mock('react-router-dom', () => ({
@@ -46,7 +46,7 @@ describe('FormUser', () => {
         );
 
         const input = getByPlaceholderText('Por ejemplo: Juan');
-        fireEvent.change(input, { target: { value: 'Juan' } });
+        fireEvent.change(input, { target: { value: 'Juanito' } });
         fireEvent.click(getByText('Crear usuario'));
 
         await waitFor(() => {

@@ -1,3 +1,4 @@
+import React from 'react';
 const Partida_iniciada = () => {
     return (
         <h1>XD</h1>

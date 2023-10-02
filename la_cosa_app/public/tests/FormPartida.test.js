@@ -1,8 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import {fireEvent, render, waitFor} from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import FormPartida from './../../src/components/FormPartida';
+import axios from "axios";
 
 jest.mock('axios', () => ({
     post: jest.fn(() => Promise.resolve({ data: 'success' })),
@@ -22,8 +23,15 @@ describe('FormPartida', () => {
         expect(getByPlaceholderText('Nombre de la partida')).toBeInTheDocument();
         // Add additional assertions for other form elements as needed
     });
-    /*
+
     it('Envio exitoso', async () => {
+
+        const localStorageMock = {
+            getItem: jest.fn(() => 'Juan'),
+        };
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+
         const { getByPlaceholderText, getByText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
@@ -33,8 +41,8 @@ describe('FormPartida', () => {
         );
 
         const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
-        const minJugadoresInput = getByPlaceholderText('Minimo de jugadores');
-        const maxJugadoresInput = getByPlaceholderText('Maximo de jugadores');
+        const minJugadoresInput = getByPlaceholderText('Min 4');
+        const maxJugadoresInput = getByPlaceholderText('Max 12');
         const createPartidaButton = getByText('Crear partida');
 
         fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
@@ -45,16 +53,15 @@ describe('FormPartida', () => {
 
         await waitFor(() => {
             expect(axios.post).toHaveBeenCalledWith(
-                'http://localhost:8000/partida/crear',
+                'http://localhost:8000/match/create',
                 expect.objectContaining({
-                    nombre: 'TestPartida',
-                    id: undefined,
-                    min: '2',
-                    max: '4',
+                    match_name: 'TestPartida',
+                    player_name: 'Juan',
+                    min_players: '2',
+                    max_players: '4',
                 })
                 // Checkeo que el post se haga con los argumentos correctos
             );
         });
-    }); // Tiene errores
-     */
+    });
 });

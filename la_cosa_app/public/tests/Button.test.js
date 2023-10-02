@@ -1,9 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import {render, fireEvent} from '@testing-library/react';
-import RButton from '../../src/components/RButton/index.jsx';
+import RButton from '../../src/components/Button/index.jsx';
 
-describe('RButton', () => {
+describe('Button', () => {
     it('Renderiza sin errores', () => {
 
         const { getByText } = render(

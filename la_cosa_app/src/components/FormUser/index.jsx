@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, {useState} from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Grid, TextField } from '@mui/material';
-import RButton from '../RButton';
+import RButton from '../Button';
 import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
