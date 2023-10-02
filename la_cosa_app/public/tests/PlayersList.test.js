@@ -3,6 +3,9 @@ import ListaJugadores from './../../src/components/PlayersList';
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import {getJugadores} from "../../src/utils/api.js";
+import {getByLabelText, getByPlaceholderText, render} from "@testing-library/react";
+import {MemoryRouter, Route, Routes} from "react-router-dom";
+import FormPartida from "../../src/components/FormPartida/index.jsx";
 
 const mock = new MockAdapter(axios);
 
@@ -22,6 +25,7 @@ describe('getJugadores', () => {
 });
 
 describe('ListaJugadores', () => {
+
     it('props cuando no hay jugadores', () => {
         const jugadores = [];
         const component = <ListaJugadores jugadores={jugadores} />;
