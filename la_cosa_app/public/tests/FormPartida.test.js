@@ -4,7 +4,6 @@ import {fireEvent, render, waitFor} from '@testing-library/react';
 import {MemoryRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import FormPartida from './../../src/components/FormPartida';
 import axios from "axios";
-import Main from "../../src/screens/MainPage/index.jsx";
 import Lobby from "../../src/screens/Lobby/index.jsx";
 
 jest.mock('axios');
@@ -97,8 +96,8 @@ describe('FormPartida', () => {
         const createPartidaButton = getByText('Crear partida');
 
         fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
-        fireEvent.change(minJugadoresInput, { target: { value: '1' } });
-        fireEvent.change(maxJugadoresInput, { target: { value: '6' } });
+        fireEvent.change(minJugadoresInput, { target: { value: 'a' } });
+        fireEvent.change(maxJugadoresInput, { target: { value: 'b' } });
 
         fireEvent.click(createPartidaButton);
 
@@ -106,4 +105,44 @@ describe('FormPartida', () => {
             expect(axios.post).not.toHaveBeenCalled();
         });
     });
+
+    it('Caso: Invalid number of players', async () => {
+
+        const navigateMock = jest.fn();
+        useNavigate.mockReturnValue(navigateMock);
+
+        axios.post.mockRejectedValueOnce({
+            response: {
+                data: {
+                    detail: 'Invalid number of players',
+                },
+            },
+        });
+
+        const {getByPlaceholderText, getByText } = render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<FormPartida />} />
+                    <Route path="/lobby" element={<Lobby />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
+        const minJugadoresInput = getByPlaceholderText('Min 4');
+        const maxJugadoresInput = getByPlaceholderText('Max 12');
+        const createPartidaButton = getByText('Crear partida');
+
+        fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
+        fireEvent.change(minJugadoresInput, { target: { value: '4' } });
+        fireEvent.change(maxJugadoresInput, { target: { value: '256' } });
+
+        fireEvent.click(createPartidaButton);
+
+        await waitFor(() => {
+            expect(navigateMock).not.toHaveBeenCalled(); // En caso de error no se llama la funcion navigate
+            expect(getByText('Invalid number of players')).toBeInTheDocument();
+        });
+    });
+
 });

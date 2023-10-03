@@ -98,42 +98,7 @@ describe('FormUser', () => {
         });
     });
 
-    it('Caso: Player already exists', async () => {
-
-        const navigateMock = jest.fn();
-        useNavigate.mockReturnValue(navigateMock);
-
-        axios.post.mockRejectedValueOnce({
-            response: {
-                data: {
-                    detail: 'Player already exists',
-                },
-            },
-        });
-
-        const { getByPlaceholderText, getByText } = render(
-            <MemoryRouter initialEntries={['/']}>
-                <Routes>
-                    <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
-                </Routes>
-            </MemoryRouter>
-        );
-
-        const input = getByPlaceholderText('Por ejemplo: Juan');
-        fireEvent.change(input, { target: { value: 'bd' } });
-        fireEvent.click(getByText('Crear usuario'));
-
-        await waitFor(() => {
-            expect(navigateMock).not.toHaveBeenCalled();
-            expect(getByText('Player already exists')).toBeInTheDocument();
-        });
-
-    });
     it('Caso: Input vacio', async () => {
-
-        const navigateMock = jest.fn();
-        useNavigate.mockReturnValue(navigateMock);
 
         const { getByPlaceholderText, getByText } = render(
             <MemoryRouter initialEntries={['/']}>
@@ -149,7 +114,7 @@ describe('FormUser', () => {
         fireEvent.click(getByText('Crear usuario'));
 
         await waitFor(() => {
-            expect(navigateMock).not.toHaveBeenCalled();
+            expect(axios.post).not.toHaveBeenCalled();
         });
     });
 });

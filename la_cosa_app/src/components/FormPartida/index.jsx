@@ -29,12 +29,10 @@ const validationSchema = Yup.object().shape({
   minJugadores: Yup.number()
     .typeError('Debe ser un número')
     .integer('Debe ser un número entero')
-    .min(4, 'Mínimo 4 jugadores')
     .required('Este campo es obligatorio'),
   maxJugadores: Yup.number()
     .typeError('Debe ser un número')
     .integer('Debe ser un número entero')
-    .max(12, 'Máximo 12 jugadores')
     .required('Este campo es obligatorio'),
 });
 

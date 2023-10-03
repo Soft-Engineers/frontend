@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.21% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/19</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.21% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/19</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
@@ -158,7 +158,30 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,32 +195,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -261,6 +273,8 @@ import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
 import SnackBar from "../../components/SnackBar";
+import * as Yup from 'yup';
+&nbsp;
 &nbsp;
 const styles = {
   form: {
@@ -277,11 +291,16 @@ const styles = {
   },
 };
 &nbsp;
+const validationSchema = Yup.object().shape({
+  name_player: Yup.string()
+      .required('Este campo es obligatorio'),
+});
+&nbsp;
 const FormUser = () =&gt; {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("success");
-  const [body, setBody] = useState("Usuario creado con éxito");
+  const [body, setBody] = useState("");
 &nbsp;
   const handleClose = <span class="fstat-no" title="function not covered" >(r</span>eason) =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (reason === "clickaway") {</span>
@@ -290,21 +309,20 @@ const FormUser = () =&gt; {
 <span class="cstat-no" title="statement not covered" >    setOpen(false);</span>
   };
 &nbsp;
-&nbsp;
-&nbsp;
   return (
     &lt;div&gt;
     &lt;Formik
       initialValues={{
         name_player: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={async (values) =&gt; {
         try {
           // Guardo el usuario en el localStorage
           localStorage.setItem("player_name", values.name_player);
           const response = await createUser(values.name_player);
           <span class="missing-if-branch" title="else path not taken" >E</span>if (response.status === 200) {
-            navigate("/mainpage");
+            navigate(`/mainpage/${values.name_player}`);
           }
         } catch (err) {
           setOpen(true);
@@ -355,7 +373,7 @@ export default FormUser;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-02T10:40:43.544Z
+                at 2023-10-03T08:34:17.166Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
