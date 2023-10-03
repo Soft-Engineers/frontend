@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import {render, fireEvent, waitFor, } from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import SelectName from '../../src/screens/SelectName/index.jsx';
 import Main from '../../src/screens/MainPage/index.jsx';
@@ -128,6 +128,7 @@ describe('FormUser', () => {
             expect(navigateMock).not.toHaveBeenCalled();
             expect(getByText('Player already exists')).toBeInTheDocument();
         });
+
     });
     it('Caso: Input vacio', async () => {
 
