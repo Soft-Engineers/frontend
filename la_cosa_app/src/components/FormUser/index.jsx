@@ -6,6 +6,8 @@ import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
 import {createUser} from '../../utils/api';
 import {useNavigate} from "react-router-dom";
 import SnackBar from "../../components/SnackBar";
+import * as Yup from 'yup';
+
 
 const styles = {
   form: {
@@ -22,11 +24,16 @@ const styles = {
   },
 };
 
+const validationSchema = Yup.object().shape({
+  name_player: Yup.string()
+      .required('Este campo es obligatorio'),
+});
+
 const FormUser = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("success");
-  const [body, setBody] = useState("Usuario creado con éxito");
+  const [body, setBody] = useState("");
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -35,21 +42,20 @@ const FormUser = () => {
     setOpen(false);
   };
 
-
-
   return (
     <div>
     <Formik
       initialValues={{
         name_player: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={async (values) => {
         try {
           // Guardo el usuario en el localStorage
           localStorage.setItem("player_name", values.name_player);
           const response = await createUser(values.name_player);
           if (response.status === 200) {
-            navigate("/mainpage");
+            navigate(`/mainpage/${values.name_player}`);
           }
         } catch (err) {
           setOpen(true);

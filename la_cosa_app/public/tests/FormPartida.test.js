@@ -1,12 +1,19 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import {fireEvent, render, waitFor} from '@testing-library/react';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import {MemoryRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import FormPartida from './../../src/components/FormPartida';
 import axios from "axios";
+import Lobby from "../../src/screens/Lobby/index.jsx";
 
-jest.mock('axios', () => ({
-    post: jest.fn(() => Promise.resolve({ data: 'success' })),
+jest.mock('axios');
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(), // Mock de useNavigate
 }));
 
 describe('FormPartida', () => {
@@ -25,11 +32,55 @@ describe('FormPartida', () => {
 
     it('Envio exitoso', async () => {
 
+        axios.post.mockResolvedValueOnce({
+            status: 201,
+            data: 'success',
+        });
+
+        const navigateMock = jest.fn();
+        useNavigate.mockReturnValue(navigateMock);
+
         const localStorageMock = {
             getItem: jest.fn(() => 'Juan'),
         };
         Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
+
+        const { getByPlaceholderText, getByText } = render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<FormPartida />} />
+                    <Route path="/lobby" element={<Lobby />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
+        const minJugadoresInput = getByPlaceholderText('Min 4');
+        const maxJugadoresInput = getByPlaceholderText('Max 12');
+        const createPartidaButton = getByText('Crear partida');
+
+        fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
+        fireEvent.change(minJugadoresInput, { target: { value: '4' } });
+        fireEvent.change(maxJugadoresInput, { target: { value: '6' } });
+
+        fireEvent.click(createPartidaButton);
+
+        await waitFor(() => {
+            expect(axios.post).toHaveBeenCalledWith(
+                'http://localhost:8000/match/create',
+                expect.objectContaining({
+                    match_name: 'TestPartida',
+                    player_name: 'Juan',
+                    min_players: '4',
+                    max_players: '6',
+                })
+                // Checkeo que el post se haga con los argumentos correctos
+            );
+            expect(navigateMock).toHaveBeenCalledWith('/lobby/TestPartida');
+        });
+    });
+    it('Input invalido', async () => {
 
         const { getByPlaceholderText, getByText } = render(
             <MemoryRouter initialEntries={['/']}>
@@ -45,22 +96,53 @@ describe('FormPartida', () => {
         const createPartidaButton = getByText('Crear partida');
 
         fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
-        fireEvent.change(minJugadoresInput, { target: { value: '2' } });
-        fireEvent.change(maxJugadoresInput, { target: { value: '4' } });
+        fireEvent.change(minJugadoresInput, { target: { value: 'a' } });
+        fireEvent.change(maxJugadoresInput, { target: { value: 'b' } });
 
         fireEvent.click(createPartidaButton);
 
         await waitFor(() => {
-            expect(axios.post).toHaveBeenCalledWith(
-                'http://localhost:8000/match/create',
-                expect.objectContaining({
-                    match_name: 'TestPartida',
-                    player_name: 'Juan',
-                    min_players: '2',
-                    max_players: '4',
-                })
-                // Checkeo que el post se haga con los argumentos correctos
-            );
+            expect(axios.post).not.toHaveBeenCalled();
         });
     });
+
+    it('Caso: Invalid number of players', async () => {
+
+        const navigateMock = jest.fn();
+        useNavigate.mockReturnValue(navigateMock);
+
+        axios.post.mockRejectedValueOnce({
+            response: {
+                data: {
+                    detail: 'Invalid number of players',
+                },
+            },
+        });
+
+        const {getByPlaceholderText, getByText } = render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<FormPartida />} />
+                    <Route path="/lobby" element={<Lobby />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
+        const minJugadoresInput = getByPlaceholderText('Min 4');
+        const maxJugadoresInput = getByPlaceholderText('Max 12');
+        const createPartidaButton = getByText('Crear partida');
+
+        fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
+        fireEvent.change(minJugadoresInput, { target: { value: '4' } });
+        fireEvent.change(maxJugadoresInput, { target: { value: '256' } });
+
+        fireEvent.click(createPartidaButton);
+
+        await waitFor(() => {
+            expect(navigateMock).not.toHaveBeenCalled(); // En caso de error no se llama la funcion navigate
+            expect(getByText('Invalid number of players')).toBeInTheDocument();
+        });
+    });
+
 });

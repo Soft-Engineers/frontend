@@ -6,6 +6,7 @@ import { createPartida } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 import React , { useState } from 'react';
 import SnackBar from '../../components/SnackBar';
+import * as Yup from 'yup';
 
 
 const styles = {
@@ -22,6 +23,18 @@ const styles = {
     marginBottom: '16px',
   },
 };
+
+const validationSchema = Yup.object().shape({
+  nombrePartida: Yup.string().required('Este campo es obligatorio'),
+  minJugadores: Yup.number()
+    .typeError('Debe ser un número')
+    .integer('Debe ser un número entero')
+    .required('Este campo es obligatorio'),
+  maxJugadores: Yup.number()
+    .typeError('Debe ser un número')
+    .integer('Debe ser un número entero')
+    .required('Este campo es obligatorio'),
+});
 
 const FormPartida = () => {
   const Navigate = useNavigate();
@@ -44,6 +57,7 @@ const FormPartida = () => {
         minJugadores: '',
         maxJugadores: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={async (values) => {
         try {
           const player_name = localStorage.getItem('player_name');
