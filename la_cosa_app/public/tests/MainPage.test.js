@@ -5,7 +5,7 @@ import {MemoryRouter, Route, Routes} from "react-router-dom";
 import Main from "../../src/screens/MainPage/index.jsx";
 
 describe('MainPage', () => {
-    it('Renderiza sin errores', () => {
+    it('Successful Rendering', () => {
         const { getByText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
