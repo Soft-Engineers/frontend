@@ -17,13 +17,12 @@ const Carta = ({ id }) => {
         height: '200px', // Alto de la carta
         backgroundColor: 'white', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
-    };  // estos estilos estan a ojo
-
+    };  // estos estilos estan a ojo, es probable que tengan que cambiar
 
 
     return (
         <Stack direction="row" spacing={2}>
-            <Card style={cartaStyles}>
+            <Card style={cartaStyles} >
                 <img
                     src={imgSrc} // Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen
                     style={{ maxWidth: '100%', maxHeight: '100%' }} // Ajusta el tamaño de la imagen
