@@ -1,8 +1,14 @@
 import React from 'react';
+import Carta from '../../components/Carta'
+import Mano from '../../components/Mano'
+
 const Partida_iniciada = () => {
+    const cartasEnMano = [1, 1, 1, 1];
     return (
-        <h1>Screen sin implementacion</h1>
+        <div>
+            <Mano cartas={cartasEnMano} />
+        </div>
     );
 };
-
+// 
 export default Partida_iniciada;
