@@ -13,8 +13,11 @@ const Carta = ({ id }) => {
     const imgSrc = mapaCartas[id];
 
     const cartaStyles = {
-        width: '145px', // Ancho de la carta
-        height: '200px', // Alto de la carta
+        //width: '145px', // Ancho de la carta
+        //height: '200px', // Alto de la carta
+        width: 'auto', // Ejemplo de ancho relativo al 30% del contenedor
+        height: 'auto', // Para mantener la proporción original
+        gap: '1rem', // Espaciado entre las cart
         backgroundColor: 'white', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };  // estos estilos estan a ojo, es probable que tengan que cambiar
