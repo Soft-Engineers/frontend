@@ -15,14 +15,32 @@ const Lobby = () => {
     const [jugadores, setJugadores] = useState([]);
     const { match_name } = useParams();
 
-
+    // Conectarse al socket
     useEffect(() => {
-      const fetchJugadores = async () => {
-        const response = await getJugadores(match_name);
-        setJugadores(response.data.players);
+      const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}`);
+      socket.onopen = () => {
+        console.log("Conectado al socket");
+      };
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.message_type === 1) {
+          console.log("DATA", data)
+          console.log(data);
+          setJugadores(data.message_content);
+        } else if (data.message_type === 3){
+          console.log(data.message_content);
+        }
       }
-      fetchJugadores();
-    }, []);
+
+      socket.onclose = () => {
+        console.log("Desconectado del socket");
+      }
+
+      return () => {
+        socket.close();
+      }
+    }, [match_name]);
+    
 
     return (
       <Container >

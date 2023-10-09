@@ -30,13 +30,14 @@ function PlayersList({ jugadores }) {
                     <Typography variant="h5" >Lista de Jugadores</Typography>
                 </ListItem>
 
-                {jugadores.map((jugador, index) => (
-                    <ListItem key={index}>
+                {jugadores ? jugadores.map((jugador) => (
+                    <ListItem key={jugador}>
                         <Paper sx={styles.paper} elevation={3}>
                             <Typography variant="h6" >{jugador}</Typography>
                         </Paper>
                     </ListItem>
-                ))}
+                )) : null }
+
             </List>
         </Box>
     );
