@@ -13,17 +13,27 @@ const styles = {
     root: {
         minHeight: '100vh',
         height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
     center: {
         display: 'flex',
-        flexDirection: 'row',
-
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     bottom: {
+        marginTop: '1rem', // Adjust the margin to control the spacing between elements
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    buttons: {
+        marginTop: '1rem', // Adjust the margin to control the spacing between elements
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
 };
 
@@ -68,8 +78,6 @@ const Partida_iniciada = () => {
     }, []);
 
 
-
-
     const mockDrawCard = async () => {
         return {
             status: 200,
@@ -95,6 +103,13 @@ const Partida_iniciada = () => {
             return;
         }
 
+        if (gameState !== 'InTurn') {
+            setSeverity('error');
+            setBody('You can only draw a card in your turn.');
+            setOpen(true);
+            return;
+        }
+
         try {
             const response = await mockDrawCard(); // Replace 'your_player_name' with the actual player name or identifier
 
@@ -108,36 +123,26 @@ const Partida_iniciada = () => {
             setOpen(true);
         }
     };
-
-
-    let gameContent;
-    if (gameState === 'InTurn') {
-        gameContent = (
-            <Grid container spacing={1} sx={styles.root}>
+    return (
+        <Box>
+            <Header />
+            <Grid container spacing={1} sx={styles.center}>
                 <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                    <PlayersHand cartas={hand} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={5} >
                     <Deck onDrawCard={handleDrawCard} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                    <RButton  text="Jugar carta"></RButton>
-                    <RButton  text="Intercambiar carta"></RButton>
-                    <RButton  text="Descartar carta"></RButton>
+                    <PlayersHand cartas={hand} />
                 </Grid>
             </Grid>
-        );
-    } else if (gameState === 'OutOfTurn') {
-        gameContent = (
-            <>
-            </>
-        );
-    }
-
-    return (
-        <Box sx={styles.root}>
-            <Header/>
-            {gameContent}
+            {(gameState === 'InTurn') && (
+                <Grid container spacing={1} sx={styles.buttons}>
+                    <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
+                        <RButton text="Jugar carta" />
+                        <RButton text="Intercambiar carta" />
+                        <RButton text="Descartar carta" />
+                    </Grid>
+                </Grid>
+            )}
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
     );
