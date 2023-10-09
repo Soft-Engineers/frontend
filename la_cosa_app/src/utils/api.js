@@ -63,7 +63,7 @@ export const getPartidas = async () => {
   }
 };
 
-// unirse a una partida
+// Unirse a una partida
 export const joinMatch = async (player_name, match_name, password) => {
   try {
     const response = await axios.post("http://localhost:8000/match/join", {
@@ -74,6 +74,17 @@ export const joinMatch = async (player_name, match_name, password) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+
+// Robar una carta
+export const drawCard = async (playerName) => {
+  try {
+    const response = await axios.post('/match/deck/pickup', { playerName });
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };

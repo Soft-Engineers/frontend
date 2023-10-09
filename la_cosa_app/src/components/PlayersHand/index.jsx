@@ -14,7 +14,7 @@ const styles = {
     },
 };
 
-const Mano = ({ cartas }) => {
+const PlayersHand = ({ cartas }) => {
     const [hoveredCard, setHoveredCard] = useState(null);
 
     const handleCardHover = (index) => {
@@ -26,7 +26,7 @@ const Mano = ({ cartas }) => {
     };
 
     return (
-        <Stack direction="row" spacing={2} style={styles.mano}>
+        <Stack direction="row" spacing={-10} style={styles.mano}>
             {cartas.map((idCarta, index) => (
                 <div
                     key={index}
@@ -41,4 +41,4 @@ const Mano = ({ cartas }) => {
     );
 };
 
-export default Mano;
+export default PlayersHand;

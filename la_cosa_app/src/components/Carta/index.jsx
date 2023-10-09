@@ -1,8 +1,10 @@
 import Stack from '@mui/material/Stack';
-import { Card } from '@mui/material';
+import {backdropClasses, Card} from '@mui/material';
+import backImage from '../../assets/cartas_recortadas/back.png';
 import lanzallamaImage from '../../assets/cartas_recortadas/lanzallama.png';
 
 const mapaCartas = {
+    0: backImage ,
     1: lanzallamaImage
     // Agregar las cartas
 };
@@ -15,8 +17,8 @@ const Carta = ({ id }) => {
     const cartaStyles = {
         //width: '145px', // Ancho de la carta
         //height: '200px', // Alto de la carta
-        width: 'auto', // Ejemplo de ancho relativo al 30% del contenedor
-        height: 'auto', // Para mantener la proporción original
+        width: '80%', // Ejemplo de ancho relativo al 30% del contenedor
+        height: '80%', // Para mantener la proporción original
         gap: '1rem', // Espaciado entre las cart
         backgroundColor: 'white', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
