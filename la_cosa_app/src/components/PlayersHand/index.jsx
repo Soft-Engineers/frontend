@@ -17,6 +17,7 @@ const styles = {
 const PlayersHand = ({ cartas }) => {
     const [hoveredCard, setHoveredCard] = useState(null);
 
+
     const handleCardHover = (index) => {
         setHoveredCard(index);
     };

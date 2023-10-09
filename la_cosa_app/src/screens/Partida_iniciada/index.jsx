@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Carta from '../../components/Carta';
-import PlayersHand from '../../components/PlayersHand/index.jsx';
+import PlayersHand from '../../components/PlayersHand';
 import { drawCard } from '../../utils/api.js';
-import SnackBar from '../../components/SnackBar/index.jsx';
-import Header from "../../components/Header/index.jsx";
+import SnackBar from '../../components/SnackBar';
+import Header from "../../components/Header/";
+import Deck from "../../components/Deck";
+import RButton from "../../components/Button"
 import { Box, Grid } from '@mui/material';
 
 
@@ -11,18 +13,17 @@ const styles = {
     root: {
         minHeight: '100vh',
         height: 'auto',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    right: {
+    center: {
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-end',
+        flexDirection: 'row',
+
     },
     bottom: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
+        flexDirection: 'row'
     },
 };
 
@@ -32,23 +33,22 @@ const Partida_iniciada = () => {
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
-
     // Websockets (Segundo Sprint)
 
     useEffect(() => {
 
         // test data del back
-        const datadelback = {
+        const datafromback = {
             hand: [1, 1, 1, 1],
-            state: 'Turn_1'
+            state: 'InTurn'
         }
-        setHand(datadelback.hand);
-        setGameState(datadelback.state);
+        setHand(datafromback.hand);
+        setGameState(datafromback.state);
 
         const webSocket = new WebSocket('ws://your-websocket-url');
 
         webSocket.onopen = () => {
-            webSocket.send(JSON.stringify({ action: 'get_game_state', player_name: 'your_player_name' }));
+            webSocket.send(JSON.stringify({ action: 'get_game_state', player_name: 'player_name' }));
         };
 
         webSocket.onmessage = (event) => {
@@ -68,18 +68,9 @@ const Partida_iniciada = () => {
     }, []);
 
 
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
+
 
     const mockDrawCard = async () => {
-        // Simulate a delay (e.g., API request) for demonstration purposes
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Return a mock response with card ID "1"
         return {
             status: 200,
             data: {
@@ -88,16 +79,28 @@ const Partida_iniciada = () => {
         };
     };
 
+    const handleClose = (reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     const handleDrawCard = async () => {
+
+        if (hand.length >= 5) {
+            setSeverity('error');
+            setBody('You can only draw one card per turn.');
+            setOpen(true);
+            return;
+        }
+
         try {
             const response = await mockDrawCard(); // Replace 'your_player_name' with the actual player name or identifier
 
             if (response.status === 200) {
                 const { card_id } = response.data;
                 setHand([...hand, card_id]);
-                setSeverity('success');
-                setBody('You drew a card.');
-                setOpen(true);
             }
         } catch (err) {
             setSeverity('error');
@@ -108,14 +111,19 @@ const Partida_iniciada = () => {
 
 
     let gameContent;
-    if (gameState === 'Turn_1') {
+    if (gameState === 'InTurn') {
         gameContent = (
             <Grid container spacing={1} sx={styles.root}>
                 <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
                     <PlayersHand cartas={hand} />
                 </Grid>
+                <Grid item xs={12} sm={6} md={5} >
+                    <Deck onDrawCard={handleDrawCard} />
+                </Grid>
                 <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                    <button onClick={handleDrawCard}>Draw Card</button>
+                    <RButton  text="Jugar carta"></RButton>
+                    <RButton  text="Intercambiar carta"></RButton>
+                    <RButton  text="Descartar carta"></RButton>
                 </Grid>
             </Grid>
         );
