@@ -134,7 +134,11 @@ const Match = () => {
         <Box style={styles.root}>
             <Header />
             <Grid container spacing={1} style={styles.center}>
-                <PlayerList jugadores={jugadores} />
+                <div>
+                    {jugadores.map((jugador, index) => (
+                       <li key={index}>{jugador}</li>
+                    ))}
+                </div>
                 <Deck onDrawCard={handleDrawCard} />
                 <DiscardDeck />
             </Grid>
