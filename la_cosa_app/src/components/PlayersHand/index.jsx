@@ -31,9 +31,14 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
     };
 
     const handleCardClick = (index) => {
+        if (index === selectedCard){
+            setSelectedCard(null);
+            setHoveredCard(null);
+        } else {
         setSelectedCard(index);
-        setHoveredCard(index); // Set hoveredCard to selectedCard when a card is clicked
+        setHoveredCard(index);
         onSelectCard(index);
+        }
     };
 
     return (
