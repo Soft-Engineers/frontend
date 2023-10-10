@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PlayersHand from '../../components/PlayersHand';
-import { drawCard } from '../../utils/api.js';
 import PlayerList from "../../components/PlayersList";
 import SnackBar from '../../components/SnackBar';
 import Header from "../../components/Header/";
 import Deck from "../../components/Deck";
+import DiscardDeck from "../../components/DiscardDeck/index.jsx";
 import RButton from "../../components/Button"
 import { Box, Grid } from '@mui/material';
+import Container from "@mui/material/Container";
 
 const styles = {
     root: {
@@ -17,10 +18,7 @@ const styles = {
     center: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'center',
-        margin: '8rem',
-
     },
     bottom: {
         display: 'flex',
@@ -51,7 +49,7 @@ const Match = () => {
         };
 
         const datafromback = {
-            hand: [1, 1, 1, 1],
+            hand: ['lanzallama', 'lanzallama', 'lanzallama', 'lanzallama'],
             state: 'InTurn'
         };
         setHand(datafromback.hand);
@@ -81,7 +79,7 @@ const Match = () => {
         return {
             status: 200,
             data: {
-                card_id: 1,
+               nombre: 'lanzallama',
             },
         };
     };
@@ -111,8 +109,8 @@ const Match = () => {
         try {
             const response = await mockDrawCard();
             if (response.status === 200) {
-                const { card_id } = response.data;
-                setHand([...hand, card_id]);
+                const { nombre } = response.data;
+                setHand([...hand, nombre]);
             }
         } catch (err) {
             setSeverity('error');
@@ -136,30 +134,21 @@ const Match = () => {
         <Box style={styles.root}>
             <Header />
             <Grid container spacing={1} style={styles.center}>
-            <Grid item xs={12} sm={6} md={5}>
+                <PlayerList jugadores={jugadores} />
                 <Deck onDrawCard={handleDrawCard} />
-            </Grid>
-            <Grid item xs={6} style={styles.playersList}>
-                <PlayerList
-                    jugadores={jugadores}
-                />
-            </Grid>
+                <DiscardDeck />
             </Grid>
             <Grid container spacing={1} style={styles.bottom}>
-
                 <Grid item xs={12} sm={6} md={5}>
-                    <PlayersHand cartas={hand}  onSelectCard={setSelectedCard}/>
+                    <PlayersHand cartas={hand} onSelectCard={setSelectedCard} />
                 </Grid>
                 {(gameState === 'InTurn') && (
                     <Box style={styles.buttons}>
-                        <RButton
-                            text="Jugar carta"
-                            action={() => handleplayCard()}/>
+                        <RButton text="Jugar carta" action={() => handleplayCard()} />
                         <RButton text="Descartar carta" />
                     </Box>
                 )}
             </Grid>
-
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
     );
