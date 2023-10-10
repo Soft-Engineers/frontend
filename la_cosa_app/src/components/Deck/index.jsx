@@ -3,8 +3,8 @@ import backImage from '../../assets/cartas_recortadas/back.png';
 
 const styles = {
     deck: {
-        width: '100px',
-        height: '150px',
+        width: '150px',
+        height: '100px',
         cursor: 'pointer',
     },
 };

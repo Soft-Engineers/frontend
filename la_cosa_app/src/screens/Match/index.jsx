@@ -1,82 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import Carta from '../../components/Carta';
 import PlayersHand from '../../components/PlayersHand';
 import { drawCard } from '../../utils/api.js';
+import PlayerList from "../../components/PlayersList";
 import SnackBar from '../../components/SnackBar';
 import Header from "../../components/Header/";
 import Deck from "../../components/Deck";
 import RButton from "../../components/Button"
 import { Box, Grid } from '@mui/material';
 
-
 const styles = {
     root: {
         minHeight: '100vh',
-        height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     center: {
         display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: '8rem',
+
+    },
+    bottom: {
+        display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
-    bottom: {
-        marginTop: '1rem', // Adjust the margin to control the spacing between elements
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
     buttons: {
-        marginTop: '1rem', // Adjust the margin to control the spacing between elements
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
     },
 };
 
-const Partida_iniciada = () => {
+const Match = () => {
     const [hand, setHand] = useState([]);
     const [gameState, setGameState] = useState('');
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
-    // Websockets (Segundo Sprint)
+    const [jugadores, setJugadores] = useState([]);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const match_name = localStorage.getItem('match_name');
+    const player_name = localStorage.getItem('player_name');
 
     useEffect(() => {
+        const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+        socket.onopen = () => {
+            console.log("Conectado al socket de la partida");
+        };
 
-        // test data del back
         const datafromback = {
             hand: [1, 1, 1, 1],
             state: 'InTurn'
-        }
+        };
         setHand(datafromback.hand);
         setGameState(datafromback.state);
 
-        const webSocket = new WebSocket('ws://your-websocket-url');
-
-        webSocket.onopen = () => {
-            webSocket.send(JSON.stringify({ action: 'get_game_state', player_name: 'player_name' }));
-        };
-
-        webSocket.onmessage = (event) => {
+        socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.type === 'initial_hand') {
-                setHand(data.hand);
-            } else if (data.type === 'game_state') {
-                setGameState(data.state);
+            if (data.message_type === 1) {
+                // Seteo de partida inicial;
+                setJugadores(data.message_content);
+            } else if (data.message_type === 3) {
+                console.log(data.message_content);
             }
         };
-        webSocket.onclose = () => {
+        // Otros event handlers
+
+        socket.onclose = () => {
+            console.log("Desconectado del socket de la partida");
         };
 
         return () => {
-            webSocket.close();
+            socket.close();
         };
-    }, []);
-
+    }, [match_name]);
 
     const mockDrawCard = async () => {
         return {
@@ -95,7 +94,6 @@ const Partida_iniciada = () => {
     };
 
     const handleDrawCard = async () => {
-
         if (hand.length >= 5) {
             setSeverity('error');
             setBody('You can only draw one card per turn.');
@@ -111,8 +109,7 @@ const Partida_iniciada = () => {
         }
 
         try {
-            const response = await mockDrawCard(); // Replace 'your_player_name' with the actual player name or identifier
-
+            const response = await mockDrawCard();
             if (response.status === 200) {
                 const { card_id } = response.data;
                 setHand([...hand, card_id]);
@@ -123,29 +120,49 @@ const Partida_iniciada = () => {
             setOpen(true);
         }
     };
+
+    const handleplayCard = () => {
+        if (selectedCard !== null) {
+            console.log(selectedCard);
+            setSelectedCard(null);
+        } else {
+        setSeverity('error');
+        setBody('Please select a card to play.');
+        setOpen(true);
+    }
+    };
+
     return (
-        <Box>
+        <Box style={styles.root}>
             <Header />
-            <Grid container spacing={1} sx={styles.center}>
-                <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                    <Deck onDrawCard={handleDrawCard} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                    <PlayersHand cartas={hand} />
-                </Grid>
+            <Grid container spacing={1} style={styles.center}>
+            <Grid item xs={12} sm={6} md={5}>
+                <Deck onDrawCard={handleDrawCard} />
             </Grid>
-            {(gameState === 'InTurn') && (
-                <Grid container spacing={1} sx={styles.buttons}>
-                    <Grid item xs={12} sm={6} md={5} sx={styles.bottom}>
-                        <RButton text="Jugar carta" />
-                        <RButton text="Intercambiar carta" />
-                        <RButton text="Descartar carta" />
-                    </Grid>
+            <Grid item xs={6} style={styles.playersList}>
+                <PlayerList
+                    jugadores={jugadores}
+                />
+            </Grid>
+            </Grid>
+            <Grid container spacing={1} style={styles.bottom}>
+
+                <Grid item xs={12} sm={6} md={5}>
+                    <PlayersHand cartas={hand}  onSelectCard={setSelectedCard}/>
                 </Grid>
-            )}
+                {(gameState === 'InTurn') && (
+                    <Box style={styles.buttons}>
+                        <RButton
+                            text="Jugar carta"
+                            action={() => handleplayCard()}/>
+                        <RButton text="Descartar carta" />
+                    </Box>
+                )}
+            </Grid>
+
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
     );
 };
 
-export default Partida_iniciada;
+export default Match;

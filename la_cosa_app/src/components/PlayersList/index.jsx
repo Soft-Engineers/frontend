@@ -10,10 +10,8 @@ const styles = {
     paper: {
         padding: '10px',
         margin: '10px',
-        width: '90%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
     },
     box: {
         maxHeight: '80vh',

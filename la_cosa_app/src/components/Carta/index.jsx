@@ -17,8 +17,8 @@ const Carta = ({ id }) => {
     const cartaStyles = {
         //width: '145px', // Ancho de la carta
         //height: '200px', // Alto de la carta
-        width: '80%', // Ejemplo de ancho relativo al 30% del contenedor
-        height: '80%', // Para mantener la proporción original
+        width: '60%', // Ejemplo de ancho relativo al 30% del contenedor
+        height: '60%', // Para mantener la proporción original
         gap: '1rem', // Espaciado entre las cart
         backgroundColor: 'white', // Color de fondo
         borderRadius: '10px', // Bordes redondeados

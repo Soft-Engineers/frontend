@@ -14,16 +14,26 @@ const styles = {
     },
 };
 
-const PlayersHand = ({ cartas }) => {
+const PlayersHand = ({ cartas, onSelectCard }) => {
     const [hoveredCard, setHoveredCard] = useState(null);
-
+    const [selectedCard, setSelectedCard] = useState(null);
 
     const handleCardHover = (index) => {
-        setHoveredCard(index);
+        if (selectedCard === null) {
+            setHoveredCard(index);
+        }
     };
 
     const handleCardLeave = () => {
-        setHoveredCard(null);
+        if (selectedCard === null) {
+            setHoveredCard(null);
+        }
+    };
+
+    const handleCardClick = (index) => {
+        setSelectedCard(index);
+        setHoveredCard(index); // Set hoveredCard to selectedCard when a card is clicked
+        onSelectCard(index);
     };
 
     return (
@@ -33,6 +43,7 @@ const PlayersHand = ({ cartas }) => {
                     key={index}
                     onMouseEnter={() => handleCardHover(index)}
                     onMouseLeave={handleCardLeave}
+                    onClick={() => handleCardClick(index)}
                     style={hoveredCard === index ? styles.cartaHovered : {}}
                 >
                     <Carta id={idCarta} />
@@ -41,5 +52,6 @@ const PlayersHand = ({ cartas }) => {
         </Stack>
     );
 };
+
 
 export default PlayersHand;
