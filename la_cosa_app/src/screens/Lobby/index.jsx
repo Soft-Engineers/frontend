@@ -14,18 +14,18 @@ const Lobby = () => {
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
     const { match_name } = useParams();
+    // user de local storage
+    const player_name = localStorage.getItem('player_name');
 
     // Conectarse al socket
     useEffect(() => {
-      const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}`);
+      const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
       socket.onopen = () => {
         console.log("Conectado al socket");
       };
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.message_type === 1) {
-          console.log("DATA", data)
-          console.log(data);
           setJugadores(data.message_content);
         } else if (data.message_type === 3){
           console.log(data.message_content);
@@ -49,7 +49,7 @@ const Lobby = () => {
         <Grid container spacing={2}>
           {/* Primera mitad */}
           <Grid item xs={6}>
-            <PlayerList // TODO: Cambiar por la lista de jugadores de la partida
+            <PlayerList
               jugadores={jugadores}
             />
           </Grid>
