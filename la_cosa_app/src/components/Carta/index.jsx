@@ -4,15 +4,15 @@ import backImage from '../../assets/cartas_recortadas/back.png';
 import lanzallamaImage from '../../assets/cartas_recortadas/lanzallama.png';
 
 const mapaCartas = {
-    0: backImage ,
-    1: lanzallamaImage
+    back: backImage,
+    lanzallama: lanzallamaImage
     // Agregar las cartas
 };
 
 
 // Regular Button
-const Carta = ({ id }) => {
-    const imgSrc = mapaCartas[id];
+const Carta = ({ nombre }) => {
+    const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
         //width: '145px', // Ancho de la carta
@@ -31,7 +31,7 @@ const Carta = ({ id }) => {
                 <img
                     src={imgSrc} // Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen
                     style={{ maxWidth: '100%', maxHeight: '100%' }} // Ajusta el tamaño de la imagen
-                    alt={`Carta ${id}`}
+                    alt={`Carta ${nombre}`}
                 />
             </Card>
         </Stack>

@@ -9,7 +9,6 @@ const styles = {
     // paper
     paper: {
         padding: '10px',
-        margin: '10px',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -25,13 +24,13 @@ function PlayersList({ jugadores }) {
         <Box sx={styles.box}>
             <List>
                 <ListItem>
-                    <Typography variant="h5" >Lista de Jugadores</Typography>
+                    <Typography variant="h6" >Players List</Typography>
                 </ListItem>
 
                 {jugadores ? jugadores.map((jugador) => (
                     <ListItem key={jugador}>
                         <Paper sx={styles.paper} elevation={3}>
-                            <Typography variant="h6" >{jugador}</Typography>
+                            <Typography variant="h7" >{jugador}</Typography>
                         </Paper>
                     </ListItem>
                 )) : null }
