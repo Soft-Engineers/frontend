@@ -7,16 +7,18 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-//import { useWebSocket } from "../../utils/WebSocketContext";
+import { isHost  as checkIsHost } from '../../utils/api'
 
 const Lobby = () => {
+    // State
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
+    const [isHost, setIsHost] = useState(false);
+
     const { match_name } = useParams();
-    // user de local storage
     const player_name = localStorage.getItem('player_name');
 
-    // Conectarse al socket
+    //Conectarse al socket
     useEffect(() => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
         socket.onopen = () => {
@@ -24,7 +26,7 @@ const Lobby = () => {
         };
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.message_type === 1) {
+            if (data.message_type === "jugadores lobby") {
                 setJugadores(data.message_content);
             } else if (data.message_type === 3){
                 console.log(data.message_content);
@@ -34,12 +36,21 @@ const Lobby = () => {
         socket.onclose = () => {
             console.log("Desconectado del socket del lobby");
         }
-
         return () => {
             socket.close();
         }
     }, [match_name]);
 
+
+    // Verificar si es el host
+    useEffect(() => {
+      const reponse = checkIsHost (player_name, match_name);
+      reponse.then((data) => {
+        setIsHost(data.data.is_host);
+        console.log(isHost);
+      });
+      
+    }, []);
 
     return (
         <Container >
@@ -54,11 +65,15 @@ const Lobby = () => {
                 </Grid>
                 {/* Segunda mitad */}
                 <Grid item xs={6} container justifyContent="center" alignItems="center">
+                  {isHost ? (
                     <RButton
                         text="Iniciar Partida"
                         action={() => navigate("/match")}
                         icon={<VideogameAssetOutlinedIcon />}
-                    />
+                    /> 
+                  ) : (
+                    <h1>Esperando que el host inicie la partida...</h1>
+                  )}
                 </Grid>
             </Grid>
         </Container>

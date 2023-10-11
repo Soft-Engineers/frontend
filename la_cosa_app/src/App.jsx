@@ -1,9 +1,9 @@
+import React from "react";
 import Match from "./screens/Match"
 import { Routes, Route } from "react-router-dom";
 import SelectName from "./screens/SelectName";
 import MainPage from "./screens/MainPage"
 import Lobby from "./screens/Lobby";
-
 
 const App = () => {
     return (

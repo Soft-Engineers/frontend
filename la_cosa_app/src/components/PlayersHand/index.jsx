@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 
@@ -37,7 +37,7 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
         } else {
         setSelectedCard(index);
         setHoveredCard(index);
-        onSelectCard(index);
+        onSelectCard(cartas[index]);
         }
     };
 
