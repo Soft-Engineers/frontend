@@ -32,12 +32,13 @@ const Match = () => {
     const [inTurn1, setTurn1] = useState(false);
     const [inTurn2, setTurn2] = useState(false);
     const [outOfTurn, setOutofTurn] = useState(false);
+    const [deadPlayer, setDeadPlayer] = useState(false);
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
     const [jugadores, setJugadores] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
-    const match_name = useParams();
+    const {match_name} = useParams();
     const player_name = sessionStorage.getItem('player_name');
     const [socket, setSocket] = useState(null);
 
@@ -47,31 +48,7 @@ const Match = () => {
             console.log("Conectado al socket de la partida");
         };
 
-        const datafromback = {
-            "deck": [
-                {
-                    "card_name": "Lanzallamas",
-                    "type": 3,
-                    "card_id": 1
-                },
-                {
-                    "card_name": "Lanzallamas",
-                    "type": 3,
-                    "card_id": 2
-                },
-                {
-                    "card_name": "Lanzallamas",
-                    "type": 3,
-                    "card_id": 3
-                },
-                {
-                    "card_name": "La Cosa",
-                    "type": 1,
-                    "card_id": 4
-                }
-            ]
-        };
-        setHand(datafromback.deck);
+
 
         matchSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -85,34 +62,36 @@ const Match = () => {
             }
             if (data.message_type === 'estado inicial') {
                 setHand(data.message_content.hand);
-                const {posiciones, turno_actual } = data.message_content;
-                const playerPosition = posiciones.find(pos => pos.player_name === player_name);
-                if (playerPosition === turno_actual) {
+                if (data.message_content.turno_actual === player_name) {
                     setTurn1(true);
                 }
                 else{
                     setOutofTurn(true);
                 }
-                //TODO: Mostrar de quien es el turno inicial en el componente "jugadas"
             }
             if (data.message_type === 'carta robada') {
+                console.log(hand);
+                console.log(data.message_content);
                 setHand([...hand, data.message_content]);
             }
             if (data.message_type === 'datos jugada') {
-                //TODO: Mensaje en componente "jugadas"
-                //TODO: cambiar estados del jugador
-                //TODO: Mensaje a jugador eliminado, desabilitar UI
-                //TODO: Mensaje siguiente turno en componente "jugadas"
-            }
-            if (data.message_type === 'turno') {
-                //TODO: Mensaje en componente "jugadas"
+                if (data.message_content.turn === player_name) {
+                    setTurn1(true);
+                }
+                else{
+                    setOutofTurn(true);
+                }
+                if (data.message_content.dead_player_name === player_name){
+                    setDeadPlayer(true);
+                }
+                const updatedHand = hand.filter(card => card.card_id !== selectedCard.card_id);
+                setHand(updatedHand);
             }
             if (data.message_type === 'notificacion') {
                 //TODO: Mensaje en componente "jugadas"
-
             }
             if (data.message_type === 'partida finalizada') {
-                //TODO: Mensaje en componente "jugadas"
+                //TODO: Mensaje en componente "partida finalizada"
             }
 
         };
@@ -121,7 +100,6 @@ const Match = () => {
             console.log("Desconectado del socket de la partida");
         };
 
-        // Set the socket state
         setSocket(matchSocket);
 
         return () => {
@@ -173,7 +151,7 @@ const Match = () => {
                     <li key={index}>{jugador}</li>
                 ))}
             </div>
-
+            {!deadPlayer &&
             <Grid container spacing={15} style={styles.bottom}>
                 <Grid item styles={styles.center}>
                     <Deck onDrawCard={handleDrawCard} />
@@ -182,11 +160,15 @@ const Match = () => {
                 <Grid item xs={12} sm={6} md={5}>
                     <PlayersHand cartas={hand} onSelectCard={setSelectedCard} />
                 </Grid>
+                {inTurn1 &&
                     <ButtonGroup size="large">
                         <RButton text="Jugar carta" action={() => handleplayCard()} />
                         <RButton text="Descartar carta" />
                     </ButtonGroup>
+                }
             </Grid>
+            }
+            {deadPlayer &&  <h1>Te han matado...</h1>}
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
     );
