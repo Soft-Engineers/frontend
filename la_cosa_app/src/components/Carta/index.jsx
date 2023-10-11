@@ -1,26 +1,28 @@
 import Stack from '@mui/material/Stack';
-import {backdropClasses, Card} from '@mui/material';
+import { backdropClasses, Card } from '@mui/material';
 import backImage from '../../assets/cartas_recortadas/back.png';
-import lanzallamaImage from '../../assets/cartas_recortadas/lanzallama.png';
+import lanzallamaimg from '../../assets/cartas_recortadas/02.png';
+import lacosaimg from '../../assets/cartas_recortadas/00.png';
+import infectadoimg from '../../assets/cartas_recortadas/01.png';
 
 const mapaCartas = {
-    back: backImage,
-    lanzallama: lanzallamaImage
+    'back': backImage,
+    'Lanzallamas': lanzallamaimg,
+    'La Cosa': lacosaimg,
+    '¡Infectado!': infectadoimg
     // Agregar las cartas
 };
 
 
 // Regular Button
-const Carta = ({ nombre }) => {
+const Carta = ({nombre}) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
-        //width: '145px', // Ancho de la carta
-        //height: '200px', // Alto de la carta
-        width: '60%', // Ejemplo de ancho relativo al 30% del contenedor
+        width: '60%',
         height: '60%', // Para mantener la proporción original
-        gap: '1rem', // Espaciado entre las cart
-        backgroundColor: 'white', // Color de fondo
+        gap: '1rem', // Espaciado entre las cartas
+        backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };  // estos estilos estan a ojo, es probable que tengan que cambiar
 
