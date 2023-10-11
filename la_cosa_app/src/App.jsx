@@ -11,7 +11,7 @@ const App = () => {
                 <Route path="/" element={<SelectName/>} />
                 <Route path="/mainpage/:user_name" element={<MainPage/>} />
                 <Route path="/lobby/:match_name" element={<Lobby/>} />
-                <Route path="/match" element={<Match />} />
+                <Route path="/match/:match_name" element={<Match />} />
             </Routes>
     )
 }
