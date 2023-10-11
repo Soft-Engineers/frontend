@@ -62,7 +62,7 @@ const Match = () => {
             }
             if (data.message_type === 'estado inicial') {
                 setHand(data.message_content.hand);
-                if (data.message_content.turno_actual === player_name) {
+                if (data.message_content.current_turn === player_name) {
                     setTurn1(true);
                 }
                 else{
