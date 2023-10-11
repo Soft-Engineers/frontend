@@ -63,7 +63,7 @@ export const getPartidas = async () => {
   }
 };
 
-// unirse a una partida
+// Unirse a una partida
 export const joinMatch = async (player_name, match_name, password) => {
   try {
     const response = await axios.post("http://localhost:8000/match/join", {
@@ -77,3 +77,26 @@ export const joinMatch = async (player_name, match_name, password) => {
     throw error;
   }
 };
+
+// Obtener el estado de host de un jugador
+export const isHost = async (player_name, match_name) => {
+  try {
+    const response = await axios.get("http://localhost:8000/player/host", {
+      params: { player_name, match_name },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// Robar una carta
+// export const drawCard = async (playerName) => {
+//   try {
+//     const response = await axios.post('/match/deck/pickup', { playerName });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
