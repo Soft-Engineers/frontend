@@ -6,6 +6,7 @@ import Deck from "../../components/Deck";
 import DiscardDeck from "../../components/DiscardDeck/index.jsx";
 import RButton from "../../components/Button"
 import {Box, ButtonGroup, Grid} from '@mui/material';
+import {useParams} from "react-router-dom";
 
 const styles = {
     root: {
@@ -36,8 +37,8 @@ const Match = () => {
     const [body, setBody] = useState('');
     const [jugadores, setJugadores] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
-    const match_name = localStorage.getItem('match_name');
-    const player_name = localStorage.getItem('player_name');
+    const match_name = useParams();
+    const player_name = sessionStorage.getItem('player_name');
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
@@ -152,7 +153,7 @@ const Match = () => {
                 message_type: 'jugar carta',
                 message_content: {
                     card_name: selectedCard.card_name,
-                    id: selectedCard.card_id,
+                    card_id: selectedCard.card_id,
                     target: '' //TODO elegir target_id tampoco se donde poner que esta fuera de turno
                 },
             };

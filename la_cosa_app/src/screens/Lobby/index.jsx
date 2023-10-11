@@ -59,6 +59,7 @@ const Lobby = () => {
 
     // Funcion para iniciar la partida
     const handleStartMatch = (player_name, match_name) => {
+        console.log({player_name, match_name});
       const response = startMatch(player_name,match_name);
       response.then((data) => {
         console.log('DATA de startmatch',data.data);
