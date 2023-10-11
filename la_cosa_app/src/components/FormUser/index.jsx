@@ -51,8 +51,8 @@ const FormUser = () => {
       validationSchema={validationSchema}
       onSubmit={async (values) => {
         try {
-          // Guardo el usuario en el localStorage
-          localStorage.setItem("player_name", values.name_player);
+          // Guardo el usuario en session storage
+          sessionStorage.setItem('player_name', values.name_player);
           const response = await createUser(values.name_player);
           if (response.status === 200) {
             navigate(`/mainpage/${values.name_player}`);

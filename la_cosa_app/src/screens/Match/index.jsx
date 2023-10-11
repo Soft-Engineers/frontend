@@ -39,8 +39,8 @@ const Match = () => {
     const [body, setBody] = useState('');
     const [jugadores, setJugadores] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
-    const match_name = localStorage.getItem('match_name');
-    const player_name = localStorage.getItem('player_name');
+    const match_name = sessionStorage.getItem('match_name');
+    const player_name = sessionStorage.getItem('player_name');
 
     useEffect(() => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);

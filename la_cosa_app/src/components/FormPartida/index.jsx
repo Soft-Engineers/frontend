@@ -60,11 +60,11 @@ const FormPartida = () => {
       validationSchema={validationSchema}
       onSubmit={async (values) => {
         try {
-          const player_name = localStorage.getItem('player_name');
+          const player_name = sessionStorage.getItem('player_name');
           const response = await createPartida(values.nombrePartida, player_name ,values.minJugadores, values.maxJugadores);
           if (response.status === 201) { 
             Navigate(`/lobby/${values.nombrePartida}`)
-            localStorage.setItem("match_name", values.nombrePartida);
+            sessionStorage.setItem("match_name", values.nombrePartida);
           }
         } catch (err) {
           setOpen(true);
