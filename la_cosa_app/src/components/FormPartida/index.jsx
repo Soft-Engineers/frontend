@@ -64,6 +64,7 @@ const FormPartida = () => {
           const response = await createPartida(values.nombrePartida, player_name ,values.minJugadores, values.maxJugadores);
           if (response.status === 201) { 
             Navigate(`/lobby/${values.nombrePartida}`)
+            localStorage.setItem("match_name", values.nombrePartida);
           }
         } catch (err) {
           setOpen(true);
