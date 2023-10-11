@@ -1,14 +1,14 @@
 import Stack from '@mui/material/Stack';
-import {backdropClasses, Card} from '@mui/material';
+import { backdropClasses, Card } from '@mui/material';
 import backImage from '../../assets/cartas_recortadas/back.png';
-import lanzallamaimg from '../../assets/cartas_recortadas/lanzallama.png';
-import lacosaimg from '../../assets/cartas_recortadas/infectados/00.png';
-import infectadoimg from '../../assets/cartas_recortadas/infectados/01.png';
+import lanzallamaimg from '../../assets/cartas_recortadas/02.png';
+import lacosaimg from '../../assets/cartas_recortadas/00.png';
+import infectadoimg from '../../assets/cartas_recortadas/01.png';
 
 const mapaCartas = {
     'back': backImage,
     'Lanzallamas': lanzallamaimg,
-    'La Cosa' : lacosaimg,
+    'La Cosa': lacosaimg,
     '¡Infectado!': infectadoimg
     // Agregar las cartas
 };
