@@ -26,6 +26,7 @@ const styles = {
 };
 
 const Match = () => {
+
     const [hand, setHand] = useState([]);
     const [inTurn1, setTurn1] = useState(false);
     const [inTurn2, setTurn2] = useState(false);
@@ -37,10 +38,11 @@ const Match = () => {
     const [selectedCard, setSelectedCard] = useState(null);
     const match_name = localStorage.getItem('match_name');
     const player_name = localStorage.getItem('player_name');
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
-        socket.onopen = () => {
+        const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+        matchSocket.onopen = () => {
             console.log("Conectado al socket de la partida");
         };
 
@@ -49,33 +51,56 @@ const Match = () => {
         };
         setHand(datafromback.hand);
 
-        socket.onmessage = (event) => {
+        matchSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.message_type === 'jugadores lobby') {
-                // Seteo de partida inicial;
-                setJugadores(data.message_content);
-                setTurn1(true);
+            if (data.message_type === 'error') {
+                setSeverity('error');
+                setBody(data.message_content);
+                setOpen(true);
             }
-        };
-        // Otros event handlers
+            if (data.message_type === 'jugadores lobby') {
+                setJugadores(data.message_content);
+            }
+            if (data.message_type === 'estado inicial') {
+                //TODO: setHand setinTurn si es turno de jugador sino setOutofTurn
+                //TODO: Mostrar de quien es el turno inicial en el componente "jugadas"
+                //TODO: Opcional: mostrar posiciones
+            }
+            if (data.message_type === 'carta robada') {
+                setHand([...hand, data.card_data]);
+            }
+            if (data.message_type === 'notificacion jugada') {
+                //TODO: Mensaje en componente "jugadas"
+            }
+            if (data.message_type === 'turno') {
+                //TODO: Mensaje en componente "jugadas"
+            }
+            if (data.message_type === 'muerte') {
+                //TODO: Mensaje en componente "jugadas"
+                //TODO: Mensaje a jugador eliminado, desabilitar UI
+            }
+            if (data.message_type === 'muerte') {
+                //TODO: Mensaje en componente "jugadas"
+            }
+            if (data.message_type === 'muerte') {
+                //TODO: Mensaje en componente "jugadas"
+            }
 
-        socket.onclose = () => {
+
+        };
+
+        matchSocket.onclose = () => {
             console.log("Desconectado del socket de la partida");
         };
 
+        // Set the socket state
+        setSocket(matchSocket);
+
         return () => {
-            socket.close();
+            matchSocket.close();
         };
     }, [match_name]);
 
-    const mockDrawCard = async () => {
-        return {
-            status: 200,
-            data: {
-               nombre: 'lanzallama',
-            },
-        };
-    };
 
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
@@ -85,31 +110,17 @@ const Match = () => {
     };
 
     const handleDrawCard = async () => {
-        if (hand.length >= 5) {
+
+        if (outOfTurn) {
             setSeverity('error');
-            setBody('You can only draw one card per turn.');
+            setBody('No es tu turno.');
             setOpen(true);
             return;
         }
 
-        if (inTurn1) {
-            setSeverity('error');
-            setBody('You can only draw a card in your turn.');
-            setOpen(true);
-            return;
-        }
+        const request = { message_type: 'robar carta' , message_content: ''};
+        socket.send(JSON.stringify(request));
 
-        try {
-            const response = await mockDrawCard();
-            if (response.status === 200) {
-                const { nombre } = response.data;
-                setHand([...hand, nombre]);
-            }
-        } catch (err) {
-            setSeverity('error');
-            setBody(err.response.data.detail);
-            setOpen(true);
-        }
     };
 
     const handleplayCard = () => {
