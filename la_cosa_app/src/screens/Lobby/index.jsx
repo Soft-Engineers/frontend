@@ -31,7 +31,7 @@ const Lobby = () => {
                 setJugadores(data.message_content);
             }
             else if (data.message_type === "start_match") {
-              console.log('Iniciando partida desde el lobby');
+                navigate(`/match/${match_name}`);
             } 
             else {
                 console.log('Mensaje no reconocido');
