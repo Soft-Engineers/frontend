@@ -15,12 +15,10 @@ const Carta = ({ nombre }) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
-        //width: '145px', // Ancho de la carta
-        //height: '200px', // Alto de la carta
-        width: '60%', // Ejemplo de ancho relativo al 30% del contenedor
+        width: '60%',
         height: '60%', // Para mantener la proporción original
-        gap: '1rem', // Espaciado entre las cart
-        backgroundColor: 'white', // Color de fondo
+        gap: '1rem', // Espaciado entre las cartas
+        backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };  // estos estilos estan a ojo, es probable que tengan que cambiar
 

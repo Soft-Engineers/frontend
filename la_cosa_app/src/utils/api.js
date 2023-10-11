@@ -90,13 +90,3 @@ export const isHost = async (player_name, match_name) => {
     throw error;
   }
 };
-
-// Robar una carta
-// export const drawCard = async (playerName) => {
-//   try {
-//     const response = await axios.post('/match/deck/pickup', { playerName });
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
