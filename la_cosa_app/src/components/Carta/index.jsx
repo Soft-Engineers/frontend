@@ -15,7 +15,7 @@ const mapaCartas = {
 
 
 // Regular Button
-const Carta = ({ nombre }) => {
+const Carta = ({nombre}) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
