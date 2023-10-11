@@ -26,7 +26,7 @@ const Lobby = () => {
         };
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.message_type === 1) {
+            if (data.message_type === "jugadores lobby") {
                 setJugadores(data.message_content);
             } else if (data.message_type === 3){
                 console.log(data.message_content);
@@ -47,6 +47,7 @@ const Lobby = () => {
       const reponse = checkIsHost (player_name, match_name);
       reponse.then((data) => {
         setIsHost(data.data.is_host);
+        console.log(isHost);
       });
       
     }, []);

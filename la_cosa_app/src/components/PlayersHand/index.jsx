@@ -37,7 +37,7 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
         } else {
         setSelectedCard(index);
         setHoveredCard(index);
-        onSelectCard(index);
+        onSelectCard(cartas[index]);
         }
     };
 

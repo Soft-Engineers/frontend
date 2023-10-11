@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PlayersHand from '../../components/PlayersHand';
-import PlayerList from "../../components/PlayersList";
 import SnackBar from '../../components/SnackBar';
 import Header from "../../components/Header/";
 import Deck from "../../components/Deck";
 import DiscardDeck from "../../components/DiscardDeck/index.jsx";
 import RButton from "../../components/Button"
-import { Box, Grid } from '@mui/material';
-import Container from "@mui/material/Container";
+import {Box, ButtonGroup, Grid} from '@mui/material';
 
 const styles = {
     root: {
@@ -25,15 +23,13 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
     },
-    buttons: {
-        display: 'flex',
-        flexDirection: 'row',
-    },
 };
 
 const Match = () => {
     const [hand, setHand] = useState([]);
-    const [gameState, setGameState] = useState('');
+    const [inTurn1, setTurn1] = useState(false);
+    const [inTurn2, setTurn2] = useState(false);
+    const [outOfTurn, setOutofTurn] = useState(false);
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
@@ -50,18 +46,15 @@ const Match = () => {
 
         const datafromback = {
             hand: ['lanzallama', 'lanzallama', 'lanzallama', 'lanzallama'],
-            state: 'InTurn'
         };
         setHand(datafromback.hand);
-        setGameState(datafromback.state);
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.message_type === 1) {
+            if (data.message_type === 'jugadores lobby') {
                 // Seteo de partida inicial;
                 setJugadores(data.message_content);
-            } else if (data.message_type === 3) {
-                console.log(data.message_content);
+                setTurn1(true);
             }
         };
         // Otros event handlers
@@ -99,7 +92,7 @@ const Match = () => {
             return;
         }
 
-        if (gameState !== 'InTurn') {
+        if (inTurn1) {
             setSeverity('error');
             setBody('You can only draw a card in your turn.');
             setOpen(true);
@@ -133,24 +126,25 @@ const Match = () => {
     return (
         <Box style={styles.root}>
             <Header />
-            <Grid container spacing={1} style={styles.center}>
-                <div>
-                    {jugadores.map((jugador, index) => (
-                       <li key={index}>{jugador}</li>
-                    ))}
-                </div>
-                <Deck onDrawCard={handleDrawCard} />
-                <DiscardDeck />
-            </Grid>
-            <Grid container spacing={1} style={styles.bottom}>
+            <div>
+                {jugadores.map((jugador, index) => (
+                    <li key={index}>{jugador}</li>
+                ))}
+            </div>
+
+            <Grid container spacing={15} style={styles.bottom}>
+                <Grid item styles={styles.center}>
+                    <Deck onDrawCard={handleDrawCard} />
+                    <DiscardDeck />
+                </Grid>
                 <Grid item xs={12} sm={6} md={5}>
                     <PlayersHand cartas={hand} onSelectCard={setSelectedCard} />
                 </Grid>
-                {(gameState === 'InTurn') && (
-                    <Box style={styles.buttons}>
+                {inTurn1 && (
+                    <ButtonGroup size="large">
                         <RButton text="Jugar carta" action={() => handleplayCard()} />
                         <RButton text="Descartar carta" />
-                    </Box>
+                    </ButtonGroup>
                 )}
             </Grid>
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
