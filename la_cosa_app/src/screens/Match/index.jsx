@@ -47,9 +47,30 @@ const Match = () => {
         };
 
         const datafromback = {
-            hand: ['lanzallama', 'lanzallama', 'lanzallama', 'lanzallama'],
+            "deck": [
+                {
+                    "card_name": "Lanzallamas",
+                    "type": 3,
+                    "card_id": 1
+                },
+                {
+                    "card_name": "Lanzallamas",
+                    "type": 3,
+                    "card_id": 2
+                },
+                {
+                    "card_name": "Lanzallamas",
+                    "type": 3,
+                    "card_id": 3
+                },
+                {
+                    "card_name": "La Cosa",
+                    "type": 1,
+                    "card_id": 4
+                }
+            ]
         };
-        setHand(datafromback.hand);
+        setHand(datafromback.deck);
 
         matchSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -62,30 +83,36 @@ const Match = () => {
                 setJugadores(data.message_content);
             }
             if (data.message_type === 'estado inicial') {
-                //TODO: setHand setinTurn si es turno de jugador sino setOutofTurn
+                setHand(data.message_content.hand);
+                const {posiciones, turno_actual } = data.message_content;
+                const playerPosition = posiciones.find(pos => pos.player_name === player_name);
+                if (playerPosition === turno_actual) {
+                    setTurn1(true);
+                }
+                else{
+                    setOutofTurn(true);
+                }
                 //TODO: Mostrar de quien es el turno inicial en el componente "jugadas"
-                //TODO: Opcional: mostrar posiciones
             }
             if (data.message_type === 'carta robada') {
-                setHand([...hand, data.card_data]);
+                setHand([...hand, data.message_content]);
             }
-            if (data.message_type === 'notificacion jugada') {
+            if (data.message_type === 'datos jugada') {
                 //TODO: Mensaje en componente "jugadas"
+                //TODO: cambiar estados del jugador
+                //TODO: Mensaje a jugador eliminado, desabilitar UI
+                //TODO: Mensaje siguiente turno en componente "jugadas"
             }
             if (data.message_type === 'turno') {
                 //TODO: Mensaje en componente "jugadas"
             }
-            if (data.message_type === 'muerte') {
+            if (data.message_type === 'notificacion') {
                 //TODO: Mensaje en componente "jugadas"
-                //TODO: Mensaje a jugador eliminado, desabilitar UI
-            }
-            if (data.message_type === 'muerte') {
-                //TODO: Mensaje en componente "jugadas"
-            }
-            if (data.message_type === 'muerte') {
-                //TODO: Mensaje en componente "jugadas"
-            }
 
+            }
+            if (data.message_type === 'partida finalizada') {
+                //TODO: Mensaje en componente "jugadas"
+            }
 
         };
 
@@ -110,26 +137,29 @@ const Match = () => {
     };
 
     const handleDrawCard = async () => {
-
-        if (outOfTurn) {
-            setSeverity('error');
-            setBody('No es tu turno.');
-            setOpen(true);
-            return;
-        }
-
         const request = { message_type: 'robar carta' , message_content: ''};
         socket.send(JSON.stringify(request));
-
     };
 
     const handleplayCard = () => {
         if (selectedCard !== null) {
-            console.log(selectedCard);
-            setSelectedCard(null);
+            console.log({
+                card_name: selectedCard.card_name,
+                card_id: selectedCard.card_id,
+                target: ''
+            });
+            const request = {
+                message_type: 'jugar carta',
+                message_content: {
+                    card_name: selectedCard.card_name,
+                    id: selectedCard.card_id,
+                    target: '' //TODO elegir target_id tampoco se donde poner que esta fuera de turno
+                },
+            };
+            socket.send(JSON.stringify(request));
         } else {
         setSeverity('error');
-        setBody('Please select a card to play.');
+        setBody('Elige una carta para jugar.');
         setOpen(true);
     }
     };
@@ -151,12 +181,10 @@ const Match = () => {
                 <Grid item xs={12} sm={6} md={5}>
                     <PlayersHand cartas={hand} onSelectCard={setSelectedCard} />
                 </Grid>
-                {inTurn1 && (
                     <ButtonGroup size="large">
                         <RButton text="Jugar carta" action={() => handleplayCard()} />
                         <RButton text="Descartar carta" />
                     </ButtonGroup>
-                )}
             </Grid>
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
