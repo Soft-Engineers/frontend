@@ -12,7 +12,7 @@ const cardEffectListStyle = {
 };
 
 //{  }
-export default function CardEffectList({ messages }) {
+const Notifications = ({ messages }) => {
     return (
         <Paper style={cardEffectListStyle}>
             <List
@@ -33,3 +33,5 @@ export default function CardEffectList({ messages }) {
         </Paper>
     );
 }
+
+export default Notifications;

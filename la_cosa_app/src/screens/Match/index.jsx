@@ -5,8 +5,8 @@ import Header from "../../components/Header/";
 import Deck from "../../components/Deck";
 import DiscardDeck from "../../components/DiscardDeck/index.jsx";
 import RButton from "../../components/Button"
-import {Box, ButtonGroup, Grid} from '@mui/material';
-import {useParams} from "react-router-dom";
+import { Box, ButtonGroup, Grid } from '@mui/material';
+import { useParams } from "react-router-dom";
 
 const styles = {
     root: {
@@ -37,7 +37,7 @@ const Match = () => {
     const [body, setBody] = useState('');
     const [jugadores, setJugadores] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
-    const match_name = useParams();
+    const { match_name } = useParams();
     const player_name = sessionStorage.getItem('player_name');
     const [socket, setSocket] = useState(null);
 
@@ -85,12 +85,12 @@ const Match = () => {
             }
             if (data.message_type === 'estado inicial') {
                 setHand(data.message_content.hand);
-                const {posiciones, turno_actual } = data.message_content;
+                const { posiciones, turno_actual } = data.message_content;
                 const playerPosition = posiciones.find(pos => pos.player_name === player_name);
                 if (playerPosition === turno_actual) {
                     setTurn1(true);
                 }
-                else{
+                else {
                     setOutofTurn(true);
                 }
                 //TODO: Mostrar de quien es el turno inicial en el componente "jugadas"
@@ -138,7 +138,7 @@ const Match = () => {
     };
 
     const handleDrawCard = async () => {
-        const request = { message_type: 'robar carta' , message_content: ''};
+        const request = { message_type: 'robar carta', message_content: '' };
         socket.send(JSON.stringify(request));
     };
 
@@ -159,10 +159,10 @@ const Match = () => {
             };
             socket.send(JSON.stringify(request));
         } else {
-        setSeverity('error');
-        setBody('Elige una carta para jugar.');
-        setOpen(true);
-    }
+            setSeverity('error');
+            setBody('Elige una carta para jugar.');
+            setOpen(true);
+        }
     };
 
     return (
@@ -182,10 +182,10 @@ const Match = () => {
                 <Grid item xs={12} sm={6} md={5}>
                     <PlayersHand cartas={hand} onSelectCard={setSelectedCard} />
                 </Grid>
-                    <ButtonGroup size="large">
-                        <RButton text="Jugar carta" action={() => handleplayCard()} />
-                        <RButton text="Descartar carta" />
-                    </ButtonGroup>
+                <ButtonGroup size="large">
+                    <RButton text="Jugar carta" action={() => handleplayCard()} />
+                    <RButton text="Descartar carta" />
+                </ButtonGroup>
             </Grid>
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
