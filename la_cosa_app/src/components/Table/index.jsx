@@ -59,7 +59,7 @@ const CustomizedTables = ({ data }) => {
     }
   };
 
-  const user_name = localStorage.getItem('player_name');
+  const user_name = sessionStorage.getItem('player_name');
   const password = ""
 
   return (

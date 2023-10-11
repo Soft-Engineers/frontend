@@ -90,3 +90,18 @@ export const isHost = async (player_name, match_name) => {
     throw error;
   }
 };
+
+// Empezar partida
+export const startMatch = async (player_name, match_name) => {
+  try {
+    const response = await axios.post("http://localhost:8000/match/start", {
+      player_name,
+      match_name,
+    });
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
