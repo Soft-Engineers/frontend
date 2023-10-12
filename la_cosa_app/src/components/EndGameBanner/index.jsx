@@ -41,7 +41,7 @@ const EndGameBanner = ({ winners, reason }) => {
                     ¡Fin de la partida!
                 </Typography>
                 <Typography>
-                    Ganadores: {winners.join(', ')}
+                    {'Ganadores:' + winners.join(', ')}
                 </Typography>
                 <Typography>
                     {reason}

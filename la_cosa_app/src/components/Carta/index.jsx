@@ -1,11 +1,7 @@
 import Stack from '@mui/material/Stack';
-import { backdropClasses, Card } from '@mui/material';
+import { Card } from '@mui/material';
 import lacosa from '../../assets/cartas_recortadas/001.png';
 import infectado1 from '../../assets/cartas_recortadas/002.png';
-import infectado2 from '../../assets/cartas_recortadas/003.png';
-import infectado3 from '../../assets/cartas_recortadas/004.png';
-import infectado4 from '../../assets/cartas_recortadas/005.png';
-import infectado5 from '../../assets/cartas_recortadas/006.png';
 import lanzallamas from '../../assets/cartas_recortadas/007.png';
 import analisis from '../../assets/cartas_recortadas/008.png';
 import hacha from '../../assets/cartas_recortadas/009.png';
@@ -73,7 +69,8 @@ const mapaCartas = {
     'Vuelta y vuelta': vueltayvuelta,
     '¿No podemos ser amigos?': nopodemosseramigos,
     'Cita a ciegas': citaciegas,
-    '¡Ups!': ups
+    '¡Ups!': ups,
+    'Whisky': whisky,
 };
 
 
