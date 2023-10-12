@@ -1,0 +1,37 @@
+.player-round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  width: 600px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  background-color: #3498db;
+  border-radius: 50%;
+  margin: 20px;
+}
+
+.player-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-name {
+  margin-top: 5px;
+}
+
+.layout {
+  background-color: transparent;
+}
+
+.player-card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
