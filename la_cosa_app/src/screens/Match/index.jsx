@@ -5,6 +5,10 @@ import Header from "../../components/Header/";
 import Deck from "../../components/Deck";
 import DiscardDeck from "../../components/DiscardDeck/index.jsx";
 import RButton from "../../components/Button"
+import Notifications from "../../components/Notifications";
+import EndGameBanner from "../../components/EndGameBanner";
+
+
 import {Box, ButtonGroup, Grid} from '@mui/material';
 import {useParams} from "react-router-dom";
 
@@ -41,6 +45,11 @@ const Match = () => {
     const {match_name} = useParams();
     const player_name = sessionStorage.getItem('player_name');
     const [socket, setSocket] = useState(null);
+    const [avisos, setAvisos] = useState([]);
+    const [endGame, setEndGame] = useState(false);
+    const [reason, setReason] = useState('');
+    const [winners, setWinners] = useState([]);
+
 
     useEffect(() => {
         const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
@@ -48,7 +57,9 @@ const Match = () => {
             console.log("Conectado al socket de la partida");
         };
 
-
+        setReason('Gano la cosa');
+        setWinners(['yo']);
+        //setEndGame(true);
 
         matchSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -88,10 +99,12 @@ const Match = () => {
                 setHand(updatedHand);
             }
             if (data.message_type === 'notificacion') {
-                //TODO: Mensaje en componente "jugadas"
+                setAvisos([...avisos, data.message_content]);
             }
             if (data.message_type === 'partida finalizada') {
-                //TODO: Mensaje en componente "partida finalizada"
+                setWinners(data.message_content.winners);
+                setReason(data.message_content.reason);
+                setEndGame(true);
             }
 
         };
@@ -123,9 +136,7 @@ const Match = () => {
     const handleplayCard = () => {
         if (selectedCard !== null) {
             console.log({
-                card_name: selectedCard.card_name,
-                card_id: selectedCard.card_id,
-                target: ''
+                hand
             });
             const request = {
                 message_type: 'jugar carta',
@@ -151,6 +162,7 @@ const Match = () => {
                     <li key={index}>{jugador}</li>
                 ))}
             </div>
+            <Notifications messages={avisos}/>
             {!deadPlayer &&
             <Grid container spacing={15} style={styles.bottom}>
                 <Grid item styles={styles.center}>
@@ -169,6 +181,7 @@ const Match = () => {
             </Grid>
             }
             {deadPlayer &&  <h1>Te han matado...</h1>}
+            {endGame && <EndGameBanner reason={reason} winners={winners}/>}
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
     );

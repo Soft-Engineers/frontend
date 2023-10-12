@@ -1,7 +1,15 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
+import RButton from "../Button/index.jsx";
+import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined.js";
+import {useNavigate} from "react-router-dom";
+import {getPartidas} from "../../utils/api.js";
 
-const EndGameBanner = ({ winners }) => {
+const EndGameBanner = ({ winners, reason }) => {
+
+    const navigate = useNavigate();
+    const player_name = sessionStorage.getItem('player_name');
+
     const bannerStyles = {
         position: 'absolute',
         top: '50%',
@@ -35,6 +43,17 @@ const EndGameBanner = ({ winners }) => {
                 <Typography>
                     Ganadores: {winners.join(', ')}
                 </Typography>
+                <Typography>
+                    {reason}
+                </Typography>
+                <RButton
+                    text="Volver a inicio"
+                    action={
+                        () => {
+                            navigate(`/mainpage/${player_name}`);
+                        }
+                    }
+                />
             </Paper>
         </div>
     );

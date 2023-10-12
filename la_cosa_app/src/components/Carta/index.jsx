@@ -19,8 +19,8 @@ const Carta = ({nombre}) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
-        width: '60%',
-        height: '60%', // Para mantener la proporción original
+        width: '100px',
+        height: '150px', // Para mantener la proporción original
         gap: '1rem', // Espaciado entre las cartas
         backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
@@ -28,7 +28,7 @@ const Carta = ({nombre}) => {
 
 
     return (
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row">
             <Card style={cartaStyles} >
                 <img
                     src={imgSrc} // Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen
