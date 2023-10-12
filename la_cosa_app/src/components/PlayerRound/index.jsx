@@ -1,7 +1,7 @@
 import './PlayerRound.css';
 
 const PlayerCard = ({ player, angle }) => {
-  const radius = 250; // Radio del círculo
+  const radius = 200; // Radio del círculo
   const x = radius * Math.cos(angle);
   const y = radius * Math.sin(angle);
 

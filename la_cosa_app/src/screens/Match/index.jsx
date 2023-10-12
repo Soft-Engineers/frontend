@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import PlayerRound from "../../components/PlayerRound/";
 import { useParams } from "react-router-dom";
-import { Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
+import PlayerRound from "../../components/PlayerRound/";
+import PlayersHand from "../../components/PlayersHand/";
+import RButton from '../../components/Button/'
 
 const Match = () => {
   const { match_name } = useParams();
@@ -36,9 +38,33 @@ const Match = () => {
   }, [match_name]);
 
   return (
+    <Grid container>
+  {/* First half */}
+  <Grid xs={8} sx={{ minHeight: '100%', border: '1px solid red', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
     <Box>
       <PlayerRound players={jugadores} />
     </Box>
+    <Box sx={{ width:'80%',display:'flex', flexDirection:'row'}}>
+      <Box>
+        <PlayersHand cartas={['A', 'B', 'C', 'D']} />
+      </Box>
+      <Box>
+        <RButton text='Jugar'/>
+      </Box>
+      <Box>
+        <RButton text='Descartarse'/>
+      </Box>
+    </Box>
+  </Grid>
+
+  {/* Second half */}
+  <Grid xs={4} sx={{ minHeight: '100%', border: '1px solid blue', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Box>
+      <p>chat</p>
+    </Box>
+  </Grid>
+</Grid>
+
   );
 };
 
