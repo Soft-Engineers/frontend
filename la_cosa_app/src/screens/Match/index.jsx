@@ -80,7 +80,7 @@ const Match = () => {
             if (data.message_type === 'carta robada') {
                 console.log(hand);
                 console.log(data.message_content);
-                setHand([...hand, data.message_content]);
+                setHand([data.message_content]);
             }
             if (data.message_type === 'datos jugada') {
                 if (data.message_content.turn === player_name) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import backImage from '../../assets/cartas_recortadas/back.png';
+import rev from '../../assets/cartas_recortadas/rev.png';
 
 const styles = {
     deck: {
@@ -16,7 +16,7 @@ const Deck = ({ onDrawCard }) => {
 
     return (
         <img
-            src={backImage}
+            src={rev}
             alt="Card Back"
             style={styles.deck}
             onClick={handleDeckClick}

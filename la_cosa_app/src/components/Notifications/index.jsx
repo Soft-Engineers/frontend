@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
 const cardEffectListStyle = {
     width: '400px',
-    maxHeight: '200px',
     overflowY: 'auto'
 };
 
@@ -15,13 +14,7 @@ const cardEffectListStyle = {
 const Notifications = ({ messages }) => {
     return (
         <Paper style={cardEffectListStyle}>
-            <List
-                height={400}
-                width={360}
-                itemSize={46}
-                itemCount={200}
-                overscanCount={5}
-            >
+            <List>
 
                 {messages.map((message, index) => (
                     <ListItem key={index}>
