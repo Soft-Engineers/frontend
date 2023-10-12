@@ -132,9 +132,9 @@ const Match = () => {
   <Grid container sx={{minHeight:'100vh'}}>
     {/* First half */}
     {/* TODO: probar */}
-    {deadPlayer && <EndGameBanner reason="Has muerto" /> } 
-    {!deadPlayer && 
-    <Grid xs={8} sx={{ minHeight: '100%', border: '1px solid red', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    {deadPlayer && <h1>Has muerto...</h1> }
+    {!deadPlayer &&
+    <Grid xs={8} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Box>
         <PlayerRound players={jugadores} socket={socket} onTarget={setTargetName} isTurn={isTurn}/>
       </Box>
@@ -154,7 +154,7 @@ const Match = () => {
       </Box> 
     </Grid> }
     {/* Second half */}
-    <Grid xs={4} sx={{ minHeight: '100%', border: '1px solid blue', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <Box>
         <Notifications messages={avisos} />
       </Box>
