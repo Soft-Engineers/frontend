@@ -1,27 +1,34 @@
 import React from 'react';
-import backImage from '../../assets/cartas_recortadas/back.png';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import rev from '../../assets/cartas_recortadas/rev.png';
 
 const styles = {
     deck: {
-        width: '150px',
-        height: '100px',
+        width: '100px',
+        height: '150px',
         cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'grey',
+    },
+    card: {
+        width: '100px',
+        height: '150px',
     },
 };
-
 const Deck = ({ onDrawCard }) => {
     const handleDeckClick = () => {
         onDrawCard();
     };
 
     return (
-        <img
-            src={backImage}
-            alt="Card Back"
-            style={styles.deck}
-            onClick={handleDeckClick}
-        />
+        <Card style={styles.deck}>
+            <CardActionArea onClick={handleDeckClick}>
+                <img src={rev} alt="Card Back" style={styles.card} />
+            </CardActionArea>
+        </Card>
     );
 };
-
 export default Deck;

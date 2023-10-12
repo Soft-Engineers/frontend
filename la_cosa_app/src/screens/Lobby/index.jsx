@@ -7,7 +7,7 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost } from '../../utils/api'
+import { isHost  as checkIsHost, startMatch } from '../../utils/api'
 
 const Lobby = () => {
     // State
@@ -16,20 +16,25 @@ const Lobby = () => {
     const [isHost, setIsHost] = useState(false);
 
     const { match_name } = useParams();
-    const player_name = localStorage.getItem('player_name');
+    const player_name = sessionStorage.getItem('player_name');
 
     //Conectarse al socket
     useEffect(() => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
         socket.onopen = () => {
             console.log("Conectado al socket del lobby");
+            console.log('Yo soy ', player_name)
         };
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message_type === "jugadores lobby") {
                 setJugadores(data.message_content);
-            } else if (data.message_type === 3){
-                console.log(data.message_content);
+            }
+            else if (data.message_type === "start_match") {
+                navigate(`/match/${match_name}`);
+            } 
+            else {
+                console.log('Mensaje no reconocido');
             }
         }
 
@@ -39,7 +44,7 @@ const Lobby = () => {
         return () => {
             socket.close();
         }
-    }, [match_name]);
+    }, [match_name, player_name]);
 
 
     // Verificar si es el host
@@ -50,7 +55,16 @@ const Lobby = () => {
         console.log(isHost);
       });
       
-    }, []);
+    }, [player_name, match_name]);
+
+    // Funcion para iniciar la partida
+    const handleStartMatch = (player_name, match_name) => {
+        console.log({player_name, match_name});
+      const response = startMatch(player_name,match_name);
+      response.then((data) => {
+        console.log('DATA de startmatch',data.data);
+      });
+    }
 
     return (
         <Container >
@@ -68,7 +82,7 @@ const Lobby = () => {
                   {isHost ? (
                     <RButton
                         text="Iniciar Partida"
-                        action={() => navigate("/match")}
+                        action={() => handleStartMatch(player_name, match_name)}
                         icon={<VideogameAssetOutlinedIcon />}
                     /> 
                   ) : (

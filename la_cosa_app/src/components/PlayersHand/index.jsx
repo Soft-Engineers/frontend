@@ -42,8 +42,8 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
     };
 
     return (
-        <Stack direction="row" spacing={-10} style={styles.mano}>
-            {cartas.map((nombreCarta, index) => (
+        <Stack direction="row" spacing={1} style={styles.mano}>
+            {cartas.map((objCarta, index) => (
                 <div
                     key={index}
                     onMouseEnter={() => handleCardHover(index)}
@@ -51,7 +51,7 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
                     onClick={() => handleCardClick(index)}
                     style={hoveredCard === index ? styles.cartaHovered : {}}
                 >
-                    <Carta nombre={nombreCarta} />
+                    <Carta nombre={objCarta.card_name} />
                 </div>
             ))}
         </Stack>
