@@ -45,7 +45,7 @@ const Match = () => {
     const {match_name} = useParams();
     const player_name = sessionStorage.getItem('player_name');
     const [socket, setSocket] = useState(null);
-    const [avisos, setAvisos] = useState([]);
+    const [avisos, setAvisos] = useState(['La partida ha comenzado']);
     const [endGame, setEndGame] = useState(false);
     const [reason, setReason] = useState('');
     const [winners, setWinners] = useState([]);
@@ -57,9 +57,6 @@ const Match = () => {
             console.log("Conectado al socket de la partida");
         };
 
-        setReason('Gano la cosa');
-        setWinners(['yo']);
-        //setEndGame(true);
 
         matchSocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -157,12 +154,8 @@ const Match = () => {
     return (
         <Box style={styles.root}>
             <Header />
-            <div>
-                {jugadores.map((jugador, index) => (
-                    <li key={index}>{jugador}</li>
-                ))}
-            </div>
             <Notifications messages={avisos}/>
+            {deadPlayer &&  <h1>Te han matado...</h1>}
             {!deadPlayer &&
             <Grid container spacing={15} style={styles.bottom}>
                 <Grid item styles={styles.center}>
@@ -180,7 +173,6 @@ const Match = () => {
                 }
             </Grid>
             }
-            {deadPlayer &&  <h1>Te han matado...</h1>}
             {endGame && <EndGameBanner reason={reason} winners={winners}/>}
             <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
         </Box>
