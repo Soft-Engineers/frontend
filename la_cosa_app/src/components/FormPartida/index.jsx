@@ -41,7 +41,7 @@ const FormPartida = () => {
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState('success');
   const [body, setBody] = useState('');
-  const [minPlayers, setMinPlayers] = useState(4); // Initialize with default values
+  const [minPlayers, setMinPlayers] = useState(4);
   const [maxPlayers, setMaxPlayers] = useState(12);
 
   const handleClose = (reason) => {
@@ -64,7 +64,7 @@ const FormPartida = () => {
                 const response = await createPartida(
                     values.nombrePartida,
                     player_name,
-                    minPlayers, // Use minPlayers and maxPlayers instead of values.minJugadores and values.maxJugadores
+                    minPlayers,
                     maxPlayers
                 );
                 if (response.status === 201) {
@@ -95,7 +95,7 @@ const FormPartida = () => {
                 <label>Minimo de jugadores:</label>
                 <div>
                   <IconButton
-                      onClick={() => setMinPlayers(Math.max(4, minPlayers - 1))} // Decrement minPlayers
+                      onClick={() => setMinPlayers(Math.max(4, minPlayers - 1))}
                       variant="outlined"
                   >
                     <RemoveIcon/>
