@@ -7,7 +7,7 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch } from '../../utils/api'
+import { isHost as checkIsHost, startMatch } from '../../utils/api'
 
 const Lobby = () => {
     // State
@@ -32,7 +32,7 @@ const Lobby = () => {
             }
             else if (data.message_type === "start_match") {
                 navigate(`/match/${match_name}`);
-            } 
+            }
             else {
                 console.log('Mensaje no reconocido');
             }
@@ -49,26 +49,26 @@ const Lobby = () => {
 
     // Verificar si es el host
     useEffect(() => {
-      const reponse = checkIsHost (player_name, match_name);
-      reponse.then((data) => {
-        setIsHost(data.data.is_host);
-        console.log(isHost);
-      });
-      
+        const reponse = checkIsHost(player_name, match_name);
+        reponse.then((data) => {
+            setIsHost(data.data.is_host);
+            console.log(isHost);
+        });
+
     }, [player_name, match_name]);
 
     // Funcion para iniciar la partida
     const handleStartMatch = (player_name, match_name) => {
-        console.log({player_name, match_name});
-      const response = startMatch(player_name,match_name);
-      response.then((data) => {
-        console.log('DATA de startmatch',data.data);
-      });
+        console.log({ player_name, match_name });
+        const response = startMatch(player_name, match_name);
+        response.then((data) => {
+            console.log('DATA de startmatch', data.data);
+        });
     }
 
     return (
         <Container >
-            <Header/>
+            <Header />
             {/* Habra 2 mitades iguales divididas con Grid */}
             <Grid container spacing={2}>
                 {/* Primera mitad */}
@@ -79,15 +79,15 @@ const Lobby = () => {
                 </Grid>
                 {/* Segunda mitad */}
                 <Grid item xs={6} container justifyContent="center" alignItems="center">
-                  {isHost ? (
-                    <RButton
-                        text="Iniciar Partida"
-                        action={() => handleStartMatch(player_name, match_name)}
-                        icon={<VideogameAssetOutlinedIcon />}
-                    /> 
-                  ) : (
-                    <h1>Esperando que el host inicie la partida...</h1>
-                  )}
+                    {isHost ? (
+                        <RButton
+                            text="Iniciar Partida"
+                            action={() => handleStartMatch(player_name, match_name)}
+                            icon={<VideogameAssetOutlinedIcon />}
+                        />
+                    ) : (
+                        <h1>Esperando que el host inicie la partida...</h1>
+                    )}
                 </Grid>
             </Grid>
         </Container>
