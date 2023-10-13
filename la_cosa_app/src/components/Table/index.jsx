@@ -7,8 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { joinMatch } from '../../utils/api';
-import {useNavigate} from "react-router-dom";
-import React ,{ useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 import SnackBar from "../../components/SnackBar";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -42,17 +42,18 @@ const CustomizedTables = ({ data }) => {
       return;
     }
     setOpen(false);
-  };  
+  };
 
   const handleRowDoubleClick = async (player_name, match_name, password) => {
 
-    try{
+    try {
       const response = await joinMatch(player_name, match_name, password);
-      if(response.status === 200){
+      if (response.status === 200) {
         navigate(`/lobby/${match_name}`);
+        sessionStorage.setItem("match_name", match_name);
       }
     }
-    catch(err){
+    catch (err) {
       setOpen(true);
       setSeverity('error');
       setBody(err.response.data.detail);
@@ -68,10 +69,10 @@ const CustomizedTables = ({ data }) => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Nombre</StyledTableCell>
-            <StyledTableCell align="right">Mínimo</StyledTableCell>
-            <StyledTableCell align="right">Máximo</StyledTableCell>
-            <StyledTableCell align="right">Jugadores</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell align="right">minPlayers</StyledTableCell>
+            <StyledTableCell align="right">maxPlayers</StyledTableCell>
+            <StyledTableCell align="right">Actual Players</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
