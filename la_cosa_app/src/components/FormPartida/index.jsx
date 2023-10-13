@@ -15,10 +15,11 @@ const styles = {
   form: {
     minHeight: '40vh',
     width: '90%',
-    maxWidth: '50vh',
+    maxWidth: '40vh',
     border: '1px solid #ccc',
     padding: '16px',
     borderRadius: '10px',
+    alignItems: 'center',
   },
   input: {
     width: '85%',
@@ -29,6 +30,11 @@ const styles = {
   label: {
     justifyContent: 'center',
     paddingBottom: '5px',
+    textAlign: 'center',
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 };
 
@@ -52,7 +58,7 @@ const FormPartida = () => {
   };
 
   return (
-      <div>
+      <div style={styles.form}>
         <Formik
             initialValues={{
               nombrePartida: '',
@@ -79,7 +85,7 @@ const FormPartida = () => {
             }}
         >
           <Form>
-            <Grid container spacing={2} sx={styles.form}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sx={styles.label}>
                 <label  htmlFor="nombrePartida">Ingrese nombre de la partida:</label>
                 <Field
@@ -91,7 +97,7 @@ const FormPartida = () => {
                     sx={styles.input}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={styles.label}>
                 <label>Minimo de jugadores:</label>
                 <div>
                   <IconButton
@@ -109,7 +115,7 @@ const FormPartida = () => {
                   </IconButton>
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={styles.label}>
                 <label>Maximo de jugadores:</label>
                 <div>
                   <IconButton
@@ -127,7 +133,7 @@ const FormPartida = () => {
                   </IconButton>
                 </div>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={styles.button}>
                 <RButton
                     text="Crear partida"
                     action={() => {}}
