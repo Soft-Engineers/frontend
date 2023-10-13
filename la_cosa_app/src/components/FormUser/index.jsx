@@ -13,14 +13,26 @@ const styles = {
   form: {
     minHeight: '40vh',
     width: '90%',
-    maxWidth: '50vh',
+    maxWidth: '40vh',
     border: '1px solid #ccc',
     padding: '16px',
     borderRadius: '10px',
+    alignItems: 'center',
+
   },
   input: {
-    width: '100%',
+    width: '85%',
+    height: '60%',
     marginBottom: '16px',
+    marginTop : '10px',
+  },
+  label: {
+    paddingBottom: '5px',
+    textAlign: 'center',
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'center',
   },
 };
 
@@ -43,7 +55,7 @@ const FormUser = () => {
   };
 
   return (
-    <div>
+    <div style={styles.form}>
     <Formik
       initialValues={{
         name_player: '',
@@ -65,19 +77,19 @@ const FormUser = () => {
       }}
     >
       <Form>
-        <Grid container spacing={2} sx={styles.form}>
-          <Grid item xs={12}>
-            <h2>Elija un nombre!</h2>
+        <Grid container spacing={2}>
+          <Grid item xs={12} style={styles.label}>
+            <h2 >Elija un nombre!</h2>
             <Field
               as={TextField}
               id="name"
               name="name_player"
-              placeholder="Por ejemplo: Juan"
+              placeholder="Ingrese su nombre aquí"
               fullWidth
               sx={styles.input}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={styles.button}>
             <RButton
               text="Crear usuario"
               action={() => {}}
