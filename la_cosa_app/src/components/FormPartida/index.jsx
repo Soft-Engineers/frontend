@@ -28,7 +28,6 @@ const styles = {
     marginTop : '10px',
   },
   label: {
-    justifyContent: 'center',
     paddingBottom: '5px',
     textAlign: 'center',
   },
@@ -98,7 +97,7 @@ const FormPartida = () => {
                 />
               </Grid>
               <Grid item xs={6} sx={styles.label}>
-                <label>Minimo de jugadores:</label>
+                <label>Mínimo de jugadores:</label>
                 <div>
                   <IconButton
                       onClick={() => setMinPlayers(Math.max(4, minPlayers - 1))}
@@ -116,7 +115,7 @@ const FormPartida = () => {
                 </div>
               </Grid>
               <Grid item xs={6} sx={styles.label}>
-                <label>Maximo de jugadores:</label>
+                <label>Máximo de jugadores:</label>
                 <div>
                   <IconButton
                       onClick={() => setMaxPlayers(Math.max(4, maxPlayers - 1))}
