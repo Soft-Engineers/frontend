@@ -9,6 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { isHost as checkIsHost, startMatch } from '../../utils/api'
 
+const styles = {
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+};
+
 const Lobby = () => {
     // State
     const navigate = useNavigate();
@@ -69,8 +77,7 @@ const Lobby = () => {
     return (
         <Container >
             <Header />
-            {/* Habra 2 mitades iguales divididas con Grid */}
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={styles.container}>
                 {/* Primera mitad */}
                 <Grid item xs={6}>
                     <PlayerList
@@ -78,7 +85,7 @@ const Lobby = () => {
                     />
                 </Grid>
                 {/* Segunda mitad */}
-                <Grid item xs={6} container justifyContent="center" alignItems="center">
+                <Grid item xs={6} container sx={styles.container}>
                     {isHost ? (
                         <RButton
                             text="Iniciar Partida"

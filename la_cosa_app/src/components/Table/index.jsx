@@ -69,10 +69,10 @@ const CustomizedTables = ({ data }) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">minPlayers</StyledTableCell>
-              <StyledTableCell align="right">maxPlayers</StyledTableCell>
-              <StyledTableCell align="right">Actual Players</StyledTableCell>
+              <StyledTableCell>Nombre</StyledTableCell>
+              <StyledTableCell align="right">Mínimo</StyledTableCell>
+              <StyledTableCell align="right">Máximo</StyledTableCell>
+              <StyledTableCell align="right">Jugadores</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
