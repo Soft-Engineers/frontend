@@ -7,7 +7,9 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch } from '../../utils/api'
+import { isHost  as checkIsHost, startMatch } from '../../utils/api';
+import SnackBar from '../../components/SnackBar';
+
 
 const styles = {
     container: {
@@ -22,6 +24,10 @@ const Lobby = () => {
     const navigate = useNavigate();
     const [jugadores, setJugadores] = useState([]);
     const [isHost, setIsHost] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success');
+    const [body, setBody] = useState('');
+    const [waitmsg, setWaitmsg] = useState('Esperando que el host inicie la partida...');
 
     const { match_name } = useParams();
     const player_name = sessionStorage.getItem('player_name');
@@ -39,7 +45,9 @@ const Lobby = () => {
                 setJugadores(data.message_content);
             }
             else if (data.message_type === "start_match") {
+                setWaitmsg(data.message_content)
                 navigate(`/match/${match_name}`);
+                console.log(waitmsg);
             } 
             else {
                 console.log('Mensaje no reconocido');
@@ -57,22 +65,33 @@ const Lobby = () => {
 
     // Verificar si es el host
     useEffect(() => {
-      const reponse = checkIsHost (player_name, match_name);
-      reponse.then((data) => {
+      const response = checkIsHost (player_name, match_name);
+      response.then((data) => {
         setIsHost(data.data.is_host);
         console.log(isHost);
       });
-      
+
     }, [player_name, match_name]);
 
     // Funcion para iniciar la partida
-    const handleStartMatch = (player_name, match_name) => {
-        console.log({player_name, match_name});
-      const response = startMatch(player_name,match_name);
-      response.then((data) => {
-        console.log('DATA de startmatch',data.data);
-      });
-    }
+    const handleStartMatch = async (player_name, match_name) => {
+        try {
+            const response = await startMatch(player_name, match_name);
+            console.log("response", response);
+        } catch (error) {
+            setSeverity("error");
+            setBody("Ha ocurrido un error");
+            setOpen(true);
+        }
+    };
+
+
+    const handleClose = (reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     return (
         <Container >
@@ -93,10 +112,16 @@ const Lobby = () => {
                         icon={<VideogameAssetOutlinedIcon />}
                     /> 
                   ) : (
-                    <h1>Esperando que el host inicie la partida...</h1>
+                    <h2>Esperando que el host inicie la partida...</h2>
                   )}
                 </Grid>
             </Grid>
+            <SnackBar
+                open={open}
+                body={body}
+                severity={severity}
+                handleClose={handleClose}
+            />
         </Container>
     );
 }
