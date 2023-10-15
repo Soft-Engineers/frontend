@@ -58,29 +58,31 @@ const Match = () => {
       {/* TODO: probar */}
       {state.deadPlayer && <h1>Has muerto...</h1>}
       {!state.deadPlayer &&
-        <Grid xs={8} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid xs={8} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' , border: '2px solid black'}}>
           <Box>
             <PlayerRound players={state.jugadores} socket={state.socket} onTarget={actions.setTargetName} isTurn={state.isTurn} />
           </Box>
-          <Box sx={{ width: '80%', display: 'flex', flexDirection: 'row' }}>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' , border: '2px solid black'} }>
             <Box>
               <PlayersHand cartas={state.hand} onSelectCard={actions.setSelectedCard} />
             </Box>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' , border: '2px solid red'}}>
+              botones{/* TODO: esta seria la caja de los botones */}
             {state.isTurn &&
               <Box>
-                <Box>
                   <RButton text="Jugar carta" action={() => handleplayCard()} />
-                </Box>
-                <Box>
                   <RButton text="Descartar carta" />
-                </Box>
               </Box>}
+            </Box>
           </Box>
         </Grid>}
       {/* Second half */}
-      <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Box>
+      <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '2px solid black' }}>
+        <Box sx={{ border: '2px solid red', width: '100%', height: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
           <Notifications messages={state.avisos} />
+        </Box>
+        <Box sx={{ width: '100%', height: '50%' }}>
+          chat
         </Box>
       </Grid>
       {state.endGame && <EndGameBanner reason={state.reason} winners={state.winners} />}

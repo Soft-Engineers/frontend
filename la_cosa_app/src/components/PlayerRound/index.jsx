@@ -13,7 +13,7 @@ const PlayerCard = ({ player, angle, radius, style }) => {
     const circleStyle = {
         width: '60px',
         height: '60px',
-        border: state.target_name === player.player_name ? '2px solid red' : '2px solid transparent',
+        border: (state.target_name === player.player_name && !isDeadPlayer) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isDeadPlayer ? 'black' : '#3498db',
         borderRadius: '50%',
         margin: '20px',

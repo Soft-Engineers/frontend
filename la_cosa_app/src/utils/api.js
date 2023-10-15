@@ -145,9 +145,13 @@ export const handle_socket_messages = () => {
           } else {
             actions.setIsTurn(false);
           }
-          if (data.message_content.dead_player_name === player_name) {
-            actions.setDeadPlayer(true);
+          if (data.message_content.dead_player_name !== '') {
+            actions.setDeadPlayerName(data.message_content.dead_player_name);
+            if (data.message_content.dead_player_name === player_name) {
+              actions.setDeadPlayer(true);
+            }
           }
+
           break;
         case 'notificación muerte':
         case 'notificación jugada':

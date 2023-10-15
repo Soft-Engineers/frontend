@@ -22,6 +22,8 @@ export const MatchProvider = ({ children }) => {
     const [reason, setReason] = useState('');
     const [deadPlayer, setDeadPlayer] = useState(false);
     const [target_name, setTargetName] = useState('');
+    const [deadPlayerName, setDeadPlayerName] = useState('');
+
 
     const state = {
         socket,
@@ -38,6 +40,7 @@ export const MatchProvider = ({ children }) => {
         reason,
         deadPlayer,
         target_name,
+        deadPlayerName,
     };
 
     const actions = {
@@ -55,6 +58,7 @@ export const MatchProvider = ({ children }) => {
         setReason,
         setDeadPlayer,
         setTargetName,
+        setDeadPlayerName,
     };
 
     return (
