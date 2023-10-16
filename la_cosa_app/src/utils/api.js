@@ -155,7 +155,7 @@ export const handle_socket_messages = () => {
           break;
         case 'notificación muerte':
         case 'notificación jugada':
-        case 'notificación turno':
+        //case 'notificación turno':
           actions.setAvisos([...state.avisos, data.message_content]);
           break;
         case 'partida finalizada':
