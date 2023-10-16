@@ -80,18 +80,17 @@ const Carta = ({ nombre }) => {
 
     const cartaStyles = {
         maxWidth: '200px',
-        maxHeight: '250px', // Para mantener la proporción original
-        //gap: '1rem', // Espaciado entre las cartas
+        maxHeight: '250px',
         backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
-    };  // estos estilos estan a ojo, es probable que tengan que cambiar
+    };
 
 
     return (
         <Stack direction="row">
             <Card style={cartaStyles}>
                 <img
-                    src={imgSrc} // Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen
+                    src={imgSrc}
                     style={{ maxWidth: '100%', maxHeight: '100%' }} // Ajusta el tamaño de la imagen
                     alt={`Carta ${nombre}`}
                 />
