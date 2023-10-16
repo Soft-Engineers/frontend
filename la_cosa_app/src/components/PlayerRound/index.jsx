@@ -90,7 +90,7 @@ const PlayerRound = () => {
                 <PlayerCard
                     key={index}
                     player={player}
-                    angle={(2 * Math.PI) * (currentPlayerIndex - index) / totalPlayers}
+                    angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3)) ) / totalPlayers}
                     radius={radius}
                     isCurrentPlayer={player.player_name === currentPlayerName}
                 />
