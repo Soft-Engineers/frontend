@@ -52,7 +52,7 @@ const mapaCartas = {
     '¡Más vale que corras!': masvalequecorras,
     'Seducción': seduccion,
     'Puerta atrancada': puertatrancada,
-    'Aquí estoy bien' : aquiestoybien,
+    'Aquí estoy bien': aquiestoybien,
     'Aterrador': aterrador,
     'Cuarentena': cuarentena,
     '¡No, gracias!': nogracias,
@@ -79,9 +79,9 @@ const Carta = ({ nombre }) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
-        width: '100px',
-        height: '150px', // Para mantener la proporción original
-        gap: '1rem', // Espaciado entre las cartas
+        maxWidth: '200px',
+        maxHeight: '250px', // Para mantener la proporción original
+        //gap: '1rem', // Espaciado entre las cartas
         backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };  // estos estilos estan a ojo, es probable que tengan que cambiar
