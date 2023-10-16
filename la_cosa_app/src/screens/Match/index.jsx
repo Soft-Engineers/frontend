@@ -27,23 +27,21 @@ const Match = () => {
   };
 
   return (
-      <Grid container sx={{ minHeight: '100vh' }}>
+      <Grid container sx={{ minHeight: '90vh' }}>
         {/* First half */}
         {/* TODO: probar */}
         {state.deadPlayer && <h1>Has muerto...</h1>}
         {!state.deadPlayer &&
-            <Grid xs={8} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', border: '2px solid black' }}>
-              <Box>
+            <Grid xs={8} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', border: '2px solid black' }}>  
                 <PlayerRound/>
-              </Box>
-              <Paper sx={{ width: '100%', display: 'flex', flexDirection: 'row'}} elevation={10}>
-                <PlayersHand cartas={state.hand} onSelectCard={actions.setSelectedCard} />
-                <ButtonsBox/>
-              </Paper>
+                <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop:'3rem'}} >
+                  <PlayersHand cartas={state.hand} onSelectCard={actions.setSelectedCard} />
+                  <ButtonsBox/> 
+                </Paper>
             </Grid>}
         {/* Second half */}
         <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '2px solid black' }}>
-          <Box sx={{ border: '2px solid red', width: '100%', height: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <Box sx={{ border: '2px solid red', width: '100%', height: '45%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
             <Notifications messages={state.avisos} />
           </Box>
           <Box sx={{ width: '100%', height: '50%' }}>
