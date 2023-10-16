@@ -1,6 +1,5 @@
 import './PlayerRound.css';
 import Deck from '../../components/Deck/';
-import { useState } from 'react';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
 
 const PlayerCard = ({ player, angle, radius, style }) => {

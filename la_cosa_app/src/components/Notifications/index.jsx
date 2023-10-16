@@ -6,8 +6,8 @@ import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
 
 const cardEffectListStyle = {
-    width: '400px',
-    height: '300px',
+    width: '100%',
+    height: '100%',
     overflowY: 'auto'
 };
 

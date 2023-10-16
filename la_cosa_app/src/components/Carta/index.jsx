@@ -75,7 +75,7 @@ const mapaCartas = {
 
 
 // Regular Button
-const Carta = ({nombre}) => {
+const Carta = ({ nombre }) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
@@ -89,7 +89,7 @@ const Carta = ({nombre}) => {
 
     return (
         <Stack direction="row">
-            <Card style={cartaStyles} >
+            <Card style={cartaStyles}>
                 <img
                     src={imgSrc} // Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen
                     style={{ maxWidth: '100%', maxHeight: '100%' }} // Ajusta el tamaño de la imagen
@@ -98,6 +98,6 @@ const Carta = ({nombre}) => {
             </Card>
         </Stack>
     );
-}
+};
 
 export default Carta;
