@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
+
 
 
 const styles = {
@@ -14,7 +16,8 @@ const styles = {
     },
 };
 
-const PlayersHand = ({ cartas, onSelectCard }) => {
+const PlayersHand = () => {
+    const { state, actions } = useMatchC();
     const [hoveredCard, setHoveredCard] = useState(null);
     const [selectedCard, setSelectedCard] = useState(null);
 
@@ -37,13 +40,15 @@ const PlayersHand = ({ cartas, onSelectCard }) => {
         } else {
         setSelectedCard(index);
         setHoveredCard(index);
-        onSelectCard(cartas[index]);
+        actions.setSelectedCard(state.hand[index])
         }
     };
 
+
+
     return (
-        <Stack direction="row" spacing={1} style={styles.mano}>
-            {cartas.map((objCarta, index) => (
+        <Stack direction="row" spacing={0} style={styles.mano}>
+            {state.hand.map((objCarta, index) => (
                 <div
                     key={index}
                     onMouseEnter={() => handleCardHover(index)}
