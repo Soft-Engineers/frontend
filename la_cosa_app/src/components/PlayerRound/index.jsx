@@ -1,59 +1,74 @@
-/////////////////////////// Funcion 
 import './PlayerRound.css';
 import Deck from '../../components/Deck/';
-import { useState } from 'react';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 
-export const PlayerCard = ({ player, angle, radius, onSelectCard, style }) => {
+const PlayerCard = ({ player, angle, radius, style }) => {
+    const { state, actions } = useMatchC();
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
+
+    const isDeadPlayer = state.deadPlayerName === player.player_name;
+
+    const circleStyle = {
+        width: '60px',
+        height: '60px',
+        border: (state.target_name === player.player_name && !isDeadPlayer) ? '2px solid red' : '2px solid transparent',
+        backgroundColor: isDeadPlayer ? 'black' : '#3498db',
+        borderRadius: '50%',
+        margin: '20px',
+    };
 
     const cardStyle = {
         position: 'absolute',
         transform: `translate(${x}px, ${y}px)`,
-        cursor: 'pointer',
+        cursor: isDeadPlayer ? 'not-allowed' : 'pointer',
+    };
+
+    const nameStyle = {
+        textDecoration: isDeadPlayer ? 'line-through' : 'none',
     };
 
     const handleClick = () => {
-        onSelectCard(player.player_name);
-
+        if (isDeadPlayer) {
+            return;
+        }
+        if (state.target_name === player.player_name) {
+            actions.setTargetName(null);
+        } else {
+            actions.setTargetName(player.player_name);
+        }
     }
 
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
-            <div className="circle"></div>
-            <span className="player-name">{player.player_name}</span>
+            <div className="circle" style={circleStyle}></div>
+            <span className="player-name" style={nameStyle}>{player.player_name}</span>
         </div>
     );
 };
 
-const PlayerRound = ({ players, socket, onTarget, isTurn }) => {
+const PlayerRound = () => {
+    const {state} = useMatchC();
     const currentPlayerName = sessionStorage.getItem('player_name');
-    const [selectedPlayer, setSelectedPlayer] = useState(null); // Change color target
 
-
-    const currentPlayer = players.find(player => player.player_name === currentPlayerName);
+    const currentPlayer = state.jugadores.find(player => player.player_name === currentPlayerName);
 
     if (!currentPlayer) {
         console.log('El jugador actual no está en la lista de jugadores');
         return null;
     }
 
-
-    const sortedPlayers = players.sort((a, b) => a.position - b.position);
-
-    const angle = (2 * Math.PI) / sortedPlayers.length;
-    const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
+    const totalPlayers = state.jugadores.length;
+    const currentPlayerIndex = state.jugadores.findIndex((p) => p.player_name === currentPlayerName);
     const radius = 200;
 
-    // Center the deck in the middle of the circle
     const centerX = 0;
     const centerY = 0;
 
     const handleDrawCard = async () => {
         try {
             const request = { message_type: 'robar carta', message_content: '' };
-            socket.send(JSON.stringify(request));
-
+            state.socket.send(JSON.stringify(request));
         } catch (error) {
             console.log(error);
         }
@@ -71,13 +86,12 @@ const PlayerRound = ({ players, socket, onTarget, isTurn }) => {
                 <Deck onDrawCard={() => handleDrawCard()} />
             </div>
 
-            {sortedPlayers.map((player, index) => (
+            {state.jugadores.map((player, index) => (
                 <PlayerCard
                     key={index}
                     player={player}
-                    angle={(angle * (index - currentPlayerIndex)) + Math.PI / 2}
+                    angle={(2 * Math.PI) * (currentPlayerIndex - index) / totalPlayers}
                     radius={radius}
-                    onSelectCard={onTarget}
                 />
             ))}
         </div>
