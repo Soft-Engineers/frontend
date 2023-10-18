@@ -20,9 +20,11 @@ export const MatchProvider = ({ children }) => {
     const [endGame, setEndGame] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
-    const [deadPlayer, setDeadPlayer] = useState(false);
     const [target_name, setTargetName] = useState('');
-    const [deadPlayerName, setDeadPlayerName] = useState('');
+    const [isDeadPlayer, setIsDeadPlayer] = useState(false);
+    const [deadPlayerNames, setDeadPlayerNames] = useState('');
+    const [currentTurn, setCurrentTurn] = useState('');
+
 
 
     const state = {
@@ -38,9 +40,10 @@ export const MatchProvider = ({ children }) => {
         endGame,
         winners,
         reason,
-        deadPlayer,
         target_name,
-        deadPlayerName,
+        isDeadPlayer,
+        deadPlayerNames,
+        currentTurn
     };
 
     const actions = {
@@ -56,9 +59,10 @@ export const MatchProvider = ({ children }) => {
         setEndGame,
         setWinners,
         setReason,
-        setDeadPlayer,
         setTargetName,
-        setDeadPlayerName,
+        setIsDeadPlayer,
+        setDeadPlayerNames,
+        setCurrentTurn,
     };
 
     return (

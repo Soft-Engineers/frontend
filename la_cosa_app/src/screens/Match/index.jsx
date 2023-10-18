@@ -1,7 +1,7 @@
 import { useMatchC } from './matchContext';
 import { useParams } from "react-router-dom";
 import {Grid, Box, Paper} from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SnackBar from '../../components/SnackBar';
 import PlayersHand from "../../components/PlayersHand/";
 import ButtonsBox from "../../components/ButtonsBox/index.jsx";
@@ -13,9 +13,6 @@ import { handle_socket_messages } from '../../utils/api';
 const Match = () => {
   // States
   const { state, actions } = useMatchC();
-
-  const { match_name } = useParams();
-  const player_name = sessionStorage.getItem('player_name');
 
   handle_socket_messages();
 
@@ -30,8 +27,8 @@ const Match = () => {
       <Grid container sx={{ minHeight: '90vh' }}>
         {/* First half */}
         {/* TODO: probar */}
-        {state.deadPlayer && <h1>Has muerto...</h1>}
-        {!state.deadPlayer &&
+        {state.isDeadPlayer && <h1>Has muerto...</h1>}
+        {!state.isDeadPlayer &&
             <Grid xs={8} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', border: '2px solid black' }}>  
                 <PlayerRound/>
                 <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop:'3rem'}} >

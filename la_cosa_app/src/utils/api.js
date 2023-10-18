@@ -118,10 +118,11 @@ export const handle_socket_messages = () => {
   console.log(player_name);
 
   useEffect(() => {
-    const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
-    matchSocket.onopen = () => {
-      console.log("Conectado al socket de la partida");
-    };
+    try {
+      const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+      matchSocket.onopen = () => {
+        console.log("Conectado al socket de la partida");
+      };
 
 
     matchSocket.onmessage = (event) => {
@@ -131,8 +132,16 @@ export const handle_socket_messages = () => {
           console.log('content de posiciones:', data.message_content);
           actions.setJugadores(data.message_content);
           break;
+        case "muertes":
+          actions.setDeadPlayerNames(data.message_content);
+          const isCurrentUserDead = data.message_content.includes(player_name);
+          actions.setIsDeadPlayer(isCurrentUserDead);
+          console.log("Dead Player Names:", data.message_content);
+          console.log("Is Current User Dead:", isCurrentUserDead);
+          break;
         case 'estado inicial':
           actions.setHand(data.message_content.hand);
+          actions.setCurrentTurn(data.message_content.current_turn);
           if (data.message_content.current_turn === player_name) {
             actions.setIsTurn(true);
           } else {
@@ -140,16 +149,11 @@ export const handle_socket_messages = () => {
           }
           break;
         case 'datos jugada':
+          actions.setCurrentTurn(data.message_content.turn);
           if (data.message_content.turn === player_name) {
             actions.setIsTurn(true);
           } else {
             actions.setIsTurn(false);
-          }
-          if (data.message_content.dead_player_name !== '') {
-            actions.setDeadPlayerName(data.message_content.dead_player_name);
-            if (data.message_content.dead_player_name === player_name) {
-              actions.setDeadPlayer(true);
-            }
           }
 
           break;
@@ -164,7 +168,6 @@ export const handle_socket_messages = () => {
           actions.setEndGame(true);
           break;
         case "cards":
-          console.log(data.message_content);
           actions.setHand(data.message_content);
           break;
         case 'error':
@@ -187,6 +190,9 @@ export const handle_socket_messages = () => {
     return () => {
       matchSocket.close();
     };
+    } catch (error) {
+      console.error("Error de conexión:", error);
+    }
   }, [match_name]);
 
 }

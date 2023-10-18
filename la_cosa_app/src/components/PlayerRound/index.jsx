@@ -7,13 +7,13 @@ const PlayerCard = ({ player, angle, radius, isCurrentPlayer  }) => {
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
 
-    const isDeadPlayer = state.deadPlayerName === player.player_name;
+    const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
         width: '60px',
         height: '60px',
-        border: (state.target_name === player.player_name && !isDeadPlayer) ? '2px solid red' : '2px solid transparent',
-        backgroundColor: isDeadPlayer ? 'black' : isCurrentPlayer ? 'green' : '#3498db',
+        border: (state.target_name === player.player_name && !isThisPlayerDead) ? '2px solid red' : '2px solid transparent',
+        backgroundColor: isThisPlayerDead ? 'black' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
         borderRadius: '50%',
         margin: '20px',
     };
@@ -21,15 +21,19 @@ const PlayerCard = ({ player, angle, radius, isCurrentPlayer  }) => {
     const cardStyle = {
         position: 'absolute',
         transform: `translate(${x}px, ${y}px)`,
-        cursor: isDeadPlayer ? 'not-allowed' : 'pointer',
+        cursor: isThisPlayerDead ? 'not-allowed' : 'pointer',
+        border:  isCurrentPlayer ? '2px solid black' : '2px solid transparent',
+        borderRadius: '20%',
+
+
     };
 
     const nameStyle = {
-        textDecoration: isDeadPlayer ? 'line-through' : 'none',
+        textDecoration: isThisPlayerDead ? 'line-through' : 'none',
     };
 
     const handleClick = () => {
-        if (isDeadPlayer) {
+        if (isThisPlayerDead) {
             return;
         }
         if (state.target_name === player.player_name) {
