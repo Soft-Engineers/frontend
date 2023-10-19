@@ -1,0 +1,86 @@
+import React from 'react';
+import { Box, Paper, Typography } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Stack } from '@mui/material';
+import Carta from '../Carta';
+import LinearProgress from '@mui/material/LinearProgress';
+
+const ShowHandBanner = ({ hand, player, trigger_card }) => {
+    const [mostrarMensaje, setMostrarMensaje] = useState(true);
+    const [tiempoRestante, setTiempoRestante] = useState(10000);// 20000 milisegundos (10 segundos)
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setTiempoRestante(prevTiempo => {
+                if (prevTiempo <= 0) {
+                    setMostrarMensaje(false);
+                    clearInterval(intervalId);
+                    return 0;
+                }
+
+                return prevTiempo - 100;
+            });
+        }, 100); // Actualizar cada 100 milisegundos (0.1 segundos)
+
+        return () => {
+            clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
+        };
+    }, []);
+
+
+    const bannerStyles = {
+        position: 'absolute',
+        top: '20%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        padding: '20px',
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+    };
+
+    const overlayStyles = {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        zIndex: '999',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    };
+
+    return (
+        <div>
+            {mostrarMensaje && (
+                <div style={overlayStyles}>
+
+                    <Paper style={bannerStyles}>
+                        <Typography variant="h5" component="div">
+                            Efecto {trigger_card.card_name}
+                        </Typography>
+                        <Typography variant="h6" component="div">
+                            Esta es la mano de {player}
+                        </Typography>
+
+                        <Stack direction="row" spacing={0}>
+                            {hand.map((objCarta, index) => (
+                                <div key={index} >
+                                    <Carta nombre={objCarta.card_name} />
+                                </div>
+                            ))}
+                        </Stack>
+                        <Box sx={{ marginTop: '10px' }} >
+                            <LinearProgress variant="determinate" value={((tiempoRestante) / 10000) * 100} sx={{ height: 10 }} />
+                        </Box>
+                    </Paper>
+
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ShowHandBanner;
