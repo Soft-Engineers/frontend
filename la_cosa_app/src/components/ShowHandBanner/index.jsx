@@ -6,8 +6,9 @@ import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
 
 const ShowHandBanner = ({ hand, player, trigger_card }) => {
+    const time = 10000;
     const [mostrarMensaje, setMostrarMensaje] = useState(true);
-    const [tiempoRestante, setTiempoRestante] = useState(10000);// 20000 milisegundos (10 segundos)
+    const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -73,7 +74,7 @@ const ShowHandBanner = ({ hand, player, trigger_card }) => {
                             ))}
                         </Stack>
                         <Box sx={{ marginTop: '10px' }} >
-                            <LinearProgress variant="determinate" value={((tiempoRestante) / 10000) * 100} sx={{ height: 10 }} />
+                            <LinearProgress variant="determinate" value={((tiempoRestante) / time) * 100} sx={{ height: 10 }} />
                         </Box>
                     </Paper>
 
