@@ -18,7 +18,6 @@ const SelectName = () => {
       <div style={style.container}>
         <FormUser />
       </div>
-      <ShowHandBanner hand={[{ card_name: 'Lanzallamas' }, { card_name: 'La Cosa' }, { card_name: 'Análisis' }, { card_name: 'Seducción' }]} player={'Juan'} trigger_card={{ card_name: 'whisky' }} />
     </div>
   )
 }
