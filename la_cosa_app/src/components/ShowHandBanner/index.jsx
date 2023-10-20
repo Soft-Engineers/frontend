@@ -70,7 +70,7 @@ const ShowHandBanner = () => {
 
                     <Paper style={bannerStyles}>
                         <Typography variant="h5" component="div">
-                            { }Efecto {trigger_card.card_name}
+                            Efecto {trigger_card}
                         </Typography>
                         <Typography variant="h6" component="div">
                             Esta es la mano de {player}
