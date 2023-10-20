@@ -1,8 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import RButton from '../Button';
+import Button from '@mui/material/Button';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
-
 
 const ActionBox = () => {
     const { state, actions } = useMatchC();
@@ -33,16 +32,44 @@ const ActionBox = () => {
         <Box
             sx={{
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'space-evenly',
                 alignItems: 'center',
                 textAlign: 'center',
                 width: '100%',
+                border: '1px solid black',
+                borderRadius: '3%',
+                backgroundColor : '#f2f2ff',
             }}
         >
             {state.isTurn ? (
                 <>
-                    <RButton text="Jugar carta" action={handleplayCard} />
-                    <RButton text="Descartar carta" />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleplayCard}
+                        sx={{
+                            backgroundColor: '#515952',
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: '#2a2e2b',
+                            },
+                        }}
+                    >
+                        Jugar carta
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{
+                            backgroundColor: '#515952',
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: '#2a2e2b',
+                            },
+                        }}
+                    >
+                        Descartar carta
+                    </Button>
                 </>
             ) : (
                 <p>Esperando tu turno...</p>

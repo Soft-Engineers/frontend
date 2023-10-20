@@ -2,34 +2,37 @@ import './PlayerRound.css';
 import Deck from '../../components/Deck/';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
 
-const PlayerCard = ({ player, angle, radius, isCurrentPlayer  }) => {
+const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
-    const x = radius * Math.cos(angle);
-    const y = radius * Math.sin(angle);
+    const x = radiusX * Math.cos(angle);
+    const y = radiusY * Math.sin(angle);
 
     const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
-        width: '60px',
-        height: '60px',
+        width: '80px',
+        height: '80px',
         border: (state.target_name === player.player_name && !isThisPlayerDead) ? '2px solid red' : '2px solid transparent',
-        backgroundColor: isThisPlayerDead ? 'black' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
+        backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
+        margin: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: '50%',
-        margin: '20px',
-    };
+};
 
     const cardStyle = {
         position: 'absolute',
         transform: `translate(${x}px, ${y}px)`,
         cursor: isThisPlayerDead ? 'not-allowed' : 'pointer',
-        border:  isCurrentPlayer ? '2px solid black' : '2px solid transparent',
-        borderRadius: '20%',
-
-
+        borderRadius: '50%',
     };
 
     const nameStyle = {
         textDecoration: isThisPlayerDead ? 'line-through' : 'none',
+        position: 'absolute',
+        textAlign: 'center',
+        fontWeight: isCurrentPlayer ? 'bold' : 'normal',
     };
 
     const handleClick = () => {
@@ -41,12 +44,15 @@ const PlayerCard = ({ player, angle, radius, isCurrentPlayer  }) => {
         } else {
             actions.setTargetName(player.player_name);
         }
-    }
+    };
 
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
-            <div className="circle" style={circleStyle}></div>
-            <span className="player-name" style={nameStyle}>{player.player_name}</span>
+            <div className="circle" style={circleStyle}>
+                <span className="player-name" style={nameStyle}>
+                    {player.player_name}
+                </span>
+            </div>
         </div>
     );
 };
@@ -65,7 +71,8 @@ const PlayerRound = () => {
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radius = 200;
+    const radiusX = 170; // Horizontal radius
+    const radiusY = 160; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -95,7 +102,8 @@ const PlayerRound = () => {
                     key={index}
                     player={player}
                     angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3)) ) / totalPlayers}
-                    radius={radius}
+                    radiusX={radiusX}
+                    radiusY={radiusY}
                     isCurrentPlayer={player.player_name === currentPlayerName}
                 />
             ))}

@@ -114,9 +114,6 @@ export const handle_socket_messages = () => {
   const match_name = sessionStorage.getItem('match_name');
   const player_name = sessionStorage.getItem('player_name');
 
-  console.log(match_name);
-  console.log(player_name);
-
   useEffect(() => {
     try {
       const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
@@ -129,15 +126,12 @@ export const handle_socket_messages = () => {
       const data = JSON.parse(event.data);
       switch (data.message_type) {
         case "posiciones":
-          console.log('content de posiciones:', data.message_content);
           actions.setJugadores(data.message_content);
           break;
         case "muertes":
           actions.setDeadPlayerNames(data.message_content);
           const isCurrentUserDead = data.message_content.includes(player_name);
           actions.setIsDeadPlayer(isCurrentUserDead);
-          console.log("Dead Player Names:", data.message_content);
-          console.log("Is Current User Dead:", isCurrentUserDead);
           break;
         case 'estado inicial':
           actions.setHand(data.message_content.hand);
@@ -159,7 +153,6 @@ export const handle_socket_messages = () => {
           break;
         case 'notificación muerte':
         case 'notificación jugada':
-        //case 'notificación turno':
           actions.setAvisos([...state.avisos, data.message_content]);
           break;
         case 'partida finalizada':
