@@ -11,6 +11,7 @@ export const MatchProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [jugadores, setJugadores] = useState([]);
     const [isTurn, setIsTurn] = useState(false);
+    const [currentTurn, setCurrentTurn] = useState('');
     const [hand, setHand] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
     const [open, setOpen] = useState(false);
@@ -23,7 +24,6 @@ export const MatchProvider = ({ children }) => {
     const [target_name, setTargetName] = useState('');
     const [isDeadPlayer, setIsDeadPlayer] = useState(false);
     const [deadPlayerNames, setDeadPlayerNames] = useState('');
-    const [currentTurn, setCurrentTurn] = useState('');
 
 
 
@@ -31,6 +31,7 @@ export const MatchProvider = ({ children }) => {
         socket,
         jugadores,
         isTurn,
+        currentTurn,
         hand,
         selectedCard,
         open,
@@ -43,7 +44,7 @@ export const MatchProvider = ({ children }) => {
         target_name,
         isDeadPlayer,
         deadPlayerNames,
-        currentTurn
+
     };
 
     const actions = {

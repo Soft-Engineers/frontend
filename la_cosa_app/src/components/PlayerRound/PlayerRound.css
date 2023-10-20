@@ -2,26 +2,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 600px;
-    width: 600px;
-    border-radius: 50%;
-}
-
-.circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin: 20px;
-}
-
-.player-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.player-name {
-    margin-top: 5px;
+    height: 100%;
+    width: 98%;
+    border: 1px solid grey;
+    border-Radius: 3%;
+    background-Color : #f2f2ff;
 }
 
 .layout {

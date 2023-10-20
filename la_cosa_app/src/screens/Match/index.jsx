@@ -24,21 +24,21 @@ const Match = () => {
   };
 
   return (
-      <Grid container sx={{ minHeight: '90vh' }}>
+      <Grid container sx={{ minHeight: '95vh', overflow: 'auto' , backgroundColor: '#fafffa'}}>
         {/* First half */}
         {/* TODO: probar */}
         {state.isDeadPlayer && <h1>Has muerto...</h1>}
         {!state.isDeadPlayer &&
-            <Grid xs={8} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', border: '2px solid black' }}>  
+            <Grid xs={8} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <PlayerRound/>
                 <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop:'3rem'}} >
                   <PlayersHand cartas={state.hand} onSelectCard={actions.setSelectedCard} />
-                  <ButtonsBox/> 
+                  <ButtonsBox/>
                 </Paper>
             </Grid>}
         {/* Second half */}
-        <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '2px solid black' }}>
-          <Box sx={{ border: '2px solid red', width: '100%', height: '45%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+        <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <Box sx={{width: '100%', height: '45%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
             <Notifications messages={state.avisos} />
           </Box>
           <Box sx={{ width: '100%', height: '50%' }}>
