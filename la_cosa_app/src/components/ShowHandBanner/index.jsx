@@ -4,8 +4,17 @@ import { useState, useEffect } from 'react';
 import { Stack } from '@mui/material';
 import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
+import { useMatch } from 'react-router-dom';
+import { useMatchC } from '../../screens/Match/matchContext';
 
-const ShowHandBanner = ({ hand, player, trigger_card }) => {
+const ShowHandBanner = () => {
+    const { state, actions } = useMatchC();
+    const hand = state.revealCard.cards;
+    const player = state.revealCard.cards_owner;
+    const trigger_card = state.revealCard.trigger_card;
+
+    console.log(hand);
+
     const time = 10000;
     const [mostrarMensaje, setMostrarMensaje] = useState(true);
     const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
@@ -25,6 +34,7 @@ const ShowHandBanner = ({ hand, player, trigger_card }) => {
 
         return () => {
             clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
+            //actions.setReveal(false);
         };
     }, []);
 
@@ -60,16 +70,16 @@ const ShowHandBanner = ({ hand, player, trigger_card }) => {
 
                     <Paper style={bannerStyles}>
                         <Typography variant="h5" component="div">
-                            Efecto {trigger_card.card_name}
+                            { }Efecto {trigger_card.card_name}
                         </Typography>
                         <Typography variant="h6" component="div">
                             Esta es la mano de {player}
                         </Typography>
 
                         <Stack direction="row" spacing={0}>
-                            {hand.map((objCarta, index) => (
+                            {hand.map((carta, index) => (
                                 <div key={index} >
-                                    <Carta nombre={objCarta.card_name} />
+                                    <Carta nombre={carta} />
                                 </div>
                             ))}
                         </Stack>
