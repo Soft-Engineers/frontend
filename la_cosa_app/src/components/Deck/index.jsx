@@ -5,8 +5,8 @@ import rev from '../../assets/cartas_recortadas/rev.png';
 
 const styles = {
     deck: {
-        width: '100px',
-        height: '150px',
+        maxWidth: '80px',
+        maxHeight: '130px',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
@@ -14,8 +14,8 @@ const styles = {
         backgroundColor: 'grey',
     },
     card: {
-        width: '100px',
-        height: '150px',
+        maxWidth: '100%',
+        maxHeight: '100%'
     },
 };
 const Deck = ({ onDrawCard }) => {

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useEffect } from "react";
+import { useMatchC } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -105,3 +107,85 @@ export const startMatch = async (player_name, match_name) => {
     throw error;
   }
 };
+
+export const handle_socket_messages = () => {
+  const { state, actions } = useMatchC();
+
+  const match_name = sessionStorage.getItem('match_name');
+  const player_name = sessionStorage.getItem('player_name');
+
+  useEffect(() => {
+    try {
+      const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+      matchSocket.onopen = () => {
+        console.log("Conectado al socket de la partida");
+      };
+
+
+    matchSocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      switch (data.message_type) {
+        case "posiciones":
+          actions.setJugadores(data.message_content);
+          break;
+        case "muertes":
+          actions.setDeadPlayerNames(data.message_content);
+          const isCurrentUserDead = data.message_content.includes(player_name);
+          actions.setIsDeadPlayer(isCurrentUserDead);
+          break;
+        case 'estado inicial':
+          actions.setHand(data.message_content.hand);
+          actions.setCurrentTurn(data.message_content.current_turn);
+          if (data.message_content.current_turn === player_name) {
+            actions.setIsTurn(true);
+          } else {
+            actions.setIsTurn(false);
+          }
+          break;
+        case 'datos jugada':
+          actions.setCurrentTurn(data.message_content.turn);
+          if (data.message_content.turn === player_name) {
+            actions.setIsTurn(true);
+          } else {
+            actions.setIsTurn(false);
+          }
+
+          break;
+        case 'notificación muerte':
+        case 'notificación jugada':
+          actions.setAvisos([...state.avisos, data.message_content]);
+          break;
+        case 'partida finalizada':
+          actions.setWinners(data.message_content.winners);
+          actions.setReason(data.message_content.reason);
+          actions.setEndGame(true);
+          break;
+        case "cards":
+          actions.setHand(data.message_content);
+          break;
+        case 'error':
+          actions.setSeverity('error');
+          actions.setBody(data.message_content);
+          actions.setOpen(true);
+          break;
+        default:
+          // Manejar otros tipos de mensajes si es necesario
+          break;
+      };
+    };
+    matchSocket.onclose = () => {
+      console.log("Desconectado del socket de la partida");
+    };
+
+    // Set the socket state
+    actions.setSocket(matchSocket);
+
+    return () => {
+      matchSocket.close();
+    };
+    } catch (error) {
+      console.error("Error de conexión:", error);
+    }
+  }, [match_name]);
+
+}
