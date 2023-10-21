@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-import { List } from '@mui/material';
+import {List} from '@mui/material';
 
 const cardEffectListStyle = {
     width: '95%',
@@ -20,8 +20,7 @@ const Notifications = ({ messages }) => {
 
     useEffect(() => {
         setMessageList((prevMessages) => {
-            const newMessages = [...messages, ...prevMessages];
-            return newMessages;
+            return [...messages, ...prevMessages];
         });
     }, [messages]);
 

@@ -30,7 +30,6 @@ const Match = () => {
 
       {/* First half */}
       {/* TODO: probar */}
-      {state.isDeadPlayer && <h1>Has muerto...</h1>}
       {!state.isDeadPlayer &&
         <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column'}}>
           <PlayerRound>
@@ -52,6 +51,22 @@ const Match = () => {
           chat
         </Box>
       </Grid>
+      {state.isDeadPlayer && (
+          <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '60%',
+                marginLeft: '5rem',
+                marginTop: '5rem',
+
+                height : '100%',
+              }}
+          >
+            {state.isDeadPlayer && <h1 style={{fontSize:'8rem', color: 'red'}}> Has muerto...</h1>}
+          </Box>
+      )}
       {(state.turnState === 3) && <EndGameBanner reason={state.reason} winners={state.winners} />}
       <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
       {state.reveal && <ShowHandBanner />}

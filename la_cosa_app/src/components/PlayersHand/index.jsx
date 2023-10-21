@@ -45,8 +45,10 @@ const PlayersHand = () => {
     };
 
     const handleOnClickAway = () => {
+        if(state.target_name === null){
         setSelectedCard(null);
         actions.setSelectedCard(null);
+        }
     };
 
     return (

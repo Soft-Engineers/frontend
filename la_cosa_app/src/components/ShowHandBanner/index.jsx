@@ -61,6 +61,7 @@ const ShowHandBanner = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: '4rem',
     };
 
     return (
