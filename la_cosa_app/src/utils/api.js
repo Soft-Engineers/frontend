@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useMatchC } from '../screens/Match/matchContext';
+import { useMatchC, turnStates } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -122,67 +122,100 @@ export const handle_socket_messages = () => {
       };
 
 
-    matchSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      switch (data.message_type) {
-        case "posiciones":
-          actions.setJugadores(data.message_content);
-          break;
-        case "muertes":
-          actions.setDeadPlayerNames(data.message_content);
-          const isCurrentUserDead = data.message_content.includes(player_name);
-          actions.setIsDeadPlayer(isCurrentUserDead);
-          break;
-        case 'estado inicial':
-          actions.setHand(data.message_content.hand);
-          actions.setCurrentTurn(data.message_content.current_turn);
-          if (data.message_content.current_turn === player_name) {
-            actions.setIsTurn(true);
-          } else {
-            actions.setIsTurn(false);
-          }
-          break;
-        case 'datos jugada':
-          actions.setCurrentTurn(data.message_content.turn);
-          if (data.message_content.turn === player_name) {
-            actions.setIsTurn(true);
-          } else {
-            actions.setIsTurn(false);
-          }
+      matchSocket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        switch (data.message_type) {
+          case "posiciones":
+            actions.setJugadores(data.message_content);
+            break;
+          case "muertes":
+            actions.setDeadPlayerNames(data.message_content);
+            const isCurrentUserDead = data.message_content.includes(player_name);
+            actions.setIsDeadPlayer(isCurrentUserDead);
+            break;
+          case 'estado inicial':
+            actions.setHand(data.message_content.hand);
+            actions.setCurrentTurn(data.message_content.current_turn);
+            actions.setRole(data.message_content.role);
+            if (data.message_content.current_turn === player_name) {
+              actions.setTurnState(turnStates.PLAY_TURN);
 
-          break;
-        case 'notificación muerte':
-        case 'notificación jugada':
-          actions.setAvisos([...state.avisos, data.message_content]);
-          break;
-        case 'partida finalizada':
-          actions.setWinners(data.message_content.winners);
-          actions.setReason(data.message_content.reason);
-          actions.setEndGame(true);
-          break;
-        case "cards":
-          actions.setHand(data.message_content);
-          break;
-        case 'error':
-          actions.setSeverity('error');
-          actions.setBody(data.message_content);
-          actions.setOpen(true);
-          break;
-        default:
-          // Manejar otros tipos de mensajes si es necesario
-          break;
+            }
+            break;
+          case 'datos jugada':
+            if (data.message_content.turn === player_name) {
+              actions.setTurnState(turnStates.PLAY_TURN);
+            }
+            else {
+              actions.setTurnState(turnStates.OUT_OF_TURN);
+            }
+            break;
+          case 'notificación muerte':
+          case 'notificación jugada':
+            actions.setAvisos([...state.avisos, data.message_content]);
+            break;
+          case 'partida finalizada':
+            actions.setWinners(data.message_content.winners);
+            actions.setReason(data.message_content.reason);
+            actions.setIsFinished(true);
+            break;
+          case "cards":
+            actions.setHand(data.message_content);
+            break;
+          case 'error':
+            actions.setSeverity('error');
+            actions.setBody(data.message_content);
+            actions.setOpen(true);
+            break;
+          case 'revelar cartas':
+            actions.setRevealCard(data.message_content);
+            actions.setReveal(true);
+            console.log(state.reveal);
+            break;
+          case 'estado partida':
+            actions.setCurrentTurn(data.message_content.turn);
+            if (data.message_content.turn === player_name) {
+              actions.setIsTurn(true);
+            }
+            else{
+              actions.setIsTurn(false);
+            }
+            if (data.message_content.game_state === 3) {
+              actions.setTurnState(turnStates.FINISHED);
+            }
+            if (data.message_content.game_state === 1) {
+              actions.setTurnState(turnStates.DRAW_CARD);
+            }
+            if (data.message_content.game_state === 2) {
+              actions.setTurnState(turnStates.PLAY_TURN);
+            }
+            if (data.message_content.game_state === 4) {
+              actions.setTurnState(turnStates.EXCHANGE);
+            }
+            if (data.message_content.game_state === 5) {
+              actions.setTurnState(turnStates.WAIT_EXCHANGE);
+            }
+            break;
+          case 'infectado':
+            actions.setRole('INFECTADO')
+            actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+
+            break;
+          default:
+            console.log("Mensaje no reconocido:" + data.message_content)
+            break;
+        }
       };
-    };
-    matchSocket.onclose = () => {
-      console.log("Desconectado del socket de la partida");
-    };
+      matchSocket.onclose = () => {
+        console.log("Desconectado del socket de la partida");
+      };
 
-    // Set the socket state
-    actions.setSocket(matchSocket);
+      // Set the socket state
+      actions.setSocket(matchSocket);
 
-    return () => {
-      matchSocket.close();
-    };
+      return () => {
+        matchSocket.close();
+      };
     } catch (error) {
       console.error("Error de conexión:", error);
     }
