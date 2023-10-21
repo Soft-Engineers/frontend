@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
-import { useMatchC } from '../../screens/Match/matchContext.jsx';
-
-
+import {useMatchC } from '../../screens/Match/matchContext.jsx';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 const styles = {
     mano: {
@@ -34,34 +33,40 @@ const PlayersHand = () => {
     };
 
     const handleCardClick = (index) => {
-        if (index === selectedCard){
+        if (index === selectedCard) {
             setSelectedCard(null);
             setHoveredCard(null);
+            actions.setSelectedCard(null);
         } else {
-        setSelectedCard(index);
-        setHoveredCard(index);
-        actions.setSelectedCard(state.hand[index])
+            setSelectedCard(index);
+            setHoveredCard(index);
+            actions.setSelectedCard(state.hand[index]);
         }
     };
 
-
+    const handleOnClickAway = () => {
+        setSelectedCard(null);
+        setHoveredCard(null);
+        actions.setSelectedCard(null);
+    };
 
     return (
-        <Stack direction="row" spacing={0} style={styles.mano}>
-            {state.hand.map((objCarta, index) => (
-                <div
-                    key={index}
-                    onMouseEnter={() => handleCardHover(index)}
-                    onMouseLeave={handleCardLeave}
-                    onClick={() => handleCardClick(index)}
-                    style={hoveredCard === index ? styles.cartaHovered : {}}
-                >
-                    <Carta nombre={objCarta.card_name} />
-                </div>
-            ))}
-        </Stack>
+        <ClickAwayListener onClickAway={handleOnClickAway}>
+            <Stack direction="row" spacing={0} style={styles.mano}>
+                {state.hand.map((objCarta, index) => (
+                    <div
+                        key={index}
+                        onMouseEnter={() => handleCardHover(index)}
+                        onMouseLeave={handleCardLeave}
+                        onClick={() => handleCardClick(index)}
+                        style={hoveredCard === index ? styles.cartaHovered : {}}
+                    >
+                        <Carta nombre={objCarta.card_name} />
+                    </div>
+                ))}
+            </Stack>
+        </ClickAwayListener>
     );
 };
-
 
 export default PlayersHand;

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import RButton from "../Button/index.jsx";
-import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined.js";
-import {useNavigate} from "react-router-dom";
-import {getPartidas} from "../../utils/api.js";
+import RButton from '../Button/index.jsx';
+import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined.js';
+import { useNavigate } from 'react-router-dom';
+import { getPartidas } from '../../utils/api.js';
 
 const EndGameBanner = ({ winners, reason }) => {
-
     const navigate = useNavigate();
     const player_name = sessionStorage.getItem('player_name');
 
@@ -34,26 +33,39 @@ const EndGameBanner = ({ winners, reason }) => {
         justifyContent: 'center',
     };
 
+    const listStyles = {
+        fontSize: '1.2rem', // Adjust the font size as needed
+        margin: '0',
+        padding: '0',
+    };
+
     return (
         <div style={overlayStyles}>
             <Paper style={bannerStyles}>
-                <Typography variant="h4" component="div">
+                <Typography variant="h2" component="div">
                     ¡Fin de la partida!
                 </Typography>
-                <Typography>
-                    {'Ganadores:' + winners.join(', ')}
-                </Typography>
-                <Typography>
+                {winners.length > 0 ? (
+                    <div style={{marginTop: '1rem', display: 'flex' }}>
+                        <Typography variant="h6" >Ganadores:</Typography>
+                        <ul>
+                            {winners.map((winner, index) => (
+                                <li style={listStyles} key={index}>{winner}</li>
+                            ))}
+                        </ul>
+                    </div>
+                ) : null}
+                <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
                     {reason}
                 </Typography>
-                <RButton
-                    text="Volver a inicio"
-                    action={
-                        () => {
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+                    <RButton
+                        text="Volver a inicio"
+                        action={() => {
                             navigate(`/mainpage/${player_name}`);
-                        }
-                    }
-                />
+                        }}
+                    />
+                </div>
             </Paper>
         </div>
     );
