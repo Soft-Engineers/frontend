@@ -10,14 +10,6 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(), // Mock de useNavigate
 }));
 
-Object.defineProperty(global, 'sessionStorage', {
-    value: {
-        getItem: jest.fn(),
-    },
-    writable: true,
-});
-
-
 
 import EndGameBanner from '../../src/components/EndGameBanner';
 describe('EndGameBanner', () => {
@@ -36,14 +28,13 @@ describe('EndGameBanner', () => {
 
         const navigateMock = jest.fn();
         useNavigate.mockReturnValue(navigateMock);
-        global.sessionStorage.getItem.mockReturnValue('Player1');
+        sessionStorage.setItem('player_name', 'Player1');
 
         render(
             <MemoryRouter>
                 <EndGameBanner winners={['Player1', 'Player2']} reason="La cosa ha muerto" />
             </MemoryRouter>
         );
-
 
         const backButton = screen.getByText('Volver a inicio');
         fireEvent.click(backButton);
