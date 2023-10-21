@@ -25,14 +25,23 @@ const Notifications = ({ messages }) => {
         });
     }, [messages]);
 
+    const renderMessage = (message, index) => {
+        const isInfected = message.includes('LA COSA TE HA INFECTADO!!');
+        const messageStyle = {
+            color: isInfected ? 'red' : 'black',
+        };
+
+        return (
+            <ListItem key={index}>
+                <ListItemText primary={message} style={messageStyle} />
+            </ListItem>
+        );
+    };
+
     return (
         <Paper style={cardEffectListStyle}>
             <List>
-                {messageList.map((message, index) => (
-                    <ListItem key={index}>
-                        <ListItemText primary={message} />
-                    </ListItem>
-                ))}
+                {messageList.map((message, index) => renderMessage(message, index))}
             </List>
         </Paper>
     );

@@ -46,7 +46,6 @@ const PlayersHand = () => {
 
     const handleOnClickAway = () => {
         setSelectedCard(null);
-        setHoveredCard(null);
         actions.setSelectedCard(null);
     };
 
