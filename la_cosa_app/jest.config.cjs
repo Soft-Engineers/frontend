@@ -3,6 +3,8 @@ module.exports = {
   setupFiles: ['./jest.setup.js'],
   transform: {
     '^.+\\.(js|jsx|cjs)$': 'babel-jest',
+    '^.+\\.png$': 'jest-transform-stub',
+
   },
   moduleNameMapper: {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
