@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useMatchC, turnStates } from '../screens/Match/matchContext';
+import { useMatchC, turnStates } from "../screens/Match/matchContext";
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -108,19 +108,34 @@ export const startMatch = async (player_name, match_name) => {
   }
 };
 
+// Salir del lobby
+export const leaveLobby = async (player_name, match_name) => {
+  try {
+    const response = await axios.post("http://localhost:8000/match/leave", {
+      player_name,
+      match_name,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const handle_socket_messages = () => {
   const { state, actions } = useMatchC();
 
-  const match_name = sessionStorage.getItem('match_name');
-  const player_name = sessionStorage.getItem('player_name');
+  const match_name = sessionStorage.getItem("match_name");
+  const player_name = sessionStorage.getItem("player_name");
 
   useEffect(() => {
     try {
-      const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+      const matchSocket = new WebSocket(
+        `ws://localhost:8000/ws/${match_name}/${player_name}`
+      );
       matchSocket.onopen = () => {
         console.log("Conectado al socket de la partida");
       };
-
 
       matchSocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
@@ -130,31 +145,30 @@ export const handle_socket_messages = () => {
             break;
           case "muertes":
             actions.setDeadPlayerNames(data.message_content);
-            const isCurrentUserDead = data.message_content.includes(player_name);
+            const isCurrentUserDead =
+              data.message_content.includes(player_name);
             actions.setIsDeadPlayer(isCurrentUserDead);
             break;
-          case 'estado inicial':
+          case "estado inicial":
             actions.setHand(data.message_content.hand);
             actions.setCurrentTurn(data.message_content.current_turn);
             actions.setRole(data.message_content.role);
             if (data.message_content.current_turn === player_name) {
               actions.setTurnState(turnStates.PLAY_TURN);
-
             }
             break;
-          case 'datos jugada':
+          case "datos jugada":
             if (data.message_content.turn === player_name) {
               actions.setTurnState(turnStates.PLAY_TURN);
-            }
-            else {
+            } else {
               actions.setTurnState(turnStates.OUT_OF_TURN);
             }
             break;
-          case 'notificación muerte':
-          case 'notificación jugada':
+          case "notificación muerte":
+          case "notificación jugada":
             actions.setAvisos([...state.avisos, data.message_content]);
             break;
-          case 'partida finalizada':
+          case "partida finalizada":
             actions.setWinners(data.message_content.winners);
             actions.setReason(data.message_content.reason);
             actions.setIsFinished(true);
@@ -162,22 +176,21 @@ export const handle_socket_messages = () => {
           case "cards":
             actions.setHand(data.message_content);
             break;
-          case 'error':
-            actions.setSeverity('error');
+          case "error":
+            actions.setSeverity("error");
             actions.setBody(data.message_content);
             actions.setOpen(true);
             break;
-          case 'revelar cartas':
+          case "revelar cartas":
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             console.log(state.reveal);
             break;
-          case 'estado partida':
+          case "estado partida":
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);
-            }
-            else{
+            } else {
               actions.setIsTurn(false);
             }
             if (data.message_content.game_state === 3) {
@@ -196,13 +209,13 @@ export const handle_socket_messages = () => {
               actions.setTurnState(turnStates.WAIT_EXCHANGE);
             }
             break;
-          case 'infectado':
-            actions.setRole('INFECTADO')
-            actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+          case "infectado":
+            actions.setRole("INFECTADO");
+            actions.setAvisos([...state.avisos, "LA COSA TE HA INFECTADO!!"]);
 
             break;
           default:
-            console.log("Mensaje no reconocido:" + data.message_content)
+            console.log("Mensaje no reconocido:" + data.message_content);
             break;
         }
       };
@@ -220,5 +233,4 @@ export const handle_socket_messages = () => {
       console.error("Error de conexión:", error);
     }
   }, [match_name]);
-
-}
+};

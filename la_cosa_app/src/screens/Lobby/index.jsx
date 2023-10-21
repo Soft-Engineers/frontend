@@ -7,9 +7,8 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch } from '../../utils/api';
+import { isHost  as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
 import SnackBar from '../../components/SnackBar';
-
 
 const styles = {
     container: {
@@ -48,7 +47,16 @@ const Lobby = () => {
                 setWaitmsg(data.message_content)
                 navigate(`/match/${match_name}`);
                 console.log(waitmsg);
-            } 
+            }
+            else if (data.message_type === "player_left") {
+                setJugadores(data.message_content.players);
+            }
+            else if (data.message_type === "match_deleted") {
+                setSeverity("error");
+                setBody(data.message_content);
+                setOpen(true);
+                navigate(`/mainpage/${player_name}`);
+            }
             else {
                 console.log('Mensaje no reconocido');
             }
@@ -85,6 +93,22 @@ const Lobby = () => {
         }
     };
 
+    // Funcion para salir de la partida
+    const handleLeaveMatch = async (player_name, match_name) => {
+        try{
+            const response = await leaveLobby(player_name, match_name);
+            if(response.status === 200){
+                setSeverity("success");
+                setBody(response.data.message);
+                setOpen(true);
+                navigate(`/mainpage/${player_name}`);
+            }
+        }catch(error){
+            setSeverity("error");
+            setBody("Ha ocurrido un error");
+            setOpen(true);
+        }
+    };
 
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
@@ -114,6 +138,11 @@ const Lobby = () => {
                   ) : (
                     <h2>Esperando que el host inicie la partida...</h2>
                   )}
+                  <RButton
+                    text="Salir"
+                    action={() => handleLeaveMatch(player_name, match_name)}
+                    icon={<VideogameAssetOutlinedIcon />}
+                    />
                 </Grid>
             </Grid>
             <SnackBar
