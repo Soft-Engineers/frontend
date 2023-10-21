@@ -5,10 +5,14 @@ import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
 
 const cardEffectListStyle = {
-    width: '100%',
-    height: '100%',
-    overflowY: 'auto',
-    marginTop: '0.1rem',
+    width: '95%',
+    height: '400px', // Set a fixed height
+    overflow: 'auto',
+    marginTop: '0.5rem',
+    marginLeft: '0.1rem',
+    border: '1px solid grey',
+    borderRadius: '3%',
+
 };
 
 const Notifications = ({ messages }) => {

@@ -1,6 +1,8 @@
-import './PlayerRound.css';
 import Deck from '../../components/Deck/';
-import { useMatchC } from '../../screens/Match/matchContext.jsx';
+import {turnStates, useMatchC} from '../../screens/Match/matchContext.jsx';
+import RoleSign from "../RoleSign/index.jsx";
+import React from "react";
+import Box from "@mui/material/Box";
 
 const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
@@ -12,7 +14,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const circleStyle = {
         width: '80px',
         height: '80px',
-        border: (state.target_name === player.player_name && !isThisPlayerDead) ? '2px solid red' : '2px solid transparent',
+        border: (state.target_name === player.player_name && !isThisPlayerDead && state.turnState === 2) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
         margin: '10px',
         display: 'flex',
@@ -58,10 +60,10 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 };
 
 const PlayerRound = () => {
-    const {state} = useMatchC();
+    const { state } = useMatchC();
     const currentPlayerName = sessionStorage.getItem('player_name');
 
-    const currentPlayer = state.jugadores.find(player => player.player_name === currentPlayerName);
+    const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
 
     if (!currentPlayer) {
         console.log('El jugador actual no está en la lista de jugadores');
@@ -71,8 +73,8 @@ const PlayerRound = () => {
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 170; // Horizontal radius
-    const radiusY = 160; // Vertical radius
+    const radiusX = 150; // Horizontal radius
+    const radiusY = 140; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -85,8 +87,31 @@ const PlayerRound = () => {
         }
     };
 
+    const containerStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%',
+        border: '1px solid grey',
+        borderRadius: '3%',
+        backgroundColor: '#f2f2ff',
+        position: 'relative', // Needed for absolute positioning of child elements
+    };
+
+    const roleSignStyle = {
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+    };
+
     return (
-        <div className="player-round">
+        <Box sx={containerStyle}>
+            <div style={roleSignStyle}>
+                <RoleSign />
+            </div>
+
             <div
                 className="deck"
                 style={{
@@ -101,13 +126,13 @@ const PlayerRound = () => {
                 <PlayerCard
                     key={index}
                     player={player}
-                    angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3)) ) / totalPlayers}
+                    angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
                     radiusX={radiusX}
                     radiusY={radiusY}
                     isCurrentPlayer={player.player_name === currentPlayerName}
                 />
             ))}
-        </div>
+        </Box>
     );
 };
 

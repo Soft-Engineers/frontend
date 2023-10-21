@@ -79,8 +79,8 @@ const Carta = ({ nombre }) => {
     const imgSrc = mapaCartas[nombre];
 
     const cartaStyles = {
-        maxWidth: '200px',
-        maxHeight: '250px',
+        maxWidth: '280px',
+        maxHeight: '330px',
         backgroundColor: 'grey', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };

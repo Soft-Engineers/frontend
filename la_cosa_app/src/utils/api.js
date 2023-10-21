@@ -143,7 +143,12 @@ export const handle_socket_messages = () => {
             }
             break;
           case 'datos jugada':
-
+            if (data.message_content.turn === player_name) {
+              actions.setTurnState(turnStates.PLAY_TURN);
+            }
+            else {
+              actions.setTurnState(turnStates.OUT_OF_TURN);
+            }
             break;
           case 'notificación muerte':
           case 'notificación jugada':
@@ -163,33 +168,43 @@ export const handle_socket_messages = () => {
             actions.setOpen(true);
             break;
           case 'revelar cartas':
-            console.log('mensaje recibido');
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             console.log(state.reveal);
             break;
           case 'estado partida':
-            console.log('mensaje recibido');
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
-              if (data.message_content.game_state === 2) {
-                actions.setTurnState(turnStates.PLAY_TURN);
-              }
-              if (data.message_content.game_state === 4) {
-                actions.setTurnState(turnStates.EXCHANGE);
-              }
+              actions.setIsTurn(true);
             }
-            else {
-              actions.setTurnState(turnStates.OUT_OF_TURN);
+            else{
+              actions.setIsTurn(false);
+            }
+            if (data.message_content.game_state === 3) {
+              actions.setTurnState(turnStates.FINISHED);
+            }
+            if (data.message_content.game_state === 1) {
+              actions.setTurnState(turnStates.DRAW_CARD);
+            }
+            if (data.message_content.game_state === 2) {
+              actions.setTurnState(turnStates.PLAY_TURN);
+            }
+            if (data.message_content.game_state === 4) {
+              actions.setTurnState(turnStates.EXCHANGE);
+            }
+            if (data.message_content.game_state === 5) {
+              actions.setTurnState(turnStates.WAIT_EXCHANGE);
             }
             break;
-          case 'esperando intercambio':
-            actions.setTurnState(turnStates.EXCHANGE);
+          case 'infectado':
+            actions.setRole('INFECTADO')
+            actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+
             break;
           default:
-            // Manejar otros tipos de mensajes si es necesario
+            console.log("Mensaje no reconocido:" + data.message_content)
             break;
-        };
+        }
       };
       matchSocket.onclose = () => {
         console.log("Desconectado del socket de la partida");

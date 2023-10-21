@@ -58,89 +58,104 @@ const ButtonsBox = () => {
                 borderRadius: '3%',
                 marginLeft : '1rem',
                 backgroundColor: '#f2f2ff',
+                fontSize: '18px',
             }}
         >
-            {state.turnState === turnStates.PLAY_TURN && (
+
+            {state.isTurn && (
                 <>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handlePlayCard}
-                        sx={{
-                            backgroundColor: '#515952',
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: '#2a2e2b',
-                            },
-                        }}
-                    >
-                        Jugar carta
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{
-                            backgroundColor: '#515952',
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: '#2a2e2b',
-                            },
-                        }}
-                    >
-                        Descartar carta
-                    </Button>
+                    {state.turnState === turnStates.DRAW_CARD && (
+                        <p>Antes de jugar debes robar una carta del mazo.</p>
+                    )}
+                    {state.turnState === turnStates.PLAY_TURN && (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handlePlayCard}
+                                sx={{
+                                    backgroundColor: '#515952',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#2a2e2b',
+                                    },
+                                }}
+                            >
+                                Jugar carta
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                sx={{
+                                    backgroundColor: '#515952',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#2a2e2b',
+                                    },
+                                }}
+                            >
+                                Descartar carta
+                            </Button>
+                        </>
+                    )}
+                    {(state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE) && (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleExchange}
+                                sx={{
+                                    backgroundColor: '#515952',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#2a2e2b',
+                                    },
+                                }}
+                            >
+                                Intercambiar Carta
+                            </Button>
+                        </>
+                    )}
+                    {state.turnState === turnStates.DEFENSE && (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handlePlayCard}
+                                sx={{
+                                    backgroundColor: '#515952',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#2a2e2b',
+                                    },
+                                }}
+                            >
+                                Jugar carta
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                sx={{
+                                    backgroundColor: '#515952',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#2a2e2b',
+                                    },
+                                }}
+                            >
+                                Pasar
+                            </Button>
+                        </>
+                    )}
                 </>
             )}
-            {state.turnState === turnStates.OUT_OF_TURN && (
-                <p>Esperando tu turno...</p>
-            )}
-            {state.turnState === turnStates.EXCHANGE && (
+            {!state.isTurn && (
                 <>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleExchange}
-                        sx={{
-                        backgroundColor: '#515952',
-                        color: 'white',
-                        '&:hover': {
-                            backgroundColor: '#2a2e2b',
-                            },
-                        }}
-                    >
-                        Intercambiar Carta
-                    </Button>
-                </>
-            )}
-            {state.turnState === turnStates.DEFENSE && (
-                <>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleplayCard}
-                        sx={{
-                        backgroundColor: '#515952',
-                        color: 'white',
-                        '&:hover': {
-                            backgroundColor: '#2a2e2b',
-                            },
-                        }}
-                    >
-                        Jugar carta
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{
-                            backgroundColor: '#515952',
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: '#2a2e2b',
-                            },
-                        }}
-                    >
-                        Pasar
-                    </Button>
+                    {state.turnState === turnStates.WAIT_EXCHANGE ? (
+                        <p>Esperando intercambio....</p>
+                    ) : (
+                        <p>Esperando tu turno...</p>
+                    )}
                 </>
             )}
         </Box>

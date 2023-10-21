@@ -6,18 +6,13 @@ export const useMatchC = () => {
     return useContext(MatchContext);
 };
 
-export const roles = {
-    HUMAN: 'HUMANO',
-    LA_COSA: 'LA COSA',
-    INFECTADO: 'INFECTADO',
-};
-
 export const turnStates = {
-    OUT_OF_TURN: 0,
-    PLAY_TURN: 1,
-    DEFENSE: 2,
-    EXCHANGE: 3,
-    EXCHANGE_WAIT: 4,
+    DRAW_CARD: 1,
+    PLAY_TURN: 2,
+    FINISHED: 3,
+    EXCHANGE: 4,
+    WAIT_EXCHANGE: 5,
+    DEFENSE: 6,
 };
 
 
@@ -25,7 +20,6 @@ export const MatchProvider = ({ children }) => {
 
     const [socket, setSocket] = useState(null);
     const [jugadores, setJugadores] = useState([]);
-    const [isTurn, setIsTurn] = useState(false);
     const [currentTurn, setCurrentTurn] = useState('');
     const [hand, setHand] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
@@ -41,11 +35,13 @@ export const MatchProvider = ({ children }) => {
     const [deadPlayerNames, setDeadPlayerNames] = useState('');
     const [revealCard, setRevealCard] = useState(false);
     const [reveal, setReveal] = useState(false);
-    const [role, setRole] = useState(null);
-    const [turnState, setTurnState] = useState(turnStates.OUT_OF_TURN);
+    const [role, setRole] = useState('');
+    const [turnState, setTurnState] = useState(null);
+    const [isTurn, setIsTurn] = useState(false);
 
 
-        const state = {
+
+    const state = {
         socket,
         jugadores,
         currentTurn,
@@ -65,12 +61,12 @@ export const MatchProvider = ({ children }) => {
         revealCard,
         role,
         turnState,
+        isTurn,
     };
 
     const actions = {
         setSocket,
         setJugadores,
-        setIsTurn,
         setHand,
         setSelectedCard,
         setOpen,
@@ -88,6 +84,7 @@ export const MatchProvider = ({ children }) => {
         setReveal,
         setRole,
         setTurnState,
+        setIsTurn,
     };
 
     return (
