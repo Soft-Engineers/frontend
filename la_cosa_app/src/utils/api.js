@@ -122,67 +122,72 @@ export const handle_socket_messages = () => {
       };
 
 
-    matchSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      switch (data.message_type) {
-        case "posiciones":
-          actions.setJugadores(data.message_content);
-          break;
-        case "muertes":
-          actions.setDeadPlayerNames(data.message_content);
-          const isCurrentUserDead = data.message_content.includes(player_name);
-          actions.setIsDeadPlayer(isCurrentUserDead);
-          break;
-        case 'estado inicial':
-          actions.setHand(data.message_content.hand);
-          actions.setCurrentTurn(data.message_content.current_turn);
-          if (data.message_content.current_turn === player_name) {
-            actions.setIsTurn(true);
-          } else {
-            actions.setIsTurn(false);
-          }
-          break;
-        case 'datos jugada':
-          actions.setCurrentTurn(data.message_content.turn);
-          if (data.message_content.turn === player_name) {
-            actions.setIsTurn(true);
-          } else {
-            actions.setIsTurn(false);
-          }
+      matchSocket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        switch (data.message_type) {
+          case "posiciones":
+            actions.setJugadores(data.message_content);
+            break;
+          case "muertes":
+            actions.setDeadPlayerNames(data.message_content);
+            const isCurrentUserDead = data.message_content.includes(player_name);
+            actions.setIsDeadPlayer(isCurrentUserDead);
+            break;
+          case 'estado inicial':
+            actions.setHand(data.message_content.hand);
+            actions.setCurrentTurn(data.message_content.current_turn);
+            if (data.message_content.current_turn === player_name) {
+              actions.setIsTurn(true);
+            } else {
+              actions.setIsTurn(false);
+            }
+            break;
+          case 'datos jugada':
+            actions.setCurrentTurn(data.message_content.turn);
+            if (data.message_content.turn === player_name) {
+              actions.setIsTurn(true);
+            } else {
+              actions.setIsTurn(false);
+            }
 
-          break;
-        case 'notificación muerte':
-        case 'notificación jugada':
-          actions.setAvisos([...state.avisos, data.message_content]);
-          break;
-        case 'partida finalizada':
-          actions.setWinners(data.message_content.winners);
-          actions.setReason(data.message_content.reason);
-          actions.setEndGame(true);
-          break;
-        case "cards":
-          actions.setHand(data.message_content);
-          break;
-        case 'error':
-          actions.setSeverity('error');
-          actions.setBody(data.message_content);
-          actions.setOpen(true);
-          break;
-        default:
-          // Manejar otros tipos de mensajes si es necesario
-          break;
+            break;
+          case 'notificación muerte':
+          case 'notificación jugada':
+            actions.setAvisos([...state.avisos, data.message_content]);
+            break;
+          case 'partida finalizada':
+            actions.setWinners(data.message_content.winners);
+            actions.setReason(data.message_content.reason);
+            actions.setEndGame(true);
+            break;
+          case "cards":
+            actions.setHand(data.message_content);
+            break;
+          case 'error':
+            actions.setSeverity('error');
+            actions.setBody(data.message_content);
+            actions.setOpen(true);
+            break;
+          case 'revelar cartas':
+            console.log('mensaje recibido');
+            actions.setRevealCard(data.message_content);
+            actions.setReveal(true);
+            console.log(state.reveal);
+          default:
+            // Manejar otros tipos de mensajes si es necesario
+            break;
+        };
       };
-    };
-    matchSocket.onclose = () => {
-      console.log("Desconectado del socket de la partida");
-    };
+      matchSocket.onclose = () => {
+        console.log("Desconectado del socket de la partida");
+      };
 
-    // Set the socket state
-    actions.setSocket(matchSocket);
+      // Set the socket state
+      actions.setSocket(matchSocket);
 
-    return () => {
-      matchSocket.close();
-    };
+      return () => {
+        matchSocket.close();
+      };
     } catch (error) {
       console.error("Error de conexión:", error);
     }

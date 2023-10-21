@@ -24,7 +24,8 @@ export const MatchProvider = ({ children }) => {
     const [target_name, setTargetName] = useState('');
     const [isDeadPlayer, setIsDeadPlayer] = useState(false);
     const [deadPlayerNames, setDeadPlayerNames] = useState('');
-
+    const [revealCard, setRevealCard] = useState(false);
+    const [reveal, setReveal] = useState(false);
 
 
     const state = {
@@ -44,7 +45,8 @@ export const MatchProvider = ({ children }) => {
         target_name,
         isDeadPlayer,
         deadPlayerNames,
-
+        reveal,
+        revealCard,
     };
 
     const actions = {
@@ -64,6 +66,8 @@ export const MatchProvider = ({ children }) => {
         setIsDeadPlayer,
         setDeadPlayerNames,
         setCurrentTurn,
+        setRevealCard,
+        setReveal,
     };
 
     return (
