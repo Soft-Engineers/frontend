@@ -39,14 +39,14 @@ const Match = () => {
         </Grid>}
       {/* Second half */}
       <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', height: '45%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+        <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
           <Notifications messages={state.avisos} />
         </Box>
-        <Box sx={{ width: '100%', height: '50%' }}>
+        <Box sx={{ width: '100%', height: '45%' }}>
           chat
         </Box>
       </Grid>
-      {state.endGame && <EndGameBanner reason={state.reason} winners={state.winners} />}
+      {state.isFinished && <EndGameBanner reason={state.reason} winners={state.winners} />}
       <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
       {state.reveal && <ShowHandBanner />}
     </Grid>

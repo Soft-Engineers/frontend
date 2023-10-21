@@ -8,6 +8,7 @@ const cardEffectListStyle = {
     width: '100%',
     height: '100%',
     overflowY: 'auto',
+    marginTop: '0.1rem',
 };
 
 const Notifications = ({ messages }) => {

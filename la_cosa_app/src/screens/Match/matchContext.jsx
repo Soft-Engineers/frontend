@@ -1,13 +1,28 @@
 import { createContext, useContext, useState } from 'react';
 
-// Crear el contexto
 const MatchContext = createContext();
 
 export const useMatchC = () => {
     return useContext(MatchContext);
 };
 
+export const roles = {
+    HUMAN: 'HUMANO',
+    LA_COSA: 'LA COSA',
+    INFECTADO: 'INFECTADO',
+};
+
+export const turnStates = {
+    OUT_OF_TURN: 0,
+    PLAY_TURN: 1,
+    DEFENSE: 2,
+    EXCHANGE: 3,
+    EXCHANGE_WAIT: 4,
+};
+
+
 export const MatchProvider = ({ children }) => {
+
     const [socket, setSocket] = useState(null);
     const [jugadores, setJugadores] = useState([]);
     const [isTurn, setIsTurn] = useState(false);
@@ -18,7 +33,7 @@ export const MatchProvider = ({ children }) => {
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
     const [avisos, setAvisos] = useState([]);
-    const [endGame, setEndGame] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
     const [target_name, setTargetName] = useState('');
@@ -26,12 +41,13 @@ export const MatchProvider = ({ children }) => {
     const [deadPlayerNames, setDeadPlayerNames] = useState('');
     const [revealCard, setRevealCard] = useState(false);
     const [reveal, setReveal] = useState(false);
+    const [role, setRole] = useState(null);
+    const [turnState, setTurnState] = useState(turnStates.OUT_OF_TURN);
 
 
-    const state = {
+        const state = {
         socket,
         jugadores,
-        isTurn,
         currentTurn,
         hand,
         selectedCard,
@@ -39,7 +55,7 @@ export const MatchProvider = ({ children }) => {
         severity,
         body,
         avisos,
-        endGame,
+        isFinished,
         winners,
         reason,
         target_name,
@@ -47,6 +63,8 @@ export const MatchProvider = ({ children }) => {
         deadPlayerNames,
         reveal,
         revealCard,
+        role,
+        turnState,
     };
 
     const actions = {
@@ -59,7 +77,7 @@ export const MatchProvider = ({ children }) => {
         setSeverity,
         setBody,
         setAvisos,
-        setEndGame,
+        setIsFinished,
         setWinners,
         setReason,
         setTargetName,
@@ -68,6 +86,8 @@ export const MatchProvider = ({ children }) => {
         setCurrentTurn,
         setRevealCard,
         setReveal,
+        setRole,
+        setTurnState,
     };
 
     return (

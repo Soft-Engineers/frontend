@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useMatchC } from '../screens/Match/matchContext';
+import { useMatchC, turnStates } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -136,19 +136,13 @@ export const handle_socket_messages = () => {
           case 'estado inicial':
             actions.setHand(data.message_content.hand);
             actions.setCurrentTurn(data.message_content.current_turn);
+            actions.setRole(data.message_content.role);
             if (data.message_content.current_turn === player_name) {
-              actions.setIsTurn(true);
-            } else {
-              actions.setIsTurn(false);
+              actions.setTurnState(turnStates.PLAY_TURN);
+
             }
             break;
           case 'datos jugada':
-            actions.setCurrentTurn(data.message_content.turn);
-            if (data.message_content.turn === player_name) {
-              actions.setIsTurn(true);
-            } else {
-              actions.setIsTurn(false);
-            }
 
             break;
           case 'notificación muerte':
@@ -158,7 +152,7 @@ export const handle_socket_messages = () => {
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
             actions.setReason(data.message_content.reason);
-            actions.setEndGame(true);
+            actions.setIsFinished(true);
             break;
           case "cards":
             actions.setHand(data.message_content);
@@ -173,6 +167,25 @@ export const handle_socket_messages = () => {
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             console.log(state.reveal);
+            break;
+          case 'estado partida':
+            console.log('mensaje recibido');
+            actions.setCurrentTurn(data.message_content.turn);
+            if (data.message_content.turn === player_name) {
+              if (data.message_content.game_state === 2) {
+                actions.setTurnState(turnStates.PLAY_TURN);
+              }
+              if (data.message_content.game_state === 4) {
+                actions.setTurnState(turnStates.EXCHANGE);
+              }
+            }
+            else {
+              actions.setTurnState(turnStates.OUT_OF_TURN);
+            }
+            break;
+          case 'esperando intercambio':
+            actions.setTurnState(turnStates.EXCHANGE);
+            break;
           default:
             // Manejar otros tipos de mensajes si es necesario
             break;
