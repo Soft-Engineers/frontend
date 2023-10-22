@@ -48,7 +48,7 @@ const RoleSign = () => {
                 }
                 placement="bottom-end"
                 arrow
-                interactive
+                interactive="true"
             >
                 <span
                     style={style}

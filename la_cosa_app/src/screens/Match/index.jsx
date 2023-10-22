@@ -16,7 +16,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 const Match = () => {
   // States
   const { state, actions } = useMatchC();
-  const timeoutDuration = 10000; // Set the timeout duration in milliseconds
+  const timeoutDuration = 20000; // Set the timeout duration in milliseconds
   const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
 
   useEffect(() => {

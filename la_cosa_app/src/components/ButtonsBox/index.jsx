@@ -81,11 +81,7 @@ const ButtonsBox = () => {
     };
 
     return (
-        <Box
-            sx={styles.box
-            }
-        >
-
+        <Box sx={styles.box}>
             {state.isTurn && (
                 <>
                     {state.turnState === turnStates.DRAW_CARD && (
