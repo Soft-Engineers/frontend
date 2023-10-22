@@ -104,7 +104,7 @@ const Match = () => {
       )}
       {(state.turnState === 3) && <EndGameBanner reason={state.reason} winners={state.winners} />}
       <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
-      {state.reveal && <ShowHandBanner />}
+      {(state.reveal && !state.isDeadPlayer) && <ShowHandBanner /> }
     </Grid>
   );
 };

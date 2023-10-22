@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-import {List} from '@mui/material';
+import { List } from '@mui/material';
+import {useMatchC} from "../../screens/Match/matchContext.jsx";
+import Typography from "@mui/material/Typography";
 
 const cardEffectListStyle = {
     width: '95%',
@@ -12,11 +14,12 @@ const cardEffectListStyle = {
     marginLeft: '0.1rem',
     border: '1px solid grey',
     borderRadius: '3%',
-
 };
 
-const Notifications = ({ messages }) => {
-    const [messageList, setMessageList] = React.useState([]);
+const Notifications = ({ messages}) => {
+    const { state} = useMatchC();
+
+    const [messageList, setMessageList] = useState([]);
 
     useEffect(() => {
         setMessageList((prevMessages) => {
@@ -40,6 +43,13 @@ const Notifications = ({ messages }) => {
     return (
         <Paper style={cardEffectListStyle}>
             <List>
+                <ListItem>
+                    <ListItemText primary={
+                        <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>
+                            Es el turno de {state.currentTurn}
+                        </Typography>
+                    } />
+                </ListItem>
                 {messageList.map((message, index) => renderMessage(message, index))}
             </List>
         </Paper>
@@ -47,3 +57,4 @@ const Notifications = ({ messages }) => {
 };
 
 export default Notifications;
+

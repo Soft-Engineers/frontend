@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 import {useMatchC } from '../../screens/Match/matchContext.jsx';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 const styles = {
     mano: {
@@ -44,15 +43,14 @@ const PlayersHand = () => {
         }
     };
 
-    const handleOnClickAway = () => {
-        if(state.target_name === null){
+    useEffect(() => {
         setSelectedCard(null);
         actions.setSelectedCard(null);
-        }
-    };
+        setHoveredCard(null);
+
+    }, [state.currentTurn]);
 
     return (
-        <ClickAwayListener onClickAway={handleOnClickAway}>
             <Stack direction="row" spacing={0} style={styles.mano}>
                 {state.hand.map((objCarta, index) => (
                     <div
@@ -66,7 +64,6 @@ const PlayersHand = () => {
                     </div>
                 ))}
             </Stack>
-        </ClickAwayListener>
     );
 };
 
