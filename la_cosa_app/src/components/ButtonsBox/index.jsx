@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useMatchC, turnStates } from '../../screens/Match/matchContext.jsx';
-import LinearProgress from "@mui/material/LinearProgress";
+import ConfirmWindow from "../ConfirmWindow/index.jsx";
 
 const ButtonsBox = () => {
     const { state, actions } = useMatchC();
+    const [isConfirmOpen, setConfirmOpen] = useState(false);
 
     useEffect(() => {
         if (state.DtimeoutEnded) {
@@ -42,7 +43,7 @@ const ButtonsBox = () => {
                 message_content: {
                     card_name: state.selectedCard.card_name,
                     card_id: state.selectedCard.card_id,
-                    target: state.target_name
+                    target: state.target_name,
                 },
             };
             state.socket.send(JSON.stringify(request));
@@ -76,9 +77,19 @@ const ButtonsBox = () => {
         state.socket.send(JSON.stringify(request));
     };
 
+    const handleLaCosabutton = () => {
+        setConfirmOpen(false);
+        const request = {
+            message_type: 'declaracion',
+            message_content: {},
+        };
+        state.socket.send(JSON.stringify(request));
+    };
+
     const styles = {
         box: {
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
             textAlign: 'center',
@@ -87,13 +98,20 @@ const ButtonsBox = () => {
             borderRadius: '3%',
             marginLeft: '1rem',
             backgroundColor: '#f2f2ff',
-            fontSize: '15px',
+            fontSize: '18px',
         },
         button: {
             backgroundColor: '#515952',
             color: 'white',
             '&:hover': {
-                backgroundColor: '#2a2e2b'
+                backgroundColor: '#2a2e2b',
+            },
+        },
+        confirmButton: {
+            backgroundColor: 'red',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: 'darkred',
             },
         },
     };
@@ -123,19 +141,32 @@ const ButtonsBox = () => {
                             >
                                 Descartar carta
                             </Button>
+                            {state.role === 'LA COSA' && (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setConfirmOpen(true)}
+                                    sx={styles.confirmButton}
+                                >
+                                    ¡No quedan más humanos!
+                                </Button>
+                            )}
+                            <ConfirmWindow
+                                open={isConfirmOpen}
+                                onClose={() => setConfirmOpen(false)}
+                                onConfirm={handleLaCosabutton}
+                            />
                         </>
                     )}
-                    {(state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE) && (
-                        <>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleExchange}
-                                sx={styles.button}
-                            >
-                                Intercambiar Carta
-                            </Button>
-                        </>
+                    {state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleExchange}
+                            sx={styles.button}
+                        >
+                            Intercambiar Carta
+                        </Button>
                     )}
                     {state.turnState === turnStates.WAIT_DEFENSE && (
                         <>
@@ -155,8 +186,8 @@ const ButtonsBox = () => {
                             >
                                 Pasar
                             </Button>
-                        </>
-                    )}
+                        </>)
+                    }
                 </>
             )}
             {!state.isTurn && (
