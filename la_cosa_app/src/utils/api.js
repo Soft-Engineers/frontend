@@ -137,18 +137,8 @@ export const handle_socket_messages = () => {
             actions.setHand(data.message_content.hand);
             actions.setCurrentTurn(data.message_content.current_turn);
             actions.setRole(data.message_content.role);
-            if (data.message_content.current_turn === player_name) {
-              actions.setTurnState(turnStates.PLAY_TURN);
-
-            }
             break;
           case 'datos jugada':
-            if (data.message_content.turn === player_name) {
-              actions.setTurnState(turnStates.PLAY_TURN);
-            }
-            else {
-              actions.setTurnState(turnStates.OUT_OF_TURN);
-            }
             break;
           case 'notificación muerte':
           case 'notificación jugada':
@@ -170,7 +160,6 @@ export const handle_socket_messages = () => {
           case 'revelar cartas':
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
-            console.log(state.reveal);
             break;
           case 'estado partida':
             actions.setCurrentTurn(data.message_content.turn);
@@ -180,9 +169,7 @@ export const handle_socket_messages = () => {
             else{
               actions.setIsTurn(false);
             }
-            const gameState = data.message_content.game_state;
-            actions.setTurnState(gameState);
-
+            actions.setTurnState(data.message_content.game_state);
             break;
           case 'infectado':
             actions.setRole('INFECTADO')
