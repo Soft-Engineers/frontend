@@ -108,6 +108,20 @@ export const startMatch = async (player_name, match_name) => {
   }
 };
 
+export const leaveLobby = async (player_name, match_name) => {
+  try {
+    const response = await axios.put("http://localhost:8000/match/leave", {
+      player_name,
+      match_name,
+    });
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const handle_socket_messages = () => {
   const { state, actions } = useMatchC();
 

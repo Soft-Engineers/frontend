@@ -7,7 +7,7 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch } from '../../utils/api';
+import { isHost  as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
 import SnackBar from '../../components/SnackBar';
 
 
@@ -48,7 +48,17 @@ const Lobby = () => {
                 setWaitmsg(data.message_content)
                 navigate(`/match/${match_name}`);
                 console.log(waitmsg);
-            } 
+            }
+            else if(data.message_type === "player_left"){
+                setSeverity("error");
+                setBody(data.message_content.message);
+                setOpen(true);
+                setJugadores(data.message_content.players);
+            }
+            else if(data.message_type === "match_deleted"){
+                navigate(`/mainpage/${player_name}`)
+            }
+
             else {
                 console.log('Mensaje no reconocido');
             }
@@ -65,11 +75,11 @@ const Lobby = () => {
 
     // Verificar si es el host
     useEffect(() => {
-      const response = checkIsHost (player_name, match_name);
-      response.then((data) => {
-        setIsHost(data.data.is_host);
-        console.log(isHost);
-      });
+        const response = checkIsHost (player_name, match_name);
+        response.then((data) => {
+            setIsHost(data.data.is_host);
+            console.log(isHost);
+        });
 
     }, [player_name, match_name]);
 
@@ -84,6 +94,20 @@ const Lobby = () => {
             setOpen(true);
         }
     };
+
+    // Function para salir del lobby
+    const handleLeaveMatch = async (player_name, match_name) => {
+        try {
+            const response = await leaveLobby(player_name, match_name);
+            if(response.status === 200){
+                navigate(`/mainpage/${player_name}`)
+            }
+        } catch (error) {
+            setSeverity("error");
+            setBody("Ha ocurrido un error");
+            setOpen(true);
+        }
+    }
 
 
     const handleClose = (reason) => {
@@ -105,15 +129,19 @@ const Lobby = () => {
                 </Grid>
                 {/* Segunda mitad */}
                 <Grid item xs={6} container sx={styles.container}>
-                  {isHost ? (
+                    {isHost ? (
+                        <RButton
+                            text="Iniciar Partida"
+                            action={() => handleStartMatch(player_name, match_name)}
+                            icon={<VideogameAssetOutlinedIcon />}
+                        />
+                    ) : (
+                        <h2>Esperando que el host inicie la partida...</h2>
+                    )}
                     <RButton
-                        text="Iniciar Partida"
-                        action={() => handleStartMatch(player_name, match_name)}
-                        icon={<VideogameAssetOutlinedIcon />}
-                    /> 
-                  ) : (
-                    <h2>Esperando que el host inicie la partida...</h2>
-                  )}
+                        text="Salir"
+                        action={() => handleLeaveMatch(player_name, match_name)}
+                    />
                 </Grid>
             </Grid>
             <SnackBar
