@@ -18,9 +18,8 @@ describe('Lobby', () => {
         expect(screen.getByText('Esperando que el host inicie la partida...')).toBeInTheDocument();
     });
 
-    it('Renderiza sin errores para el host', async () => { // Añade async aquí
-        // Realiza los mocks de las funciones necesarias
-        jest.spyOn(api, 'isHost').mockResolvedValue({ data: { is_host: true } }); // Mock usando mockResolvedValue
+    it('Renderiza sin errores para el host', async () => {
+        jest.spyOn(api, 'isHost').mockResolvedValue({ data: { is_host: true } });
         jest.spyOn(api, 'startMatch');
 
         render(
@@ -31,14 +30,14 @@ describe('Lobby', () => {
             </MemoryRouter>
         );
 
-        // Asegúrate de que `startMatch` no haya sido llamada antes de hacer clic
+
         expect(api.startMatch).not.toHaveBeenCalled();
 
-        // Simula hacer clic en el botón "Iniciar Partida" si el jugador es el host
+
         const startButton = await waitFor(() => screen.getByText('Iniciar Partida'));
         fireEvent.click(startButton);
 
-        // Verifica que `startMatch` haya sido llamada después de hacer clic
+
         expect(api.startMatch).toHaveBeenCalled();
     });
 });
