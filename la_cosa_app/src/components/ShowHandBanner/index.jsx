@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Stack } from '@mui/material';
 import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useMatch } from 'react-router-dom';
 import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
@@ -61,7 +60,6 @@ const ShowHandBanner = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '4rem',
     };
 
     return (

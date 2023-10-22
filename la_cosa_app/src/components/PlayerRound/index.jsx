@@ -1,5 +1,5 @@
 import Deck from '../../components/Deck/';
-import {turnStates, useMatchC} from '../../screens/Match/matchContext.jsx';
+import {useMatchC} from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React from "react";
 import Box from "@mui/material/Box";
@@ -97,8 +97,9 @@ const PlayerRound = () => {
         border: '1px solid grey',
         borderRadius: '3%',
         backgroundColor: '#f2f2ff',
-        position: 'relative', // Needed for absolute positioning of child elements
-    };
+        position: 'relative',
+        marginBottom: '0.2rem',
+};
 
     const roleSignStyle = {
         position: 'absolute',

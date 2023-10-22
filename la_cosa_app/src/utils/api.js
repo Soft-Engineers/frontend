@@ -180,21 +180,9 @@ export const handle_socket_messages = () => {
             else{
               actions.setIsTurn(false);
             }
-            if (data.message_content.game_state === 3) {
-              actions.setTurnState(turnStates.FINISHED);
-            }
-            if (data.message_content.game_state === 1) {
-              actions.setTurnState(turnStates.DRAW_CARD);
-            }
-            if (data.message_content.game_state === 2) {
-              actions.setTurnState(turnStates.PLAY_TURN);
-            }
-            if (data.message_content.game_state === 4) {
-              actions.setTurnState(turnStates.EXCHANGE);
-            }
-            if (data.message_content.game_state === 5) {
-              actions.setTurnState(turnStates.WAIT_EXCHANGE);
-            }
+            const gameState = data.message_content.game_state;
+            actions.setTurnState(gameState);
+
             break;
           case 'infectado':
             actions.setRole('INFECTADO')
@@ -202,7 +190,7 @@ export const handle_socket_messages = () => {
 
             break;
           default:
-            console.log("Mensaje no reconocido:" + data.message_content)
+            //console.log("Mensaje no reconocido:" + data.message_content)
             break;
         }
       };
