@@ -1,11 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {render, getByText} from '@testing-library/react';
-import {MemoryRouter, Route, Routes} from "react-router-dom";
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Lobby from "../../src/screens/Lobby/index.jsx";
+import React from 'react';
 
 describe('Lobby', () => {
-    it('Renderiza sin errores', () => {
+    it('Renderizado sin errores', () => {
         const { getByText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
@@ -13,7 +14,7 @@ describe('Lobby', () => {
                 </Routes>
             </MemoryRouter>
         );
-
-        expect(getByText('Iniciar Partida')).toBeInTheDocument();
+        expect(getByText('Lista de Jugadores')).toBeInTheDocument();
     });
+
 });

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useMatchC, turnStates } from '../../screens/Match/matchContext.jsx';
@@ -14,6 +14,24 @@ const ButtonsBox = () => {
         }
     }, [state.DtimeoutEnded]);
 
+    const handleDiscardCard = () => {
+        if (state.selectedCard !== null) {
+            console.log({
+                hand: state.hand,
+            });
+            const request = {
+                message_type: 'descartar carta',
+                message_content: {
+                    card_id: state.selectedCard.card_id,
+                },
+            };
+            state.socket.send(JSON.stringify(request));
+        } else {
+            actions.setSeverity('error');
+            actions.setBody('Elige una carta para descartar.');
+            actions.setOpen(true);
+        }
+    };
     const handlePlayCard = () => {
         if (state.selectedCard !== null) {
             console.log({
@@ -67,17 +85,17 @@ const ButtonsBox = () => {
             width: '100%',
             border: '1px solid grey',
             borderRadius: '3%',
-            marginLeft : '1rem',
+            marginLeft: '1rem',
             backgroundColor: '#f2f2ff',
             fontSize: '15px',
         },
-        button : {
+        button: {
             backgroundColor: '#515952',
             color: 'white',
             '&:hover': {
-            backgroundColor: '#2a2e2b'
+                backgroundColor: '#2a2e2b'
             },
-            },
+        },
     };
 
     return (
@@ -100,6 +118,7 @@ const ButtonsBox = () => {
                             <Button
                                 variant="contained"
                                 color="secondary"
+                                onClick={handleDiscardCard}
                                 sx={styles.button}
                             >
                                 Descartar carta
