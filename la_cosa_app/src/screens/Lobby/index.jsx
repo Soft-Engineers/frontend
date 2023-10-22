@@ -7,9 +7,9 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch } from '../../utils/api';
+import { isHost as checkIsHost, startMatch } from '../../utils/api';
 import SnackBar from '../../components/SnackBar';
-
+import React from 'react';
 
 const styles = {
     container: {
@@ -39,6 +39,7 @@ const Lobby = () => {
             console.log("Conectado al socket del lobby");
             console.log('Yo soy ', player_name)
         };
+
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message_type === "jugadores lobby") {
@@ -48,7 +49,7 @@ const Lobby = () => {
                 setWaitmsg(data.message_content)
                 navigate(`/match/${match_name}`);
                 console.log(waitmsg);
-            } 
+            }
             else {
                 console.log('Mensaje no reconocido');
             }
@@ -65,11 +66,11 @@ const Lobby = () => {
 
     // Verificar si es el host
     useEffect(() => {
-      const response = checkIsHost (player_name, match_name);
-      response.then((data) => {
-        setIsHost(data.data.is_host);
-        console.log(isHost);
-      });
+        const response = checkIsHost(player_name, match_name);
+        response.then((data) => {
+            setIsHost(data.data.is_host);
+            console.log(isHost);
+        });
 
     }, [player_name, match_name]);
 
@@ -95,7 +96,7 @@ const Lobby = () => {
 
     return (
         <Container >
-            <Header/>
+            <Header />
             <Grid container spacing={2} sx={styles.container}>
                 {/* Primera mitad */}
                 <Grid item xs={6}>
@@ -105,15 +106,15 @@ const Lobby = () => {
                 </Grid>
                 {/* Segunda mitad */}
                 <Grid item xs={6} container sx={styles.container}>
-                  {isHost ? (
-                    <RButton
-                        text="Iniciar Partida"
-                        action={() => handleStartMatch(player_name, match_name)}
-                        icon={<VideogameAssetOutlinedIcon />}
-                    /> 
-                  ) : (
-                    <h2>Esperando que el host inicie la partida...</h2>
-                  )}
+                    {isHost ? (
+                        <RButton
+                            text="Iniciar Partida"
+                            action={() => handleStartMatch(player_name, match_name)}
+                            icon={<VideogameAssetOutlinedIcon />}
+                        />
+                    ) : (
+                        <h2>Esperando que el host inicie la partida...</h2>
+                    )}
                 </Grid>
             </Grid>
             <SnackBar

@@ -1,4 +1,5 @@
 import Stack from '@mui/material/Stack';
+import React from 'react';
 import { Card } from '@mui/material';
 import lacosa from '../../assets/cartas_recortadas/001.png';
 import infectado1 from '../../assets/cartas_recortadas/002.png';
