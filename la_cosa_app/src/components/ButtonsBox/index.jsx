@@ -80,7 +80,7 @@ const ButtonsBox = () => {
     const handleLaCosabutton = () => {
         setConfirmOpen(false);
         const request = {
-            message_type: 'declaracion',
+            message_type: 'declaración',
             message_content: {},
         };
         state.socket.send(JSON.stringify(request));
@@ -158,7 +158,7 @@ const ButtonsBox = () => {
                             />
                         </>
                     )}
-                    {state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE && (
+                    {(state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE) && (
                         <Button
                             variant="contained"
                             color="primary"

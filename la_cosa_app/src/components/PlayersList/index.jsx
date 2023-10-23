@@ -28,7 +28,7 @@ function PlayersList({ jugadores }) {
                 Lista de Jugadores
             </Typography>
             <List>
-                {jugadores.map((jugador, index) => (
+                {jugadores && jugadores.map((jugador, index) => (
                     <ListItem key={index}>
                         <Paper sx={styles.paper} elevation={3}>
                             <Typography variant="h6">{jugador}</Typography>
