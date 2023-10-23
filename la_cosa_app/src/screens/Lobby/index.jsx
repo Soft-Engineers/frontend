@@ -7,7 +7,7 @@ import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost as checkIsHost, startMatch } from '../../utils/api';
+import { isHost as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
 import SnackBar from '../../components/SnackBar';
 import React from 'react';
 
@@ -50,6 +50,16 @@ const Lobby = () => {
                 navigate(`/match/${match_name}`);
                 console.log(waitmsg);
             }
+            else if (data.message_type === "player_left") {
+                setSeverity("error");
+                setBody(data.message_content.message);
+                setOpen(true);
+                setJugadores(data.message_content.players);
+            }
+            else if (data.message_type === "match_deleted") {
+                navigate(`/mainpage/${player_name}`)
+            }
+
             else {
                 console.log('Mensaje no reconocido');
             }
@@ -86,6 +96,20 @@ const Lobby = () => {
         }
     };
 
+    // Function para salir del lobby
+    const handleLeaveMatch = async (player_name, match_name) => {
+        try {
+            const response = await leaveLobby(player_name, match_name);
+            if (response.status === 200) {
+                navigate(`/mainpage/${player_name}`)
+            }
+        } catch (error) {
+            setSeverity("error");
+            setBody("Ha ocurrido un error");
+            setOpen(true);
+        }
+    }
+
 
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
@@ -115,6 +139,10 @@ const Lobby = () => {
                     ) : (
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
+                    <RButton
+                        text="Salir"
+                        action={() => handleLeaveMatch(player_name, match_name)}
+                    />
                 </Grid>
             </Grid>
             <SnackBar
