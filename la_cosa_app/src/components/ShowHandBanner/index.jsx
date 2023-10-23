@@ -12,8 +12,6 @@ const ShowHandBanner = () => {
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
 
-    console.log(hand);
-
     const time = 10000;
     const [mostrarMensaje, setMostrarMensaje] = useState(true);
     const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
@@ -40,7 +38,7 @@ const ShowHandBanner = () => {
 
     const bannerStyles = {
         position: 'absolute',
-        top: '20%',
+        top: '30%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
@@ -60,6 +58,7 @@ const ShowHandBanner = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
     };
 
     return (
@@ -75,7 +74,7 @@ const ShowHandBanner = () => {
                             Esta es la mano de {player}
                         </Typography>
 
-                        <Stack direction="row" spacing={0}>
+                        <Stack direction="row" spacing={0.2}>
                             {hand.map((carta, index) => (
                                 <div key={index} >
                                     <Carta nombre={carta} />

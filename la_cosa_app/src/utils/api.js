@@ -186,9 +186,10 @@ export const handle_socket_messages = () => {
             actions.setTurnState(data.message_content.game_state);
             break;
           case 'infectado':
+            if (state.role !== 'INFECTADO'){
+              actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+            }
             actions.setRole('INFECTADO')
-            actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
-
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)
