@@ -5,6 +5,7 @@ import PlayerList from "../../components/PlayersList";
 import Header from "../../components/Header";
 import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { isHost  as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
@@ -16,6 +17,14 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: '1rem',
     },
 };
 
@@ -50,12 +59,21 @@ const Lobby = () => {
                 console.log(waitmsg);
             }
             else if(data.message_type === "player_left"){
+                console.log(data.message_content);
+                console.log(data.message_content.message);
+
                 setSeverity("error");
                 setBody(data.message_content.message);
                 setOpen(true);
                 setJugadores(data.message_content.players);
             }
             else if(data.message_type === "match_deleted"){
+                setSeverity("error");
+                setBody(data.message_content.message_content);
+                setOpen(true);
+                // agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
+                setTimeout(() => {
+                }, 1000);
                 navigate(`/mainpage/${player_name}`)
             }
 
@@ -90,7 +108,7 @@ const Lobby = () => {
             console.log("response", response);
         } catch (error) {
             setSeverity("error");
-            setBody("Ha ocurrido un error");
+            setBody(error.response.data.detail);
             setOpen(true);
         }
     };
@@ -128,7 +146,7 @@ const Lobby = () => {
                     />
                 </Grid>
                 {/* Segunda mitad */}
-                <Grid item xs={6} container sx={styles.container}>
+                <Grid item xs={6} container sx={styles.buttons}>
                     {isHost ? (
                         <RButton
                             text="Iniciar Partida"
@@ -139,8 +157,9 @@ const Lobby = () => {
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
                     <RButton
-                        text="Salir"
+                        text="Abandonar Partida"
                         action={() => handleLeaveMatch(player_name, match_name)}
+                        icon={<ExitToAppIcon />}
                     />
                 </Grid>
             </Grid>

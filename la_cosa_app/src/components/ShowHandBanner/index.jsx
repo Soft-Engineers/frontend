@@ -8,13 +8,9 @@ import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
     const { state, actions } = useMatchC();
-    const hand = ['La Cosa', 'Sospecha', 'Whisky', 'Sospecha']//state.revealCard.cards;
-    const player = 'elculiao' //state.revealCard.cards_owner;
-    const trigger_card = 'Whisky'//state.revealCard.trigger_card;
-
-
-
-    console.log(hand);
+    const hand = state.revealCard.cards;
+    const player = state.revealCard.cards_owner;
+    const trigger_card = state.revealCard.trigger_card;
 
     const time = 10000;
     const [mostrarMensaje, setMostrarMensaje] = useState(true);
@@ -78,7 +74,7 @@ const ShowHandBanner = () => {
                             Esta es la mano de {player}
                         </Typography>
 
-                        <Stack direction="row" spacing={0}>
+                        <Stack direction="row" spacing={0.2}>
                             {hand.map((carta, index) => (
                                 <div key={index} >
                                     <Carta nombre={carta} />
