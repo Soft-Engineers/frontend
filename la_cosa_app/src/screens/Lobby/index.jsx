@@ -5,6 +5,7 @@ import PlayerList from "../../components/PlayersList";
 import Header from "../../components/Header";
 import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { isHost  as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
@@ -16,6 +17,14 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: '1rem',
     },
 };
 
@@ -128,7 +137,7 @@ const Lobby = () => {
                     />
                 </Grid>
                 {/* Segunda mitad */}
-                <Grid item xs={6} container sx={styles.container}>
+                <Grid item xs={6} container sx={styles.buttons}>
                     {isHost ? (
                         <RButton
                             text="Iniciar Partida"
@@ -139,8 +148,9 @@ const Lobby = () => {
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
                     <RButton
-                        text="Salir"
+                        text="Abandonar Partida"
                         action={() => handleLeaveMatch(player_name, match_name)}
+                        icon={<ExitToAppIcon />}
                     />
                 </Grid>
             </Grid>
