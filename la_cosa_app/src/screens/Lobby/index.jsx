@@ -59,12 +59,21 @@ const Lobby = () => {
                 console.log(waitmsg);
             }
             else if(data.message_type === "player_left"){
+                console.log(data.message_content);
+                console.log(data.message_content.message);
+
                 setSeverity("error");
                 setBody(data.message_content.message);
                 setOpen(true);
                 setJugadores(data.message_content.players);
             }
             else if(data.message_type === "match_deleted"){
+                setSeverity("error");
+                setBody(data.message_content.message_content);
+                setOpen(true);
+                // agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
+                setTimeout(() => {
+                }, 1000);
                 navigate(`/mainpage/${player_name}`)
             }
 

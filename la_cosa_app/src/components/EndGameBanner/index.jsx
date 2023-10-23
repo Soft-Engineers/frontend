@@ -3,13 +3,9 @@ import { Paper, Typography } from '@mui/material';
 import RButton from '../Button/index.jsx';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from 'react-router-dom';
-import { useMatchC } from '../../screens/Match/matchContext';
 
 
 const EndGameBanner = ({ winners, reason }) => {
-    const { state, actions } = useMatchC();
-    actions.setReason('La cosa hizo cagar a todos');
-    actions.setWinners(['pepe','juan']);
     const navigate = useNavigate();
     const player_name = sessionStorage.getItem('player_name');
 
