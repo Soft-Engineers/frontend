@@ -12,6 +12,8 @@ const ShowHandBanner = () => {
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
 
+    console.log(hand);
+
     const time = 10000;
     const [mostrarMensaje, setMostrarMensaje] = useState(true);
     const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
@@ -24,6 +26,7 @@ const ShowHandBanner = () => {
                     clearInterval(intervalId);
                     return 0;
                 }
+
                 return prevTiempo - 100;
             });
         }, 100); // Actualizar cada 100 milisegundos (0.1 segundos)
@@ -34,9 +37,10 @@ const ShowHandBanner = () => {
         };
     }, []);
 
+
     const bannerStyles = {
         position: 'absolute',
-        top: '50%',
+        top: '20%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
@@ -46,6 +50,7 @@ const ShowHandBanner = () => {
     };
 
     const overlayStyles = {
+        position: 'fixed',
         top: '0',
         left: '0',
         width: '100%',
@@ -61,6 +66,7 @@ const ShowHandBanner = () => {
         <div>
             {mostrarMensaje && (
                 <div style={overlayStyles}>
+
                     <Paper style={bannerStyles}>
                         <Typography variant="h5" component="div">
                             Efecto {trigger_card}
@@ -68,17 +74,19 @@ const ShowHandBanner = () => {
                         <Typography variant="h6" component="div">
                             Esta es la mano de {player}
                         </Typography>
+
                         <Stack direction="row" spacing={0}>
                             {hand.map((carta, index) => (
-                                <div key={index}>
+                                <div key={index} >
                                     <Carta nombre={carta} />
                                 </div>
                             ))}
                         </Stack>
-                        <Box sx={{ marginTop: '10px' }}>
-                            <LinearProgress variant="determinate" value={(tiempoRestante / time) * 100} sx={{ height: 10 }} />
+                        <Box sx={{ marginTop: '10px' }} >
+                            <LinearProgress variant="determinate" value={((tiempoRestante) / time) * 100} sx={{ height: 10 }} />
                         </Box>
                     </Paper>
+
                 </div>
             )}
         </div>
