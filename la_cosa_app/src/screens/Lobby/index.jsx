@@ -99,7 +99,7 @@ const Lobby = () => {
             console.log("response", response);
         } catch (error) {
             setSeverity("error");
-            setBody("Ha ocurrido un error");
+            setBody(error.response.data.detail);
             setOpen(true);
         }
     };
