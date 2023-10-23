@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
-import {useMatchC } from '../../screens/Match/matchContext.jsx';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 
 const styles = {
     mano: {
@@ -17,53 +17,48 @@ const styles = {
 const PlayersHand = () => {
     const { state, actions } = useMatchC();
     const [hoveredCard, setHoveredCard] = useState(null);
-    const [selectedCard, setSelectedCard] = useState(null);
 
-    const handleCardHover = (index) => {
-        if (selectedCard === null) {
-            setHoveredCard(index);
+    const handleCardHover = (card) => {
+        if (state.selectedCard === null) {
+            setHoveredCard(card);
         }
     };
 
     const handleCardLeave = () => {
-        if (selectedCard === null) {
+        if (state.selectedCard === null) {
             setHoveredCard(null);
         }
     };
 
-    const handleCardClick = (index) => {
-        if (index === selectedCard) {
-            setSelectedCard(null);
-            setHoveredCard(null);
+    const handleCardClick = (card) => {
+        if (card === state.selectedCard) {
             actions.setSelectedCard(null);
+            setHoveredCard(null);
         } else {
-            setSelectedCard(index);
-            setHoveredCard(index);
-            actions.setSelectedCard(state.hand[index]);
+            actions.setSelectedCard(card);
+            setHoveredCard(card);
         }
     };
 
     useEffect(() => {
-        setSelectedCard(null);
         actions.setSelectedCard(null);
         setHoveredCard(null);
-
-    }, [state.currentTurn]);
+    }, [state.currentTurn, state.hand]);
 
     return (
-            <Stack direction="row" spacing={0} style={styles.mano}>
-                {state.hand.map((objCarta, index) => (
-                    <div
-                        key={index}
-                        onMouseEnter={() => handleCardHover(index)}
-                        onMouseLeave={handleCardLeave}
-                        onClick={() => handleCardClick(index)}
-                        style={hoveredCard === index ? styles.cartaHovered : {}}
-                    >
-                        <Carta nombre={objCarta.card_name} />
-                    </div>
-                ))}
-            </Stack>
+        <Stack direction="row" spacing={0} style={styles.mano}>
+            {state.hand.map((objCarta, index) => (
+                <div
+                    key={index}
+                    onMouseEnter={() => handleCardHover(objCarta)}
+                    onMouseLeave={handleCardLeave}
+                    onClick={() => handleCardClick(objCarta)}
+                    style={hoveredCard === objCarta ? styles.cartaHovered : {}}
+                >
+                    <Carta nombre={objCarta.card_name} />
+                </div>
+            ))}
+        </Stack>
     );
 };
 
