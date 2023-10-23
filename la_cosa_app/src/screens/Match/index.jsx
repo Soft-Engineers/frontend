@@ -1,7 +1,7 @@
-import {turnStates, useMatchC} from './matchContext';
+import { turnStates, useMatchC } from './matchContext';
 import { useParams } from "react-router-dom";
 import { Grid, Box, Paper } from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import SnackBar from '../../components/SnackBar';
 import PlayersHand from "../../components/PlayersHand/";
 import ButtonsBox from "../../components/ButtonsBox/index.jsx";
@@ -28,7 +28,6 @@ const Match = () => {
           if (prevTime <= 0) {
             clearInterval(timeoutId);
             actions.setDTimeoutEnded(true);
-            console.log('HOLAAAaaaaaaaaaaaaaaaaaaaaaaaaaa');
             return 0;
           }
           return prevTime - 100;
@@ -61,50 +60,51 @@ const Match = () => {
       {/* First half */}
       {/* TODO: probar */}
       {!state.isDeadPlayer &&
-        <Grid xs={8} sx={{ display: 'flex', flexDirection: 'column'}}>
+        <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
           <PlayerRound>
-            <RoleSign/>
+            <RoleSign />
           </PlayerRound>
-          { (state.isTurn && state.turnState === turnStates.WAIT_DEFENSE) && <LinearProgress
-              variant="determinate"
-              value={((timeoutRemaining) / timeoutDuration) * 100}
-              sx={{ height: 20 , margin : '0.1rem' }}
+          {(state.isTurn && state.turnState === turnStates.WAIT_DEFENSE) && <LinearProgress
+            variant="determinate"
+            value={((timeoutRemaining) / timeoutDuration) * 100}
+            sx={{ height: 20, margin: '0.1rem' }}
           />}
-          <Paper sx={{ display: 'flex', flexDirection: 'row' , marginTop: '0.2rem'}} >
-            <PlayersHand cartas={state.hand}/>
+          <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.2rem' }} >
+            <PlayersHand cartas={state.hand} />
             <ButtonsBox />
           </Paper>
 
         </Grid>}
       {/* Second half */}
-      <Grid xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <Grid item xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
           <Notifications messages={state.avisos} />
         </Box>
-        <Box sx={{ width: '95%', height: '45%' , border: '1px solid grey', marginTop: '1rem',borderRadius: '3%',
+        <Box sx={{
+          width: '95%', height: '45%', border: '1px solid grey', marginTop: '1rem', borderRadius: '3%',
         }}>
           chat
         </Box>
       </Grid>
       {state.isDeadPlayer && (
-          <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '60%',
-                marginLeft: '5rem',
-                marginTop: '5rem',
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '60%',
+            marginLeft: '5rem',
+            marginTop: '5rem',
 
-                height : '100%',
-              }}
-          >
-            {state.isDeadPlayer && <h1 style={{fontSize:'8rem', color: 'red'}}> Has muerto...</h1>}
-          </Box>
+            height: '100%',
+          }}
+        >
+          {state.isDeadPlayer && <h1 style={{ fontSize: '8rem', color: 'red' }}> Has muerto...</h1>}
+        </Box>
       )}
       {(state.turnState === 3) && <EndGameBanner reason={state.reason} winners={state.winners} />}
       <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
-      {(state.reveal && !state.isDeadPlayer) && <ShowHandBanner /> }
+      {(state.reveal && !state.isDeadPlayer) && <ShowHandBanner />}
     </Grid>
   );
 };

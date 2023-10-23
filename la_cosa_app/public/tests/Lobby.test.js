@@ -40,4 +40,5 @@ describe('Lobby', () => {
 
         expect(api.startMatch).toHaveBeenCalled();
     });
+
 });
