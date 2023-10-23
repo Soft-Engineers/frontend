@@ -46,7 +46,6 @@ const Lobby = () => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
         socket.onopen = () => {
             console.log("Conectado al socket del lobby");
-            console.log('Yo soy ', player_name)
         };
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -61,19 +60,12 @@ const Lobby = () => {
             else if(data.message_type === "player_left"){
                 console.log(data.message_content);
                 console.log(data.message_content.message);
-
                 setSeverity("error");
                 setBody(data.message_content.message);
                 setOpen(true);
                 setJugadores(data.message_content.players);
             }
             else if(data.message_type === "match_deleted"){
-                setSeverity("error");
-                setBody(data.message_content.message_content);
-                setOpen(true);
-                // agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
-                setTimeout(() => {
-                }, 1000);
                 navigate(`/mainpage/${player_name}`)
             }
 
@@ -122,7 +114,7 @@ const Lobby = () => {
             }
         } catch (error) {
             setSeverity("error");
-            setBody("Ha ocurrido un error");
+            setBody(error.response.data.detail);
             setOpen(true);
         }
     }
@@ -157,7 +149,7 @@ const Lobby = () => {
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
                     <RButton
-                        text="Abandonar Partida"
+                        text="Abandonar Sala"
                         action={() => handleLeaveMatch(player_name, match_name)}
                         icon={<ExitToAppIcon />}
                     />

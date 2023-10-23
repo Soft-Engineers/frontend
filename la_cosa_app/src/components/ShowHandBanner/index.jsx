@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
-    const { state, actions } = useMatchC();
+    const {state} = useMatchC();
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
