@@ -8,9 +8,11 @@ import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
     const { state, actions } = useMatchC();
-    const hand = state.revealCard.cards;
-    const player = state.revealCard.cards_owner;
-    const trigger_card = state.revealCard.trigger_card;
+    const hand = ['La Cosa', 'Sospecha', 'Whisky', 'Sospecha']//state.revealCard.cards;
+    const player = 'elculiao' //state.revealCard.cards_owner;
+    const trigger_card = 'Whisky'//state.revealCard.trigger_card;
+
+
 
     console.log(hand);
 
@@ -40,7 +42,7 @@ const ShowHandBanner = () => {
 
     const bannerStyles = {
         position: 'absolute',
-        top: '20%',
+        top: '30%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
@@ -60,6 +62,7 @@ const ShowHandBanner = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
     };
 
     return (
