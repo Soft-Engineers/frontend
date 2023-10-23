@@ -8,19 +8,19 @@ const RoleSign = () => {
     const [open, setOpen] = useState(false);
 
     let color = null;
-    let fontSize = '25px';
+    let fontSize = '35px';
     let fontWeight = 'bold';
-    let description = 'La Cosa: Su objetivo es destruir a todos los Humanos, convirtiéndolos en aliados Infectados o eliminándolos de la partida.';
+    let description = 'Su objetivo es destruir a todos los Humanos, convirtiéndolos en aliados Infectados o eliminándolos de la partida.';
 
     if (state.role === 'INFECTADO') {
         color = 'red';
-        description = 'Infectados: Su objetivo es trabajar con la Cosa para infectar al resto de los humanos o eliminarlos de la partida';
+        description = 'Su objetivo es trabajar con la Cosa para infectar al resto de los humanos o eliminarlos de la partida';
     } else if (state.role === 'LA_COSA') {
         actions.setRole('LA COSA');
         color = 'black';
     }else if (state.role === 'HUMANO') {
         color = 'blue';
-        description = 'Los Humanos: Su objetivo es trabajar juntos para identificar qué jugador es La Cosa y asarlo con una carta de "Lanzallamas"';
+        description = 'Su objetivo es trabajar juntos para identificar qué jugador es La Cosa y asarlo con una carta de "Lanzallamas"';
 
     }
 

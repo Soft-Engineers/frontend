@@ -1,5 +1,5 @@
 import { Formik, Form, Field } from 'formik';
-import { Grid, TextField} from '@mui/material'; // Import Button from Material UI
+import { Grid, TextField } from '@mui/material'; // Import Button from Material UI
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RButton from '../../components/Button';
@@ -25,7 +25,7 @@ const styles = {
     width: '85%',
     height: '60%',
     marginBottom: '16px',
-    marginTop : '10px',
+    marginTop: '10px',
   },
   label: {
     paddingBottom: '5px',
@@ -57,93 +57,97 @@ const FormPartida = () => {
   };
 
   return (
-      <div style={styles.form}>
-        <Formik
-            initialValues={{
-              nombrePartida: '',
-            }}
-            validationSchema={validationSchema}
-            onSubmit={async (values) => {
-              try {
-                const player_name = sessionStorage.getItem('player_name');
-                const response = await createPartida(
-                    values.nombrePartida,
-                    player_name,
-                    minPlayers,
-                    maxPlayers
-                );
-                if (response.status === 201) {
-                  Navigate(`/lobby/${values.nombrePartida}`);
-                  sessionStorage.setItem('match_name', values.nombrePartida);
-                }
-              } catch (err) {
-                setOpen(true);
-                setSeverity('error');
-                setBody(err.response.data.detail);
-              }
-            }}
-        >
-          <Form>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sx={styles.label}>
-                <label  htmlFor="nombrePartida">Ingrese nombre de la partida:</label>
-                <Field
-                    as={TextField}
-                    id="nombrePartida"
-                    name="nombrePartida"
-                    placeholder="Nombre de la partida"
-                    fullWidth
-                    sx={styles.input}
-                />
-              </Grid>
-              <Grid item xs={6} sx={styles.label}>
-                <label>Mínimo de jugadores:</label>
-                <div>
-                  <IconButton
-                      onClick={() => setMinPlayers(Math.max(4, minPlayers - 1))}
-                      variant="outlined"
-                  >
-                    <RemoveIcon/>
-                  </IconButton>
-                  {minPlayers}
-                  <IconButton
-                      onClick={() => setMinPlayers(Math.min(12, minPlayers + 1))}
-                      variant="outlined"
-                  >
-                    <AddIcon/>
-                  </IconButton>
-                </div>
-              </Grid>
-              <Grid item xs={6} sx={styles.label}>
-                <label>Máximo de jugadores:</label>
-                <div>
-                  <IconButton
-                      onClick={() => setMaxPlayers(Math.max(4, maxPlayers - 1))}
-                      variant="outlined"
-                  >
-                    <RemoveIcon/>
-                  </IconButton>
-                  {maxPlayers}
-                  <IconButton
-                      onClick={() => setMaxPlayers(Math.min(12, maxPlayers + 1))}
-                      variant="outlined"
-                  >
-                    <AddIcon/>
-                  </IconButton>
-                </div>
-              </Grid>
-              <Grid item xs={12} sx={styles.button}>
-                <RButton
-                    text="Crear partida"
-                    action={() => {}}
-                    icon={<ForwardOutlinedIcon />}
-                />
-              </Grid>
+    <div style={styles.form}>
+      <Formik
+        initialValues={{
+          nombrePartida: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={async (values) => {
+          try {
+            const player_name = sessionStorage.getItem('player_name');
+            const response = await createPartida(
+              values.nombrePartida,
+              player_name,
+              minPlayers,
+              maxPlayers
+            );
+            if (response.status === 201) {
+              Navigate(`/lobby/${values.nombrePartida}`);
+              sessionStorage.setItem('match_name', values.nombrePartida);
+            }
+          } catch (err) {
+            setOpen(true);
+            setSeverity('error');
+            setBody(err.response.data.detail);
+          }
+        }}
+      >
+        <Form>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sx={styles.label}>
+              <label htmlFor="nombrePartida">Ingrese nombre de la partida:</label>
+              <Field
+                as={TextField}
+                id="nombrePartida"
+                name="nombrePartida"
+                placeholder="Nombre de la partida"
+                fullWidth
+                sx={styles.input}
+              />
             </Grid>
-          </Form>
-        </Formik>
-        <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
-      </div>
+            <Grid item xs={6} sx={styles.label}>
+              <label>Mínimo de jugadores:</label>
+              <div>
+                <IconButton
+                  onClick={() => setMinPlayers(Math.max(4, minPlayers - 1))}
+                  variant="outlined"
+                  aria-label="minPlayersDecrease"
+                >
+                  <RemoveIcon />
+                </IconButton>
+                {minPlayers}
+                <IconButton
+                  onClick={() => setMinPlayers(Math.min(12, minPlayers + 1))}
+                  variant="outlined"
+                  aria-label="minPlayersIncrease"
+                >
+                  <AddIcon />
+                </IconButton>
+              </div>
+            </Grid>
+            <Grid item xs={6} sx={styles.label}>
+              <label>Máximo de jugadores:</label>
+              <div>
+                <IconButton
+                  onClick={() => setMaxPlayers(Math.max(4, maxPlayers - 1))}
+                  variant="outlined"
+                  aria-label="maxPlayersDecrease"
+                >
+                  <RemoveIcon />
+                </IconButton>
+                {maxPlayers}
+                <IconButton
+                  onClick={() => setMaxPlayers(Math.min(12, maxPlayers + 1))}
+                  variant="outlined"
+                  aria-label="maxPlayersIncrease"
+                >
+                  <AddIcon />
+                </IconButton>
+              </div>
+            </Grid>
+            <Grid item xs={12} sx={styles.button}>
+              <RButton
+                text="Crear partida"
+                action={() => { }}
+                icon={<ForwardOutlinedIcon />}
+              />
+            </Grid>
+          </Grid>
+        </Form>
+      </Formik>
+      <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
+    </div>
   );
 };
 

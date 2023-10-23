@@ -11,7 +11,7 @@ function setupMockedContext(state = {}, actions = {}) {
 
 jest.mock('../../src/screens/Match/matchContext', () => {
     return {
-        useMatchC: jest.fn(() => ({ state: {}, actions: {} }))
+        useMatchC: jest.fn(() => ({ state: { is_dead: true }, actions: {} }))
     };
 });
 
