@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, React } from 'react';
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';

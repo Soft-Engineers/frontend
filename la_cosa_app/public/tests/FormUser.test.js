@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {render, fireEvent, waitFor, } from '@testing-library/react';
+import { render, fireEvent, waitFor, } from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import SelectName from '../../src/screens/SelectName/index.jsx';
 import Main from '../../src/screens/MainPage/index.jsx';
@@ -28,7 +28,7 @@ describe('FormUser', () => {
         );
 
         expect(getByText('Elija un nombre!')).toBeInTheDocument();
-        expect(getByPlaceholderText('Por ejemplo: Juan')).toBeInTheDocument();
+        expect(getByPlaceholderText('Ingrese su nombre aquí')).toBeInTheDocument();
         expect(getByText('Crear usuario')).toBeInTheDocument();
         // Checkeo que ciertos elementos se renderizen correctamente
     });
@@ -52,7 +52,7 @@ describe('FormUser', () => {
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: 'Juanito' } });
         fireEvent.click(getByText('Crear usuario'));
 
@@ -88,7 +88,7 @@ describe('FormUser', () => {
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: 'bd' } });
         fireEvent.click(getByText('Crear usuario'));
 
@@ -109,7 +109,7 @@ describe('FormUser', () => {
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: '' } });
         fireEvent.click(getByText('Crear usuario'));
 

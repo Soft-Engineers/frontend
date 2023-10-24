@@ -1,20 +1,44 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'; // Agrega screen, fireEvent, y waitFor
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Lobby from "../../src/screens/Lobby/index.jsx";
-import React from 'react';
+import * as api from '../../src/utils/api';
 
 describe('Lobby', () => {
-    it('Renderizado sin errores', () => {
-        const { getByText } = render(
+    it('Renderiza sin errores para jugador normal', () => {
+        render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<Lobby />} />
                 </Routes>
             </MemoryRouter>
         );
-        expect(getByText('Lista de Jugadores')).toBeInTheDocument();
+
+        expect(screen.getByText('Esperando que el host inicie la partida...')).toBeInTheDocument();
+    });
+
+    it('Renderiza sin errores para el host', async () => {
+        jest.spyOn(api, 'isHost').mockResolvedValue({ data: { is_host: true } });
+        jest.spyOn(api, 'startMatch');
+
+        render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<Lobby />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+
+        expect(api.startMatch).not.toHaveBeenCalled();
+
+
+        const startButton = await waitFor(() => screen.getByText('Iniciar Partida'));
+        fireEvent.click(startButton);
+
+
+        expect(api.startMatch).toHaveBeenCalled();
     });
 
 });

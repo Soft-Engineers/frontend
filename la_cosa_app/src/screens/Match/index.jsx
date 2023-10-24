@@ -28,7 +28,6 @@ const Match = () => {
           if (prevTime <= 0) {
             clearInterval(timeoutId);
             actions.setDTimeoutEnded(true);
-            console.log('HOLAAAaaaaaaaaaaaaaaaaaaaaaaaaaa');
             return 0;
           }
           return prevTime - 100;
