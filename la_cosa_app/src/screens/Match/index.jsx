@@ -1,5 +1,4 @@
 import { turnStates, useMatchC } from './matchContext';
-import { useParams } from "react-router-dom";
 import { Grid, Box, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import SnackBar from '../../components/SnackBar';

@@ -79,7 +79,7 @@ const Lobby = () => {
             else {
                 console.log('Mensaje no reconocido');
             }
-
+        };
 
         socket.onclose = () => {
             console.log("Desconectado del socket del lobby");
