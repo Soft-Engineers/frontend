@@ -18,7 +18,7 @@ describe('EndGameBanner', () => {
             <EndGameBanner winners={['Player1', 'Player2']} reason="La cosa ha muerto" />
         </MemoryRouter>);
 
-        expect(screen.getByText('¡Fin de la partida!')).toBeInTheDocument();
+        expect(screen.getByText('¡Fin de partida!')).toBeInTheDocument();
         expect(screen.getByText('Ganadores:')).toBeInTheDocument();
         expect(screen.getByText('Player1')).toBeInTheDocument();
         expect(screen.getByText('Player2')).toBeInTheDocument();
