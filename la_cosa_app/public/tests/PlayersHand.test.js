@@ -16,7 +16,7 @@ describe('PlayersHand', () => {
         state: {
 
             currentTurn: 1,
-            hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallama' }, { card_name: 'Hacha' }],
+            hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
             selectedCard: null,
         },
         actions: {
@@ -32,8 +32,6 @@ describe('PlayersHand', () => {
         setMockContext();
     });
 
-
-
     it('renderiza las cartas de la mano correctamente', () => {
 
         const { getByAltText } = render(
@@ -45,8 +43,8 @@ describe('PlayersHand', () => {
         // Asegúrate de que las cartas estén presentes en el render
         const carta1 = getByAltText(`Carta La Cosa`);
         const carta2 = getByAltText(`Carta Sospecha`);
-        const carta3 = getByAltText(`Carta Sospecha`);
-        const carta4 = getByAltText(`Carta Sospecha`);
+        const carta3 = getByAltText(`Carta Lanzallamas`);
+        const carta4 = getByAltText(`Carta Hacha`);
 
 
         expect(carta1).toBeInTheDocument();
@@ -55,4 +53,18 @@ describe('PlayersHand', () => {
         expect(carta4).toBeInTheDocument();
 
     });
+
+    it('selecciona una carta correctamente', () => {
+        const { getByAltText } = render(
+            <MatchProvider>
+                <PlayersHand />
+            </MatchProvider>
+        );
+        const carta1 = getByAltText(`Carta La Cosa`);
+        expect(mockContext.state.selectedCard).toBeNull();
+        fireEvent.click(carta1);
+        expect(mockContext.actions.setSelectedCard).toHaveBeenCalledWith({ card_name: 'La Cosa' });
+        expect(mockContext.state.selectedCard).toBe('La Cosa');
+    });
+
 });
