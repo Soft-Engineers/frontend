@@ -4,33 +4,28 @@ import PlayersHand from './../../src/components/PlayersHand';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
 import React from 'react';
 
-jest.mock('../../src/screens/Match/matchContext', () => ({
-    ...jest.requireActual('../../src/screens/Match/matchContext'),
-    useMatchC: jest.fn(),
-}));
+jest.mock('../../src/screens/Match/matchContext', () => {
+    let selectedCard = null;
+
+    const state = {
+        hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
+        currentTurn: 1,
+        selectedCard: null, // Usa el estado definido
+    };
+
+    const actions = {
+        setSelectedCard: jest.fn().mockImplementation((card) => { state.selectedCard = card; }),
+        setHand: jest.fn(),
+        setCurrentTurn: jest.fn(),
+    };
+
+    return {
+        useMatchC: jest.fn(() => ({ state, actions })),
+        MatchProvider: ({ children }) => children,
+    };
+});
 
 describe('PlayersHand', () => {
-
-
-    const mockContext = {
-        state: {
-
-            currentTurn: 1,
-            hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
-            selectedCard: null,
-        },
-        actions: {
-            setSelectedCard: jest.fn(),
-        },
-    };
-
-    const setMockContext = () => {
-        useMatchC.mockReturnValue(mockContext);
-    };
-
-    beforeEach(() => {
-        setMockContext();
-    });
 
     it('renderiza las cartas de la mano correctamente', () => {
 
@@ -61,10 +56,18 @@ describe('PlayersHand', () => {
             </MatchProvider>
         );
         const carta1 = getByAltText(`Carta La Cosa`);
-        // expect(mockContext.state.selectedCard).toBeNull();
-        //fireEvent.click(carta1);
+
+        fireEvent.click(carta1);
+
         //expect(mockContext.actions.setSelectedCard).toHaveBeenCalledWith({ card_name: 'La Cosa' });
-        //expect(mockContext.state.selectedCard).toBe('La Cosa');
+        expect(useMatchC().actions.setSelectedCard).toHaveBeenCalledWith({ card_name: 'La Cosa' });
+        expect(useMatchC().state.selectedCard).toEqual({ card_name: 'La Cosa' });
+
+        fireEvent.click(carta1);
+
+        expect(useMatchC().actions.setSelectedCard).toHaveBeenCalledWith(null);
+
     });
+
 
 });
