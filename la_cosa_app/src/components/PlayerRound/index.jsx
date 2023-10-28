@@ -14,7 +14,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const circleStyle = {
         width: '80px',
         height: '80px',
-        border: (state.target_name === player.player_name && !isThisPlayerDead && state.turnState === 2) ? '2px solid red' : '2px solid transparent',
+        border: (state.target_name === player.player_name && !isThisPlayerDead && (state.turnState === 2 || state.turnState === 7)) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
         margin: '10px',
         display: 'flex',
