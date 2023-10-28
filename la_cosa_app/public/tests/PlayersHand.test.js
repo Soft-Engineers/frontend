@@ -1,12 +1,10 @@
-import { render, fireEvent, getAllByAltText } from '@testing-library/react';
+import { render, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PlayersHand from './../../src/components/PlayersHand';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
 import React from 'react';
 
 jest.mock('../../src/screens/Match/matchContext', () => {
-    let selectedCard = null;
-
     const state = {
         hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
         currentTurn: 1,
@@ -66,6 +64,32 @@ describe('PlayersHand', () => {
         fireEvent.click(carta1);
 
         expect(useMatchC().actions.setSelectedCard).toHaveBeenCalledWith(null);
+
+    });
+    it('la carta se levanta correctamente', () => {
+
+        const { getByAltText } = render(
+            <MatchProvider>
+                <PlayersHand />
+            </MatchProvider>
+        );
+
+        const carta1 = getByAltText(`Carta La Cosa`);
+        const carta2 = getByAltText(`Carta Sospecha`);
+
+        fireEvent.mouseEnter(carta1);
+        expect(carta1.parentElement).toHaveStyle('transform: translateY(-1cm)');
+        fireEvent.mouseLeave(carta1);
+        expect(carta1.parentElement).not.toHaveStyle('transform: translateY(-1cm)');
+        fireEvent.click(carta1);
+        expect(carta1.parentElement).toHaveStyle('transform: translateY(-1cm)');
+        fireEvent.mouseLeave(carta1);
+        expect(carta1.parentElement).toHaveStyle('transform: translateY(-1cm)');
+        fireEvent.mouseEnter(carta2);
+        expect(carta2.parentElement).not.toHaveStyle('transform: translateY(-1cm)');
+        fireEvent.click(carta1);
+        expect(carta1.parentElement).not.toHaveStyle('transform: translateY(-1cm)');
+
 
     });
 
