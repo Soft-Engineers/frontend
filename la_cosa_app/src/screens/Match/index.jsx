@@ -54,7 +54,7 @@ const Match = () => {
   };
 
   return (
-      <Grid container sx={{ minHeight: '95vh', overflow: 'auto', backgroundColor: '#fafffa' }}>
+      <Grid container sx={{ minHeight: '97vh', minWidth: '95vh' , backgroundColor: '#fafffa' }}>
         {!state.isDeadPlayer && (
             <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
               <PlayerRound>
@@ -67,23 +67,25 @@ const Match = () => {
                       sx={{ height: 20, margin: '0.1rem' }}
                   />
               )}
-              <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop: '1rem' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
                 <PlayersHand cartas={state.hand} />
                 <ButtonsBox />
-              </Paper>
+              </Box>
             </Grid>
         )}
         <Grid item xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <Box sx={{ width: 'calc(100% - 2rem)', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' , marginLeft: '1rem',}}>
             <Notifications messages={state.avisos} />
           </Box>
           <Box
               sx={{
-                width: '95%',
-                height: 'calc(100% - 3rem)', // Adjust the height accordingly
+                width: 'calc(100% - 2rem)', // Adjust the width accordingly (here: 100% - 4rem
+                height: '100%', // Adjust the height accordingly
                 border: '1px solid grey',
                 marginTop: '1rem',
-                borderRadius: '3%',
+                borderRadius: '3px',
+                marginLeft: '1rem',
+
               }}
           >
             chat

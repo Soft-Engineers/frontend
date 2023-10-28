@@ -96,9 +96,10 @@ const ButtonsBox = () => {
             width: '100%',
             border: '1px solid grey',
             borderRadius: '3%',
-            marginLeft: '1rem',
-            backgroundColor: '#f2f2ff',
+            marginLeft: '0.5rem',
+            marginRight: '0.5rem',
             fontSize: '18px',
+            height :'150px',
         },
         button: {
             backgroundColor: '#515952',
