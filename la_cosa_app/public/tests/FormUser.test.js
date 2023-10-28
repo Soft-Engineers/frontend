@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, waitFor, } from '@testing-library/react';
+import {render, fireEvent, waitFor, waitForElementToBeRemoved,} from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import SelectName from '../../src/screens/SelectName/index.jsx';
 import Main from '../../src/screens/MainPage/index.jsx';
@@ -22,7 +22,7 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -47,7 +47,7 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -83,7 +83,7 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -96,6 +96,12 @@ describe('FormUser', () => {
             expect(navigateMock).not.toHaveBeenCalled(); // En caso de error no se llama la funcion navigate
             expect(getByText('Invalid fields')).toBeInTheDocument();
         });
+
+        //Testeo si hago click en cualquier lado se cierra el mensaje de error y si hago click en el mensaje no se cierra
+        fireEvent.click(getByText('Invalid fields'))
+        expect(getByText('Invalid fields')).toBeInTheDocument();
+        fireEvent.click(document)
+        await waitForElementToBeRemoved(() => getByText('Invalid fields'));
     });
 
     it('Caso: Input vacio', async () => {
@@ -104,7 +110,7 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
@@ -117,4 +123,5 @@ describe('FormUser', () => {
             expect(axios.post).not.toHaveBeenCalled();
         });
     });
+
 });

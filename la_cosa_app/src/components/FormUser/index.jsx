@@ -48,9 +48,6 @@ const FormUser = () => {
   const [body, setBody] = useState("");
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     setOpen(false);
   };
 
@@ -104,6 +101,7 @@ const FormUser = () => {
       body={body}
       severity={severity}
       handleClose={handleClose}
+      data-testid="snackbar"
     />
     </div>
   );
