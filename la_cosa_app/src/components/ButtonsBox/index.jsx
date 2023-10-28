@@ -188,6 +188,19 @@ const ButtonsBox = () => {
                             </Button>
                         </>)
                     }
+                    {(state.turnState === turnStates.PANIC) && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handlePlayCard}
+                            sx={{
+                                ...styles.button,
+                                backgroundColor: '#973F67',
+                            }}
+                        >
+                            Jugar Carta
+                        </Button>
+                    )}
                 </>
             )}
             {!state.isTurn && (

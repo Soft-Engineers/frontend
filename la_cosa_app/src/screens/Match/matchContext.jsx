@@ -14,6 +14,7 @@ export const turnStates = {
     EXCHANGE: 4,
     WAIT_EXCHANGE: 5,
     WAIT_DEFENSE: 6,
+    PANIC: 7,
 };
 
 

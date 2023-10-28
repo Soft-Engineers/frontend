@@ -54,57 +54,60 @@ const Match = () => {
   };
 
   return (
-    <Grid container sx={{ minHeight: '95vh', overflow: 'auto', backgroundColor: '#fafffa' }}>
-
-      {/* First half */}
-      {/* TODO: probar */}
-      {!state.isDeadPlayer &&
-        <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
-          <PlayerRound>
-            <RoleSign />
-          </PlayerRound>
-          {(state.isTurn && state.turnState === turnStates.WAIT_DEFENSE) && <LinearProgress
-            variant="determinate"
-            value={((timeoutRemaining) / timeoutDuration) * 100}
-            sx={{ height: 20, margin: '0.1rem' }}
-          />}
-          <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.2rem' }} >
-            <PlayersHand cartas={state.hand} />
-            <ButtonsBox />
-          </Paper>
-
-        </Grid>}
-      {/* Second half */}
-      <Grid item xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
-          <Notifications messages={state.avisos} />
-        </Box>
-        <Box sx={{
-          width: '95%', height: '45%', border: '1px solid grey', marginTop: '1rem', borderRadius: '3%',
-        }}>
-          chat
-        </Box>
+      <Grid container sx={{ minHeight: '95vh', overflow: 'auto', backgroundColor: '#fafffa' }}>
+        {!state.isDeadPlayer && (
+            <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <PlayerRound>
+                <RoleSign />
+              </PlayerRound>
+              {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
+                  <LinearProgress
+                      variant="determinate"
+                      value={(timeoutRemaining / timeoutDuration) * 100}
+                      sx={{ height: 20, margin: '0.1rem' }}
+                  />
+              )}
+              <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop: '1rem' }}>
+                <PlayersHand cartas={state.hand} />
+                <ButtonsBox />
+              </Paper>
+            </Grid>
+        )}
+        <Grid item xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <Notifications messages={state.avisos} />
+          </Box>
+          <Box
+              sx={{
+                width: '95%',
+                height: 'calc(100% - 3rem)', // Adjust the height accordingly
+                border: '1px solid grey',
+                marginTop: '1rem',
+                borderRadius: '3%',
+              }}
+          >
+            chat
+          </Box>
+        </Grid>
+        {state.isDeadPlayer && (
+            <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '60%',
+                  marginLeft: '5rem',
+                  marginTop: '5rem',
+                  height: '100%',
+                }}
+            >
+              {state.isDeadPlayer && <h1 style={{ fontSize: '8rem', color: 'red' }}> Has muerto...</h1>}
+            </Box>
+        )}
+        {state.turnState === 3 && <EndGameBanner reason={state.reason} winners={state.winners} />}
+        <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
+        {state.reveal && !state.isDeadPlayer && <ShowHandBanner />}
       </Grid>
-      {state.isDeadPlayer && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '60%',
-            marginLeft: '5rem',
-            marginTop: '5rem',
-
-            height: '100%',
-          }}
-        >
-          {state.isDeadPlayer && <h1 style={{ fontSize: '8rem', color: 'red' }}> Has muerto...</h1>}
-        </Box>
-      )}
-      {(state.turnState === 3) && <EndGameBanner reason={state.reason} winners={state.winners} />}
-      <SnackBar open={state.open} handleClose={handleClose} severity={state.severity} body={state.body} />
-      {(state.reveal && !state.isDeadPlayer) && <ShowHandBanner />}
-    </Grid>
   );
 };
 
