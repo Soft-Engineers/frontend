@@ -7,14 +7,10 @@ import {useMatchC} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
 const cardEffectListStyle = {
-    width: '100%',
-    maxHeight: '430px',
-    height: '100%',
+    minHeight: '435px',
     overflow: 'auto',
     border: '1px solid grey',
     borderRadius: '3px',
-    marginBottom : '0.5rem',
-
 };
 
 const Notifications = ({ messages}) => {

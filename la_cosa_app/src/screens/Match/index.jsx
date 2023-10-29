@@ -57,40 +57,37 @@ const Match = () => {
       <Grid container sx={{ minHeight: '95vh' , backgroundColor: '#fafffa' }}>
         {!state.isDeadPlayer && (
             <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <PlayerRound>
-                <RoleSign />
-              </PlayerRound>
-              {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
-                  <LinearProgress
-                      variant="determinate"
-                      value={(timeoutRemaining / timeoutDuration) * 100}
-                      sx={{ height: 20, margin: '0.1rem' }}
-                  />
-              )}
-              <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.5rem'}}>
-                <PlayersHand cartas={state.hand} />
-                <ButtonsBox />
-              </Box>
+                <PlayerRound>
+                    <RoleSign />
+                </PlayerRound>
+                <LinearProgress
+                    variant="determinate"
+                    value={(timeoutRemaining / timeoutDuration) * 100}
+                    sx={{ height: '1rem', margin: '0.1rem', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                    <PlayersHand cartas={state.hand} />
+                    <ButtonsBox />
+                </Box>
             </Grid>
         )}
-        <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Box sx={{ width: 'calc(100% - 2rem)', height: '100%', justifyContent: 'center' , marginLeft: '1rem',}}>
-            <Notifications messages={state.avisos} />
-          </Box>
-          <Box
-              sx={{
-                width: 'calc(100% - 2rem)',
-                height: '100%',
-                maxHeight : '170px',
-                border: '1px solid grey',
-                borderRadius: '3px',
-                marginLeft: '1rem',
-                marginTop: '0.5rem',
-              }}
-          >
-            chat
-          </Box>
-        </Grid>
+            <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' , width: 'calc(100% - 2rem)'}}>
+                <Box sx={{height: '100%', justifyContent: 'center' , marginLeft: '1rem',}}>
+                    <Notifications messages={state.avisos} />
+                </Box>
+                <Box
+                    sx={{
+
+                        height: '100%',
+                        maxHeight : '170px',
+                        border: '1px solid grey',
+                        borderRadius: '3px',
+                        marginLeft: '1rem',
+                    }}
+                >
+                    chat
+                </Box>
+            </Grid>
         {state.isDeadPlayer && (
             <Box
                 sx={{

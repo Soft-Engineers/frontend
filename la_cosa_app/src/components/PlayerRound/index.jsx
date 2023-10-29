@@ -73,8 +73,8 @@ const PlayerRound = () => {
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 180; // Horizontal radius
-    const radiusY = 170; // Vertical radius
+    const radiusX = 170; // Horizontal radius
+    const radiusY = 160; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -92,13 +92,12 @@ const PlayerRound = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        maxHeight: '430px',
+        minHeight: '430px',
         height: '100%',
         width: '100%',
         border: '1px solid grey',
         borderRadius: '3px',
         backgroundColor: '#f2f2ff',
-        marginBottom: '0.5rem'
 };
 
     const roleSignStyle = {
