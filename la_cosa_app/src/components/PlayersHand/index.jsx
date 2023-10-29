@@ -1,4 +1,5 @@
-import { useEffect, useState, React } from 'react';
+import React from 'react';
+import { useEffect, useState} from 'react'
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
@@ -7,10 +8,6 @@ const styles = {
     mano: {
         display: 'flex',
         justifyContent: 'center',
-    },
-    cartaHovered: {
-        transform: 'translateY(-1cm)',
-        transition: 'transform 0.2s',
     },
 };
 
@@ -55,7 +52,7 @@ const PlayersHand = () => {
                     onClick={() => handleCardClick(objCarta)}
                     style={hoveredCard === objCarta ? styles.cartaHovered : {}}
                 >
-                    <Carta nombre={objCarta.card_name} />
+                    <Carta nombre={objCarta.card_name} hovered={hoveredCard === objCarta} />
                 </div>
             ))}
         </Stack>
