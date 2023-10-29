@@ -93,12 +93,13 @@ const ButtonsBox = () => {
             justifyContent: 'space-evenly',
             alignItems: 'center',
             textAlign: 'center',
-            width: '100%',
             border: '1px solid grey',
-            borderRadius: '3%',
+            borderRadius: '3px',
             marginLeft: '1rem',
-            backgroundColor: '#f2f2ff',
             fontSize: '18px',
+            height: '100%',
+            maxHeight : '170px',
+            width: '100%',
         },
         button: {
             backgroundColor: '#515952',
@@ -188,6 +189,19 @@ const ButtonsBox = () => {
                             </Button>
                         </>)
                     }
+                    {(state.turnState === turnStates.PANIC) && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handlePlayCard}
+                            sx={{
+                                ...styles.button,
+                                backgroundColor: '#973F67',
+                            }}
+                        >
+                            Jugar Carta
+                        </Button>
+                    )}
                 </>
             )}
             {!state.isTurn && (

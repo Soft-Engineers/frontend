@@ -82,7 +82,7 @@ const Carta = ({ nombre, hovered }) => {
     const cartaStyles = {
         maxWidth: '280px',
         maxHeight: '330px',
-        backgroundColor: 'grey', // Color de fondo
+        backgroundColor: '#cccaca', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
         transform: hovered ? 'translateY(-1cm)' : 'none',
         transition: 'transform 0.2s',

@@ -12,9 +12,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
-        width: '80px',
-        height: '80px',
-        border: (state.target_name === player.player_name && !isThisPlayerDead && state.turnState === 2) ? '2px solid red' : '2px solid transparent',
+        width: '70px',
+        height: '70px',
+        border: (state.target_name === player.player_name && !isThisPlayerDead && (state.turnState === 2 || state.turnState === 7)) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
         margin: '10px',
         display: 'flex',
@@ -73,8 +73,8 @@ const PlayerRound = () => {
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 150; // Horizontal radius
-    const radiusY = 140; // Vertical radius
+    const radiusX = 180; // Horizontal radius
+    const radiusY = 170; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -92,13 +92,13 @@ const PlayerRound = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        maxHeight: '420px',
         height: '100%',
         width: '100%',
         border: '1px solid grey',
-        borderRadius: '3%',
+        borderRadius: '3px',
         backgroundColor: '#f2f2ff',
-        position: 'relative',
-        marginBottom: '0.2rem',
+        marginBottom: '0.5rem'
 };
 
     const roleSignStyle = {
