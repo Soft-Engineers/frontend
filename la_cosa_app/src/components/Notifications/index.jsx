@@ -8,10 +8,12 @@ import Typography from "@mui/material/Typography";
 
 const cardEffectListStyle = {
     width: '100%',
-    height: '452px',
+    maxHeight: '420px',
+    height: '100%',
     overflow: 'auto',
     border: '1px solid grey',
     borderRadius: '3px',
+    marginBottom : '0.5rem',
 
 };
 

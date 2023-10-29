@@ -92,6 +92,7 @@ const PlayerRound = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        maxHeight: '420px',
         height: '100%',
         width: '100%',
         border: '1px solid grey',
