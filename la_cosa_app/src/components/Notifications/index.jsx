@@ -7,10 +7,12 @@ import {useMatchC} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
 const cardEffectListStyle = {
-    minHeight: '435px',
-    overflow: 'auto',
+
     border: '1px solid grey',
     borderRadius: '3px',
+    overflow: 'auto',
+    minHeight: '70%',
+    marginLeft: '1.2rem',
 };
 
 const Notifications = ({ messages}) => {
@@ -39,14 +41,14 @@ const Notifications = ({ messages}) => {
 
     return (
         <Paper style={cardEffectListStyle}>
+            <ListItem>
+                <ListItemText primary={
+                    <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>
+                        Es el turno de {state.currentTurn}
+                    </Typography>
+                } />
+            </ListItem>
             <List>
-                <ListItem>
-                    <ListItemText primary={
-                        <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>
-                            Es el turno de {state.currentTurn}
-                        </Typography>
-                    } />
-                </ListItem>
                 {messageList.map((message, index) => renderMessage(message, index))}
             </List>
         </Paper>

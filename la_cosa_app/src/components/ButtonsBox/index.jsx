@@ -97,8 +97,6 @@ const ButtonsBox = () => {
             borderRadius: '3px',
             marginLeft: '1rem',
             fontSize: '18px',
-            height: '100%',
-            maxHeight : '170px',
             width: '100%',
         },
         button: {

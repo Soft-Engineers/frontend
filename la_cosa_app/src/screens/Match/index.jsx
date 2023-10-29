@@ -63,26 +63,23 @@ const Match = () => {
                 <LinearProgress
                     variant="determinate"
                     value={(timeoutRemaining / timeoutDuration) * 100}
-                    sx={{ height: '1rem', margin: '0.1rem', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
+                    sx={{ minHeight: '1rem', margin: '0.2rem', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
                 />
-                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '25%'}}>
                     <PlayersHand cartas={state.hand} />
                     <ButtonsBox />
                 </Box>
             </Grid>
         )}
             <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' , width: 'calc(100% - 2rem)'}}>
-                <Box sx={{height: '100%', justifyContent: 'center' , marginLeft: '1rem',}}>
-                    <Notifications messages={state.avisos} />
-                </Box>
+                <Notifications messages={state.avisos} />
                 <Box
                     sx={{
-
-                        height: '100%',
-                        maxHeight : '170px',
+                        height: '30%',
                         border: '1px solid grey',
                         borderRadius: '3px',
-                        marginLeft: '1rem',
+                        marginLeft: '1.2rem',
+                        marginTop: '1.2rem',
                     }}
                 >
                     chat
