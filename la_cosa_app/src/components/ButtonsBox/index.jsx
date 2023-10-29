@@ -115,6 +115,20 @@ const ButtonsBox = () => {
                 backgroundColor: 'darkred',
             },
         },
+        panicButton: {
+            backgroundColor: '#973F67',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#5D2E39',
+            },
+        },
+        defenseButton: {
+            backgroundColor: '#3968B1',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#393FA1',
+            },
+        },
     };
 
     return (
@@ -159,23 +173,46 @@ const ButtonsBox = () => {
                             />
                         </>
                     )}
-                    {(state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE) && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleExchange}
-                            sx={styles.button}
-                        >
-                            Intercambiar Carta
-                        </Button>
-                    )}
+
+                    {state.turnState === turnStates.EXCHANGE && (
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleExchange}
+                                sx={styles.button}
+                            >
+                                Intercambiar
+                            </Button>)
+
+                    }
+                    {state.turnState === turnStates.WAIT_EXCHANGE && (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleExchange}
+                                sx={styles.button}
+                            >
+                                Intercambiar
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handlePlayCard}
+                                sx={styles.defenseButton}
+                            >
+                                Jugar carta
+                            </Button>
+                        </>)
+                    }
                     {state.turnState === turnStates.WAIT_DEFENSE && (
                         <>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={handlePlayCard}
-                                sx={styles.button}
+                                sx={styles.defenseButton}
                             >
                                 Jugar carta
                             </Button>
@@ -194,10 +231,7 @@ const ButtonsBox = () => {
                             variant="contained"
                             color="primary"
                             onClick={handlePlayCard}
-                            sx={{
-                                ...styles.button,
-                                backgroundColor: '#973F67',
-                            }}
+                            sx={styles.panicButton}
                         >
                             Jugar Carta
                         </Button>

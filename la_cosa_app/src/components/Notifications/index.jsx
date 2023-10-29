@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 
 const cardEffectListStyle = {
     width: '100%',
-    maxHeight: '420px',
+    maxHeight: '430px',
     height: '100%',
     overflow: 'auto',
     border: '1px solid grey',
