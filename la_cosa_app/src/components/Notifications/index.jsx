@@ -6,14 +6,16 @@ import { List } from '@mui/material';
 import {useMatchC} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
-const cardEffectListStyle = {
-
-    border: '1px solid grey',
-    borderRadius: '3px',
+const ListStyle = {
+    width: '95%',
+    height: '400px', // Set a fixed height
     overflow: 'auto',
-    minHeight: '70%',
-    marginLeft: '1.2rem',
+    marginTop: '0.5rem',
+    marginLeft: '0.1rem',
+    border: '1px solid grey',
+    borderRadius: '3%',
 };
+
 
 const Notifications = ({ messages}) => {
     const { state} = useMatchC();
@@ -40,7 +42,7 @@ const Notifications = ({ messages}) => {
     };
 
     return (
-        <Paper style={cardEffectListStyle}>
+        <Paper style={ListStyle}>
             <ListItem>
                 <ListItemText primary={
                     <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>

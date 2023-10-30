@@ -92,11 +92,12 @@ const PlayerRound = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '70%',
+        height: '70%',
         width: '100%',
         border: '1px solid grey',
         borderRadius: '3px',
         backgroundColor: '#f2f2ff',
+        position: 'relative',
 };
 
     const roleSignStyle = {
