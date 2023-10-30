@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
-import {useMatchC} from "../../screens/Match/matchContext.jsx";
+import {useMatchC, turnStates} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
 const ListStyle = {
@@ -25,9 +25,8 @@ const Notifications = ({ messages}) => {
 
     const renderMessage = (message, index) => {
         const isInfected = message.includes('LA COSA TE INFECTÓ!!');
-        const isDefense = message.includes('TE JUGARON UNA CARTA, DEFENDETE!!');
         const messageStyle = {
-            color: isInfected ? 'red' : isDefense ? '#3968B1' : 'black',
+            color: isInfected ? 'red': 'black',
         };
 
         return (
@@ -39,12 +38,18 @@ const Notifications = ({ messages}) => {
 
     return (
         <Paper style={ListStyle}>
-            <ListItem>
+            <ListItem sx={{flexDirection: 'column', alignItems: 'flex-start'}}>
                 <ListItemText primary={
-                    <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>
+                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black'}}>
                         Es el turno de {state.currentTurn}
                     </Typography>
                 } />
+                {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
+                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
+                        TE JUGARON UNA CARTA, DEFENDETE!!
+                    </Typography>
+                )
+                }
             </ListItem>
             <List>
                 {messageList.map((message, index) => renderMessage(message, index))}

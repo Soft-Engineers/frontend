@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useMatchC, turnStates } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
@@ -124,7 +124,6 @@ export const leaveLobby = async (player_name, match_name) => {
 
 export const handle_socket_messages = () => {
   const { state, actions } = useMatchC();
-  const [defendNotification, setDefendNotification] = useState(false);
 
   const match_name = sessionStorage.getItem('match_name');
   const player_name = sessionStorage.getItem('player_name');
@@ -183,10 +182,6 @@ export const handle_socket_messages = () => {
             }
             else{
               actions.setIsTurn(false);
-            }
-            if (state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && !defendNotification){
-              actions.setAvisos([...state.avisos, 'TE JUGARON UNA CARTA, DEFENDETE!!']);
-              setDefendNotification(true);
             }
             actions.setTurnState(data.message_content.game_state);
             break;
