@@ -16,7 +16,6 @@ const RoleSign = () => {
         color = 'red';
         description = 'Su objetivo es trabajar con la Cosa para infectar al resto de los humanos o eliminarlos de la partida';
     } else if (state.role === 'LA_COSA') {
-        actions.setRole('LA COSA');
         color = 'black';
     }else if (state.role === 'HUMANO') {
         color = 'blue';
@@ -55,7 +54,7 @@ const RoleSign = () => {
                     style={style}
                     onClick={handleTooltipOpen}
                 >
-                    {state.role}
+                    {state.role.includes('LA_COSA') ? 'LA COSA' : state.role}
                 </span>
             </Tooltip>
         </ClickAwayListener>

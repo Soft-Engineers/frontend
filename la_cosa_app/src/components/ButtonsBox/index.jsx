@@ -94,7 +94,7 @@ const ButtonsBox = () => {
             alignItems: 'center',
             textAlign: 'center',
             border: '1px solid grey',
-            borderRadius: '3px',
+            borderRadius: '30px',
             marginLeft: '1rem',
             fontSize: '18px',
             width: '100%',
