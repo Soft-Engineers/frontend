@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Table from "./../../src/components/Table";
-import {MemoryRouter, Route, Routes, useNavigate} from "react-router-dom";
+import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 jest.mock('axios');
@@ -28,7 +28,7 @@ describe('Table', () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         expect(screen.getByText('Table 1')).toBeInTheDocument();
         expect(screen.getByText('2')).toBeInTheDocument();
         expect(screen.getByText('4')).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('Table', () => {
     it('Join Match Exitoso', async () => {
         const navigateMock = jest.fn();
         useNavigate.mockReturnValue(navigateMock);
-        localStorage.setItem('player_name', 'playerName');
+        sessionStorage.setItem('player_name', 'playerName');
         axios.post.mockResolvedValueOnce({ status: 200 });
 
         const data = [
