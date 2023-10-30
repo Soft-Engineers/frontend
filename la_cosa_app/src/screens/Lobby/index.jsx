@@ -8,9 +8,9 @@ import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlin
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost  as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
+import { isHost as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
 import SnackBar from '../../components/SnackBar';
-
+import React from 'react';
 
 const styles = {
     container: {
@@ -46,8 +46,8 @@ const Lobby = () => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
         socket.onopen = () => {
             console.log("Conectado al socket del lobby");
-            console.log('Yo soy ', player_name)
         };
+
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.message_type === "jugadores lobby") {
@@ -58,16 +58,15 @@ const Lobby = () => {
                 navigate(`/match/${match_name}`);
                 console.log(waitmsg);
             }
-            else if(data.message_type === "player_left"){
+            else if (data.message_type === "player_left") {
                 console.log(data.message_content);
                 console.log(data.message_content.message);
-
                 setSeverity("error");
                 setBody(data.message_content.message);
                 setOpen(true);
                 setJugadores(data.message_content.players);
             }
-            else if(data.message_type === "match_deleted"){
+            else if (data.message_type === "match_deleted") {
                 setSeverity("error");
                 setBody(data.message_content.message_content);
                 setOpen(true);
@@ -80,7 +79,7 @@ const Lobby = () => {
             else {
                 console.log('Mensaje no reconocido');
             }
-        }
+        };
 
         socket.onclose = () => {
             console.log("Desconectado del socket del lobby");
@@ -93,7 +92,7 @@ const Lobby = () => {
 
     // Verificar si es el host
     useEffect(() => {
-        const response = checkIsHost (player_name, match_name);
+        const response = checkIsHost(player_name, match_name);
         response.then((data) => {
             setIsHost(data.data.is_host);
             console.log(isHost);
@@ -117,12 +116,12 @@ const Lobby = () => {
     const handleLeaveMatch = async (player_name, match_name) => {
         try {
             const response = await leaveLobby(player_name, match_name);
-            if(response.status === 200){
+            if (response.status === 200) {
                 navigate(`/mainpage/${player_name}`)
             }
         } catch (error) {
             setSeverity("error");
-            setBody("Ha ocurrido un error");
+            setBody(error.response.data.detail);
             setOpen(true);
         }
     }
@@ -137,7 +136,7 @@ const Lobby = () => {
 
     return (
         <Container >
-            <Header/>
+            <Header />
             <Grid container spacing={2} sx={styles.container}>
                 {/* Primera mitad */}
                 <Grid item xs={6}>
@@ -157,7 +156,7 @@ const Lobby = () => {
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
                     <RButton
-                        text="Abandonar Partida"
+                        text="Abandonar Sala"
                         action={() => handleLeaveMatch(player_name, match_name)}
                         icon={<ExitToAppIcon />}
                     />

@@ -1,4 +1,5 @@
 import Stack from '@mui/material/Stack';
+import React from 'react';
 import { Card } from '@mui/material';
 import lacosa from '../../assets/cartas_recortadas/001.png';
 import infectado1 from '../../assets/cartas_recortadas/002.png';
@@ -81,7 +82,7 @@ const Carta = ({ nombre }) => {
     const cartaStyles = {
         maxWidth: '280px',
         maxHeight: '330px',
-        backgroundColor: 'grey', // Color de fondo
+        backgroundColor: '#cccaca', // Color de fondo
         borderRadius: '10px', // Bordes redondeados
     };
 

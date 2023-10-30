@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
-    const { state, actions } = useMatchC();
+    const {state} = useMatchC();
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
@@ -45,6 +45,8 @@ const ShowHandBanner = () => {
         backgroundColor: 'white',
         borderRadius: '8px',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        flexDirection: 'column',
     };
 
     const overlayStyles = {
@@ -55,10 +57,6 @@ const ShowHandBanner = () => {
         height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
         zIndex: '999',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
     };
 
     return (
@@ -71,12 +69,12 @@ const ShowHandBanner = () => {
                             Efecto {trigger_card}
                         </Typography>
                         <Typography variant="h6" component="div">
-                            Esta es la mano de {player}
+                            {`Esta es la ${trigger_card === 'Whisky' ? 'mano' : 'carta'} de ${player}`}
                         </Typography>
 
-                        <Stack direction="row" spacing={0.2}>
+                        <Stack direction="row" sx={{justifyContent:'center'}}>
                             {hand.map((carta, index) => (
-                                <div key={index} >
+                                <div key={index} style={{width:'60%'}}>
                                     <Carta nombre={carta} />
                                 </div>
                             ))}

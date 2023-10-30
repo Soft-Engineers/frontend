@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { useMatchC, turnStates } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
@@ -187,7 +187,7 @@ export const handle_socket_messages = () => {
             break;
           case 'infectado':
             if (state.role !== 'INFECTADO'){
-              actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+              actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
             break;

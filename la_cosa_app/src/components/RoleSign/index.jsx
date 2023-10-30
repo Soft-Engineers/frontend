@@ -29,6 +29,7 @@ const RoleSign = () => {
         fontSize,
         fontWeight,
         cursor: 'pointer',
+        margin: '1rem',
     };
 
     const handleTooltipClose = () => {
