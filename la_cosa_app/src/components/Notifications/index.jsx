@@ -7,13 +7,8 @@ import {useMatchC} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
 const ListStyle = {
-    width: '95%',
-    height: '400px', // Set a fixed height
-    overflow: 'auto',
-    marginTop: '0.5rem',
-    marginLeft: '0.1rem',
-    border: '1px solid grey',
-    borderRadius: '3%',
+    display : 'flex',
+    flexDirection: 'column',
 };
 
 
@@ -29,9 +24,10 @@ const Notifications = ({ messages}) => {
     }, [messages]);
 
     const renderMessage = (message, index) => {
-        const isInfected = message.includes('LA COSA TE HA INFECTADO!!');
+        const isInfected = message.includes('LA COSA TE INFECTÓ!!');
+        const isDefense = message.includes('TE JUGARON UNA CARTA, DEFENDETE!!');
         const messageStyle = {
-            color: isInfected ? 'red' : 'black',
+            color: isInfected ? 'red' : isDefense ? '#3968B1' : 'black',
         };
 
         return (

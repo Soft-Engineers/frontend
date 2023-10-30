@@ -55,7 +55,7 @@ const Match = () => {
   };
 
   return (
-      <Grid container sx={{ minHeight: '95vh', overflow: 'auto', backgroundColor: '#fafffa' }}>
+      <Grid container sx={{ minHeight: '95vh', backgroundColor: '#fafffa'}}>
 
         {/* First half */}
         {/* TODO: probar */}
@@ -64,26 +64,24 @@ const Match = () => {
               <PlayerRound>
                 <RoleSign />
               </PlayerRound>
-              {(state.isTurn && state.turnState === turnStates.WAIT_DEFENSE) && <LinearProgress
+              <LinearProgress
                   variant="determinate"
-                  value={((timeoutRemaining) / timeoutDuration) * 100}
-                  sx={{ height: 20, margin: '0.1rem' }}
-              />}
-              <Paper sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.2rem' }} >
+                  value={(timeoutRemaining / timeoutDuration) * 100}
+                  sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '180px', maxHeight: '180px'}} >
                 <PlayersHand cartas={state.hand} />
                 <ButtonsBox />
-              </Paper>
+              </Box>
 
             </Grid>}
         {/* Second half */}
-        <Grid item xs={4} sx={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Box sx={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
+        <Grid item xs={4} sx={{ height: '95vh', display: 'flex', flexDirection: 'column', width: '95%'}}>
+          <Box sx={{minHeight: 'calc(100%-180px)', maxHeight: 'calc(100%-180px)', overflow: 'auto', marginLeft: '20px', marginBottom: '16.1px', border: '1px solid grey', borderRadius: '3px', flex: '1'}}>
             <Notifications messages={state.avisos} />
           </Box>
-          <Box sx={{
-            width: '95%', height: '45%', border: '1px solid grey', marginTop: '1rem', borderRadius: '3%',
-          }}>
-            chat
+          <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '3px',maxHeight: '178px', minHeight: '178px', marginLeft: '1.4rem',}}>
+            <Chat/>
           </Box>
         </Grid>
         {state.isDeadPlayer && (

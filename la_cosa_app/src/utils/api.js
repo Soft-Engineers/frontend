@@ -183,11 +183,14 @@ export const handle_socket_messages = () => {
             else{
               actions.setIsTurn(false);
             }
+            if (state.isTurn && state.turnState !== turnStates.WAIT_DEFENSE){
+              actions.setAvisos([...state.avisos, 'TE JUGARON UNA CARTA, DEFENDETE!!']);
+            }
             actions.setTurnState(data.message_content.game_state);
             break;
           case 'infectado':
             if (state.role !== 'INFECTADO'){
-              actions.setAvisos([...state.avisos, 'LA COSA TE HA INFECTADO!!']);
+              actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
             break;

@@ -73,8 +73,8 @@ const PlayerRound = () => {
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 170; // Horizontal radius
-    const radiusY = 160; // Vertical radius
+    const radiusX = 160; // Horizontal radius
+    const radiusY = 150; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -92,7 +92,7 @@ const PlayerRound = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '70%',
+        height: '100%',
         width: '100%',
         border: '1px solid grey',
         borderRadius: '3px',
