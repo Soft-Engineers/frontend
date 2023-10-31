@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
-    const {state} = useMatchC();
+    const {state, actions} = useMatchC();
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
@@ -31,20 +31,22 @@ const ShowHandBanner = () => {
 
         return () => {
             clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
-            //actions.setReveal(false);
+            actions.setReveal(false);
         };
     }, []);
 
 
     const bannerStyles = {
         position: 'absolute',
-        top: '30%',
+        top: '35%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
         backgroundColor: 'white',
         borderRadius: '8px',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        flexDirection: 'column',
     };
 
     const overlayStyles = {
@@ -55,10 +57,6 @@ const ShowHandBanner = () => {
         height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
         zIndex: '999',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
     };
 
     return (
@@ -67,16 +65,16 @@ const ShowHandBanner = () => {
                 <div style={overlayStyles}>
 
                     <Paper style={bannerStyles}>
-                        <Typography variant="h5" component="div">
+                        <Typography variant="h5" component="div" style={{borderBottom: '2px solid black'}}>
                             Efecto {trigger_card}
                         </Typography>
-                        <Typography variant="h6" component="div">
-                            Esta es la mano de {player}
+                        <Typography variant="h6" component="div" sx={{marginTop: '10px'}}>
+                            {`Esta es ${trigger_card === 'Whisky' ? 'la mano' : 'una carta'} de ${player}`}
                         </Typography>
 
-                        <Stack direction="row" spacing={0.2}>
+                        <Stack direction="row" sx={{justifyContent:'center', marginTop: '10px'}}>
                             {hand.map((carta, index) => (
-                                <div key={index} >
+                                <div key={index} style={{width:'60%'}}>
                                     <Carta nombre={carta} />
                                 </div>
                             ))}
