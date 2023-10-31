@@ -16,6 +16,7 @@ describe('Lobby', () => {
         );
 
         expect(screen.getByText('Esperando que el host inicie la partida...')).toBeInTheDocument();
+        expect(screen.getByText('Abandonar Sala')).toBeInTheDocument();
     });
 
     it('Renderiza sin errores para el host', async () => {
@@ -35,6 +36,7 @@ describe('Lobby', () => {
 
 
         const startButton = await waitFor(() => screen.getByText('Iniciar Partida'));
+        expect(startButton).toBeInTheDocument();
         fireEvent.click(startButton);
 
 

@@ -46,7 +46,6 @@ const Lobby = () => {
         const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
         socket.onopen = () => {
             console.log("Conectado al socket del lobby");
-            console.log('Yo soy ', player_name)
         };
 
         socket.onmessage = (event) => {
@@ -62,7 +61,6 @@ const Lobby = () => {
             else if (data.message_type === "player_left") {
                 console.log(data.message_content);
                 console.log(data.message_content.message);
-
                 setSeverity("error");
                 setBody(data.message_content.message);
                 setOpen(true);
@@ -81,7 +79,7 @@ const Lobby = () => {
             else {
                 console.log('Mensaje no reconocido');
             }
-        }
+        };
 
         socket.onclose = () => {
             console.log("Desconectado del socket del lobby");
@@ -123,7 +121,7 @@ const Lobby = () => {
             }
         } catch (error) {
             setSeverity("error");
-            setBody("Ha ocurrido un error");
+            setBody(error.response.data.detail);
             setOpen(true);
         }
     }
@@ -158,7 +156,7 @@ const Lobby = () => {
                         <h2>Esperando que el host inicie la partida...</h2>
                     )}
                     <RButton
-                        text="Abandonar Partida"
+                        text="Abandonar Sala"
                         action={() => handleLeaveMatch(player_name, match_name)}
                         icon={<ExitToAppIcon />}
                     />

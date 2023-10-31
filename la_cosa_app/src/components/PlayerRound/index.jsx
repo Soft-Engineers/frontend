@@ -12,9 +12,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
-        width: '80px',
-        height: '80px',
-        border: (state.target_name === player.player_name && !isThisPlayerDead && state.turnState === 2) ? '2px solid red' : '2px solid transparent',
+        width: '70px',
+        height: '70px',
+        border: (state.target_name === player.player_name && !isThisPlayerDead && (state.turnState === 2 || state.turnState === 7)) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
         margin: '10px',
         display: 'flex',
@@ -65,16 +65,11 @@ const PlayerRound = () => {
 
     const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
 
-    if (!currentPlayer) {
-        console.log('El jugador actual no está en la lista de jugadores');
-        return null;
-    }
-
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 150; // Horizontal radius
-    const radiusY = 140; // Vertical radius
+    const radiusX = 160; // Horizontal radius
+    const radiusY = 150; // Vertical radius
     const centerX = 0;
     const centerY = 0;
 
@@ -95,10 +90,9 @@ const PlayerRound = () => {
         height: '100%',
         width: '100%',
         border: '1px solid grey',
-        borderRadius: '3%',
+        borderRadius: '30px',
         backgroundColor: '#f2f2ff',
         position: 'relative',
-        marginBottom: '0.2rem',
 };
 
     const roleSignStyle = {

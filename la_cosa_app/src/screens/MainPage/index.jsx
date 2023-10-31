@@ -8,9 +8,11 @@ import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
 import { getPartidas } from '../../utils/api';
 import FormPartida from '../../components/FormPartida';
 
+
+
 const styles = {
   root: {
-    minHeight: '80vh', // Adjusting the height to exclude the header's height
+    minHeight: '80vh',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
