@@ -1,4 +1,4 @@
-import { render, fireEvent} from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import PlayersHand from './../../src/components/PlayersHand';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
@@ -7,8 +7,8 @@ import React from 'react';
 jest.mock('../../src/screens/Match/matchContext', () => {
     const state = {
         hand: [{ card_name: 'La Cosa' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
-        currentTurn: 1,
         selectedCard: null, // Usa el estado definido
+        isDeadPlayer: false,
     };
 
     const actions = {
@@ -24,6 +24,7 @@ jest.mock('../../src/screens/Match/matchContext', () => {
 });
 
 describe('PlayersHand', () => {
+    sessionStorage.setItem('player_name', 'playerName');
 
     it('renderiza las cartas de la mano correctamente', () => {
 

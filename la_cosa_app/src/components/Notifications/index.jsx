@@ -3,17 +3,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
-import {useMatchC, turnStates} from "../../screens/Match/matchContext.jsx";
+import { useMatchC, turnStates } from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
 const ListStyle = {
-    display : 'flex',
+    display: 'flex',
     flexDirection: 'column',
 };
 
 
-const Notifications = ({ messages}) => {
-    const { state} = useMatchC();
+const Notifications = ({ messages }) => {
+    const { state } = useMatchC();
 
     const [messageList, setMessageList] = useState([]);
 
@@ -26,7 +26,7 @@ const Notifications = ({ messages}) => {
     const renderMessage = (message, index) => {
         const isInfected = message.includes('LA COSA TE INFECTÓ!!');
         const messageStyle = {
-            color: isInfected ? 'red': 'black',
+            color: isInfected ? 'red' : 'black',
         };
 
         return (
@@ -37,15 +37,15 @@ const Notifications = ({ messages}) => {
     };
 
     return (
-        <Paper style={ListStyle}>
-            <ListItem sx={{flexDirection: 'column', alignItems: 'flex-start'}}>
+        <Paper style={ListStyle} data-testid="notifications">
+            <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <ListItemText primary={
-                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black'}}>
+                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black' }}>
                         Es el turno de {state.currentTurn}
                     </Typography>
                 } />
                 {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
-                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
+                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px' }}>
                         TE JUGARON UNA CARTA, DEFENDETE!!
                     </Typography>
                 )

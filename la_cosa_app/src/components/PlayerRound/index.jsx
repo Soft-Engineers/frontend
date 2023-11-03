@@ -1,5 +1,5 @@
 import Deck from '../../components/Deck/';
-import {useMatchC} from '../../screens/Match/matchContext.jsx';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React from "react";
 import Box from "@mui/material/Box";
@@ -21,7 +21,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '50%',
-};
+    };
 
     const cardStyle = {
         position: 'absolute',
@@ -93,7 +93,7 @@ const PlayerRound = () => {
         borderRadius: '30px',
         backgroundColor: '#f2f2ff',
         position: 'relative',
-};
+    };
 
     const roleSignStyle = {
         position: 'absolute',
@@ -102,7 +102,7 @@ const PlayerRound = () => {
     };
 
     return (
-        <Box sx={containerStyle}>
+        <Box sx={containerStyle} data-testid="playersRound">
             <div style={roleSignStyle}>
                 <RoleSign />
             </div>

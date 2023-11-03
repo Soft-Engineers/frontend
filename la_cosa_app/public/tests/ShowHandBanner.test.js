@@ -4,9 +4,11 @@ import ShowHandBanner from '../../src/components/ShowHandBanner';
 import '@testing-library/jest-dom';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
 import { waitFor } from '@testing-library/dom';
-import {act} from "react-dom/test-utils";
+import { act } from "react-dom/test-utils";
 
 jest.mock('../../src/screens/Match/matchContext', () => {
+    const originalModule = jest.requireActual('../../src/screens/Match/matchContext');
+
     const state = {
         revealCard: {
             cards: ['La Cosa', 'Sospecha', 'Lanzallamas', 'Hacha'],

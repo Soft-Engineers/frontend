@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
@@ -36,7 +36,7 @@ const PlayersHand = () => {
     }, [state.currentTurn, state.hand]);
 
     return (
-        <Stack direction="row" spacing={0}>
+        <Stack direction="row" spacing={0} data-testid="playersHand">
             {state.hand.map((objCarta, index) => (
                 <div
                     key={index}
