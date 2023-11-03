@@ -35,7 +35,7 @@ jest.mock('../../src/screens/Match/matchContext', () => {
 
 
 describe('Match', () => {
-    it('debería renderizar el componente correctamente', () => {
+    it('debería renderizar la pantalla correctamente', () => {
         sessionStorage.setItem('player_name', 'Ramon');
         const { getByTestId } = render(
             <MatchProvider>
@@ -44,10 +44,14 @@ describe('Match', () => {
         );
         const PlayersHand = getByTestId("playersHand");
         const PlayersRound = getByTestId("playersRound");
-        const Notifications = getByTestId("notifications")
+        const Notifications = getByTestId("notifications");
+        const ButtonsBox = getByTestId("buttonsBox");
+        const Chat = getByTestId("chat")
         expect(PlayersHand).toBeInTheDocument();
         expect(PlayersRound).toBeInTheDocument();
         expect(Notifications).toBeInTheDocument();
+        expect(ButtonsBox).toBeInTheDocument();
+        expect(Chat).toBeInTheDocument();
     });
 
     // Agrega más pruebas según sea necesario

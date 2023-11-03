@@ -130,7 +130,7 @@ const ButtonsBox = () => {
     };
 
     return (
-        <Box sx={styles.box}>
+        <Box sx={styles.box} data-testid="buttonsBox">
             {state.isTurn && (
                 <>
                     {state.turnState === turnStates.DRAW_CARD && (
@@ -174,14 +174,14 @@ const ButtonsBox = () => {
 
                     {state.turnState === turnStates.EXCHANGE && (
 
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleExchange}
-                                sx={styles.button}
-                            >
-                                Intercambiar
-                            </Button>)
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleExchange}
+                            sx={styles.button}
+                        >
+                            Intercambiar
+                        </Button>)
 
                     }
                     {state.turnState === turnStates.WAIT_EXCHANGE && (
