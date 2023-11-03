@@ -4,6 +4,7 @@ import ShowHandBanner from '../../src/components/ShowHandBanner';
 import '@testing-library/jest-dom';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
 import { waitFor } from '@testing-library/dom';
+import {act} from "react-dom/test-utils";
 
 jest.mock('../../src/screens/Match/matchContext', () => {
     const state = {
@@ -17,7 +18,7 @@ jest.mock('../../src/screens/Match/matchContext', () => {
     };
 
     const actions = {
-        setRevealCards: jest.fn(),
+        setReveal: jest.fn(),
         setHand: jest.fn(),
         setCurrentTurn: jest.fn(),
     };
@@ -62,7 +63,10 @@ describe('ShowHandBanner', () => {
 
         expect(bannerTexto).toBeInTheDocument();
 
-        jest.advanceTimersByTime(10000);
+        act(() => {
+            jest.advanceTimersByTime(10000);
+        });
+
 
 
         await waitFor(() => {

@@ -93,12 +93,11 @@ const ButtonsBox = () => {
             justifyContent: 'space-evenly',
             alignItems: 'center',
             textAlign: 'center',
-            width: '100%',
             border: '1px solid grey',
-            borderRadius: '3%',
+            borderRadius: '30px',
             marginLeft: '1rem',
-            backgroundColor: '#f2f2ff',
             fontSize: '18px',
+            width: '100%',
         },
         button: {
             backgroundColor: '#515952',
@@ -112,6 +111,20 @@ const ButtonsBox = () => {
             color: 'white',
             '&:hover': {
                 backgroundColor: 'darkred',
+            },
+        },
+        panicButton: {
+            backgroundColor: '#973F67',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#5D2E39',
+            },
+        },
+        defenseButton: {
+            backgroundColor: '#3968B1',
+            color: 'white',
+            '&:hover': {
+                backgroundColor: '#393FA1',
             },
         },
     };
@@ -158,23 +171,46 @@ const ButtonsBox = () => {
                             />
                         </>
                     )}
-                    {(state.turnState === turnStates.EXCHANGE || state.turnState === turnStates.WAIT_EXCHANGE) && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleExchange}
-                            sx={styles.button}
-                        >
-                            Intercambiar Carta
-                        </Button>
-                    )}
+
+                    {state.turnState === turnStates.EXCHANGE && (
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleExchange}
+                                sx={styles.button}
+                            >
+                                Intercambiar
+                            </Button>)
+
+                    }
+                    {state.turnState === turnStates.WAIT_EXCHANGE && (
+                        <>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleExchange}
+                                sx={styles.button}
+                            >
+                                Intercambiar
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handlePlayCard}
+                                sx={styles.defenseButton}
+                            >
+                                Jugar carta
+                            </Button>
+                        </>)
+                    }
                     {state.turnState === turnStates.WAIT_DEFENSE && (
                         <>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={handlePlayCard}
-                                sx={styles.button}
+                                sx={styles.defenseButton}
                             >
                                 Jugar carta
                             </Button>
@@ -188,6 +224,16 @@ const ButtonsBox = () => {
                             </Button>
                         </>)
                     }
+                    {(state.turnState === turnStates.PANIC) && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handlePlayCard}
+                            sx={styles.panicButton}
+                        >
+                            Jugar Carta
+                        </Button>
+                    )}
                 </>
             )}
             {!state.isTurn && (

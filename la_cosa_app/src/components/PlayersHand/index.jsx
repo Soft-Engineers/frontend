@@ -4,13 +4,6 @@ import Stack from '@mui/material/Stack';
 import Carta from '../../components/Carta';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
 
-const styles = {
-    mano: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-};
-
 const PlayersHand = () => {
     const { state, actions } = useMatchC();
     const [hoveredCard, setHoveredCard] = useState(null);
@@ -43,14 +36,13 @@ const PlayersHand = () => {
     }, [state.currentTurn, state.hand]);
 
     return (
-        <Stack direction="row" spacing={0} style={styles.mano}>
+        <Stack direction="row" spacing={0}>
             {state.hand.map((objCarta, index) => (
                 <div
                     key={index}
                     onMouseEnter={() => handleCardHover(objCarta)}
                     onMouseLeave={handleCardLeave}
                     onClick={() => handleCardClick(objCarta)}
-                    style={hoveredCard === objCarta ? styles.cartaHovered : {}}
                 >
                     <Carta nombre={objCarta.card_name} hovered={hoveredCard === objCarta} />
                 </div>

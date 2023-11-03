@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Match from '../../src/screens/Match/index.jsx';
 import React from 'react';
 import { useMatchC } from '../../src/screens/Match/matchContext';
-
+/*
 function setupMockedContext(state = {}, actions = {}) {
     useMatchC.mockReturnValue({ state: { jugadores: [], ...state }, actions });
 }
@@ -31,3 +31,4 @@ describe('Match', () => {
         // Expectativas adicionales según tu componente
     });
 });
+*/

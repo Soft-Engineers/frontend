@@ -7,6 +7,8 @@ import * as api from '../../src/utils/api';
 
 describe('Lobby', () => {
     it('Renderiza sin errores para jugador normal', () => {
+        jest.spyOn(api, 'leaveLobby');
+
         render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
@@ -16,6 +18,9 @@ describe('Lobby', () => {
         );
 
         expect(screen.getByText('Esperando que el host inicie la partida...')).toBeInTheDocument();
+        const abandonarButton = screen.getByText('Abandonar Sala');
+        expect(abandonarButton).toBeInTheDocument();
+
     });
 
     it('Renderiza sin errores para el host', async () => {
@@ -35,6 +40,7 @@ describe('Lobby', () => {
 
 
         const startButton = await waitFor(() => screen.getByText('Iniciar Partida'));
+        expect(startButton).toBeInTheDocument();
         fireEvent.click(startButton);
 
 

@@ -3,18 +3,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
-import {useMatchC} from "../../screens/Match/matchContext.jsx";
+import {useMatchC, turnStates} from "../../screens/Match/matchContext.jsx";
 import Typography from "@mui/material/Typography";
 
-const cardEffectListStyle = {
-    width: '95%',
-    height: '400px', // Set a fixed height
-    overflow: 'auto',
-    marginTop: '0.5rem',
-    marginLeft: '0.1rem',
-    border: '1px solid grey',
-    borderRadius: '3%',
+const ListStyle = {
+    display : 'flex',
+    flexDirection: 'column',
 };
+
 
 const Notifications = ({ messages}) => {
     const { state} = useMatchC();
@@ -28,9 +24,9 @@ const Notifications = ({ messages}) => {
     }, [messages]);
 
     const renderMessage = (message, index) => {
-        const isInfected = message.includes('LA COSA TE HA INFECTADO!!');
+        const isInfected = message.includes('LA COSA TE INFECTÓ!!');
         const messageStyle = {
-            color: isInfected ? 'red' : 'black',
+            color: isInfected ? 'red': 'black',
         };
 
         return (
@@ -41,15 +37,21 @@ const Notifications = ({ messages}) => {
     };
 
     return (
-        <Paper style={cardEffectListStyle}>
+        <Paper style={ListStyle}>
+            <ListItem sx={{flexDirection: 'column', alignItems: 'flex-start'}}>
+                <ListItemText primary={
+                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black'}}>
+                        Es el turno de {state.currentTurn}
+                    </Typography>
+                } />
+                {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
+                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
+                        TE JUGARON UNA CARTA, DEFENDETE!!
+                    </Typography>
+                )
+                }
+            </ListItem>
             <List>
-                <ListItem>
-                    <ListItemText primary={
-                        <Typography variant="h6" style={{ color: 'blue', borderBottom: '2px solid black'}}>
-                            Es el turno de {state.currentTurn}
-                        </Typography>
-                    } />
-                </ListItem>
                 {messageList.map((message, index) => renderMessage(message, index))}
             </List>
         </Paper>
