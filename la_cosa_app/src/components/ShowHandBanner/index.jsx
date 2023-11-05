@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useMatchC } from '../../screens/Match/matchContext';
 
 const ShowHandBanner = () => {
-    const {state, actions} = useMatchC();
+    const { state, actions } = useMatchC();
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
@@ -38,7 +38,7 @@ const ShowHandBanner = () => {
 
     const bannerStyles = {
         position: 'absolute',
-        top: '35%',
+        top: '25%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
@@ -65,16 +65,16 @@ const ShowHandBanner = () => {
                 <div style={overlayStyles}>
 
                     <Paper style={bannerStyles}>
-                        <Typography variant="h5" component="div" style={{borderBottom: '2px solid black'}}>
+                        <Typography variant="h5" component="div" style={{ borderBottom: '2px solid black' }}>
                             Efecto {trigger_card}
                         </Typography>
-                        <Typography variant="h6" component="div" sx={{marginTop: '10px'}}>
+                        <Typography variant="h6" component="div" sx={{ marginTop: '10px' }}>
                             {`Esta es ${trigger_card === 'Whisky' ? 'la mano' : 'una carta'} de ${player}`}
                         </Typography>
 
-                        <Stack direction="row" sx={{justifyContent:'center', marginTop: '10px'}}>
+                        <Stack direction="row" sx={{ justifyContent: 'center', marginTop: '10px' }}>
                             {hand.map((carta, index) => (
-                                <div key={index} style={{width:'60%'}}>
+                                <div key={index} style={{ width: '60%' }}>
                                     <Carta nombre={carta} />
                                 </div>
                             ))}

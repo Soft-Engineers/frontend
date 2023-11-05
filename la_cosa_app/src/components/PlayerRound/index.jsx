@@ -44,7 +44,11 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
     const x = radiusX * Math.cos(angle);
     const y = radiusY * Math.sin(angle);
-
+    const Cuarentena = state.Cuarentena;
+    const currPlayer = player.player_name;
+    const inCuarentena = Cuarentena == null ? false : Cuarentena[currPlayer] > 0;
+    console.log("inCuarentena", inCuarentena);
+    console.log("Esta en cuarentena:", Cuarentena[currPlayer]);
     const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
@@ -73,6 +77,13 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         fontWeight: isCurrentPlayer ? 'bold' : 'normal',
     };
 
+    const CuarentenaStyle = {
+        width: '95px',
+        height: '95px',
+        boxShadow: inCuarentena ? '0 0 0 5px yellow, 0 0 0 6px black' : 'none',
+        borderRadius: '20%',
+    };
+
     const handleClick = () => {
         if (isThisPlayerDead) {
             return;
@@ -86,17 +97,22 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
-            <div style={{ display: 'flex' }}>
 
-
-                <div className="circle" style={circleStyle}>
-                    <span className="player-name" style={nameStyle}>
-                        {player.player_name}
-                    </span>
+            <div style={CuarentenaStyle}>
+                <div style={{ display: 'flex' }}>
+                    <div className="circle" style={circleStyle}>
+                        <span className="player-name" style={nameStyle}>
+                            {player.player_name}
+                        </span>
+                    </div>
                 </div>
-
-
+                {inCuarentena && (
+                    <div style={{ textAlign: 'center', fontWeight: 'bolder', color: 'black', border: '2px solid black', backgroundColor: 'yellow' }}>
+                        {Cuarentena[currPlayer]} turnos
+                    </div>
+                )}
             </div>
+
         </div>
     );
 };
@@ -104,7 +120,6 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 const PlayerRound = () => {
     const { state } = useMatchC();
     const currentPlayerName = sessionStorage.getItem('player_name');
-
     const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);

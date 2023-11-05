@@ -196,6 +196,9 @@ export const handle_socket_messages = () => {
           case 'obstáculos':
             actions.setObstacles(data.message_content);
             break;
+          case 'cuarentena':
+            actions.setCuarentena(data.message_content);
+            break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)
             break;
