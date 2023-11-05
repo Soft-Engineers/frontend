@@ -172,10 +172,12 @@ export const handle_socket_messages = () => {
             actions.setOpen(true);
             break;
           case 'revelar cartas':
+            console.log(data.message_content);
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             break;
           case 'estado partida':
+            console.log(state.reveal + " REVELAR " + state.revealCard);
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);

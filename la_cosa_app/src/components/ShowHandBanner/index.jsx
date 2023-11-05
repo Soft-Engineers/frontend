@@ -20,8 +20,8 @@ const ShowHandBanner = () => {
         const intervalId = setInterval(() => {
             setTiempoRestante(prevTiempo => {
                 if (prevTiempo <= 0) {
-                    setMostrarMensaje(false);
                     clearInterval(intervalId);
+                    actions.setReveal(false);
                     return 0;
                 }
 

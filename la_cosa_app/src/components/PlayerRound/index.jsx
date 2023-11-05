@@ -132,7 +132,7 @@ const PlayerRound = () => {
         height: '100%',
         width: '100%',
         border: '1px solid grey',
-        borderRadius: '30px',
+        borderRadius: '10px',
         backgroundColor: '#f2f2ff',
         position: 'relative',
     };
