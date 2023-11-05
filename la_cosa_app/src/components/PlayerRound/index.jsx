@@ -6,14 +6,14 @@ import Box from "@mui/material/Box";
 
 
 const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
-    const { state, actions } = useMatchC();
-    const x = radiusX * Math.cos(angle) * -1;
-    const y = radiusY * Math.sin(angle) * -1;
+    const offset = Math.PI * 0.5;
+    const x = radiusX * Math.cos(angle + offset);
+    const y = radiusY * Math.sin(angle + offset);
 
 
     const lineStyle = {
-        width: '100px',
-        height: '8px',
+        width: '8px',
+        height: '100px',
         backgroundColor: 'brown',
         margin: '10px',
         display: 'flex',
@@ -170,7 +170,7 @@ const PlayerRound = () => {
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
                     <DoorBtPlayers
-                        angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        angle={(2 * Math.PI) * (currentPlayerIndex - index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
                     />
@@ -179,12 +179,4 @@ const PlayerRound = () => {
         </Box>
     );
 };
-/* <PlayerCard
-                    player={player}
-                    angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
-                    radiusX={radiusX}
-                    radiusY={radiusY}
-                    isCurrentPlayer={player.player_name === currentPlayerName}
-                />
- */
 export default PlayerRound;
