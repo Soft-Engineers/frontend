@@ -106,10 +106,10 @@ const PlayerRound = () => {
     const currentPlayerName = sessionStorage.getItem('player_name');
 
     const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
-
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
+    const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position);
     const radiusX = 160; // Horizontal radius
     const radiusY = 150; // Vertical radius
     const centerX = 0;
@@ -169,11 +169,11 @@ const PlayerRound = () => {
                         radiusY={radiusY}
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
-                    <DoorBtPlayers
+                    {sortedboolDoors[index] && <DoorBtPlayers
                         angle={(2 * Math.PI) * (currentPlayerIndex - index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
-                    />
+                    />}
                 </React.Fragment>
             ))}
         </Box>

@@ -41,6 +41,7 @@ export const MatchProvider = ({ children }) => {
     const [turnState, setTurnState] = useState(null);
     const [isTurn, setIsTurn] = useState(false);
     const [DtimeoutEnded, setDTimeoutEnded] = useState(false);
+    const [Obstacles, setObstacles] = useState([]);
 
     const state = {
         socket,
@@ -64,6 +65,7 @@ export const MatchProvider = ({ children }) => {
         turnState,
         isTurn,
         DtimeoutEnded,
+        Obstacles,
     };
 
     const actions = {
@@ -88,6 +90,7 @@ export const MatchProvider = ({ children }) => {
         setTurnState,
         setIsTurn,
         setDTimeoutEnded,
+        setObstacles,
     };
 
     return (
