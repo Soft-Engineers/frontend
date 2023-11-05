@@ -8,6 +8,7 @@ const ButtonsBox = () => {
     const { state, actions } = useMatchC();
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
+    console.log(state.role);
     useEffect(() => {
         if (state.DtimeoutEnded) {
             handleSkip();
@@ -154,7 +155,7 @@ const ButtonsBox = () => {
                             >
                                 Descartar carta
                             </Button>
-                            {state.role === 'LA COSA' && (
+                            {state.role === 'LA_COSA' && (
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -174,14 +175,14 @@ const ButtonsBox = () => {
 
                     {state.turnState === turnStates.EXCHANGE && (
 
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleExchange}
-                                sx={styles.button}
-                            >
-                                Intercambiar
-                            </Button>)
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleExchange}
+                            sx={styles.button}
+                        >
+                            Intercambiar
+                        </Button>)
 
                     }
                     {state.turnState === turnStates.WAIT_EXCHANGE && (

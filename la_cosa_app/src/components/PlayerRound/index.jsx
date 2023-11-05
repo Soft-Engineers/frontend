@@ -1,8 +1,44 @@
 import Deck from '../../components/Deck/';
-import {useMatchC} from '../../screens/Match/matchContext.jsx';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React from "react";
 import Box from "@mui/material/Box";
+
+
+const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
+    const { state, actions } = useMatchC();
+    const x = radiusX * Math.cos(angle) * -1;
+    const y = radiusY * Math.sin(angle) * -1;
+
+
+    const lineStyle = {
+        width: '100px',
+        height: '8px',
+        backgroundColor: 'brown',
+        margin: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: `rotate(${angle}rad)`
+    };
+
+    const doorStyle = {
+        position: 'absolute',
+        transform: `translate(${x}px, ${y}px)`,
+    };
+
+
+    return (
+        <div style={doorStyle}>
+            <div style={{ display: 'flex' }}>
+                <div className="line" style={lineStyle} />
+            </div>
+        </div>
+    );
+};
+
+
+
 
 const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
@@ -21,7 +57,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '50%',
-};
+    };
 
     const cardStyle = {
         position: 'absolute',
@@ -50,10 +86,16 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
-            <div className="circle" style={circleStyle}>
-                <span className="player-name" style={nameStyle}>
-                    {player.player_name}
-                </span>
+            <div style={{ display: 'flex' }}>
+
+
+                <div className="circle" style={circleStyle}>
+                    <span className="player-name" style={nameStyle}>
+                        {player.player_name}
+                    </span>
+                </div>
+
+
             </div>
         </div>
     );
@@ -93,13 +135,14 @@ const PlayerRound = () => {
         borderRadius: '30px',
         backgroundColor: '#f2f2ff',
         position: 'relative',
-};
+    };
 
     const roleSignStyle = {
         position: 'absolute',
         top: '10px',
         left: '10px',
     };
+
 
     return (
         <Box sx={containerStyle}>
@@ -118,17 +161,30 @@ const PlayerRound = () => {
             </div>
 
             {sortedPlayers.map((player, index) => (
-                <PlayerCard
-                    key={index}
+                <React.Fragment key={index}>
+                    <PlayerCard
+                        player={player}
+                        angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                        isCurrentPlayer={player.player_name === currentPlayerName}
+                    />
+                    <DoorBtPlayers
+                        angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                    />
+                </React.Fragment>
+            ))}
+        </Box>
+    );
+};
+/* <PlayerCard
                     player={player}
                     angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
                     radiusX={radiusX}
                     radiusY={radiusY}
                     isCurrentPlayer={player.player_name === currentPlayerName}
                 />
-            ))}
-        </Box>
-    );
-};
-
+ */
 export default PlayerRound;
