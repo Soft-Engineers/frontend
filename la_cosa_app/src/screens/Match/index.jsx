@@ -16,33 +16,36 @@ import Chat from "../../components/Chat";
 const Match = () => {
   // States
   const { state, actions } = useMatchC();
-  const timeoutDuration = 20000; // Set the timeout duration in milliseconds
+  const timeoutDuration = 20000;
   const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
 
   useEffect(() => {
     let timeoutId;
 
-    if (state.turnState === turnStates.WAIT_DEFENSE && timeoutRemaining > 0) {
-      timeoutId = setInterval(() => {
-        setTimeoutRemaining((prevTime) => {
-          if (prevTime <= 0) {
-            clearInterval(timeoutId);
-            actions.setDTimeoutEnded(true);
-            return 0;
-          }
-          return prevTime - 100;
-        });
-      }, 100);
+    if (
+        state.turnState === turnStates.WAIT_DEFENSE &&
+        state.defenseTimestamp &&
+        timeoutRemaining > 0
+    ) {
+      const currentTime = new Date().getTime();
+      const defenseTimestamp = state.defenseTimestamp * 1000;
+      const remainingTime = timeoutDuration - (currentTime - defenseTimestamp);
+
+      if (remainingTime <= 0) {
+        actions.setDefenseTimeoutEnded(true);
+      } else {
+        timeoutId = setInterval(() => {
+          setTimeoutRemaining(remainingTime);
+        }, 100);
+      }
     } else {
       clearInterval(timeoutId);
-      setTimeoutRemaining(timeoutDuration);
     }
 
     return () => {
-      clearInterval(timeoutId); // Cleanup on unmount
+      clearInterval(timeoutId);
     };
-  }, [state.turnState]);
-
+  }, [state.turnState, state.defenseTimestamp, timeoutRemaining]);
 
 
   handle_socket_messages();
