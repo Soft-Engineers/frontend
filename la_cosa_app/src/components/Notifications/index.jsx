@@ -46,7 +46,7 @@ const Notifications = ({ messages}) => {
                 } />
                 {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
                     <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
-                        TE JUGARON UNA CARTA, DEFENDETE!!
+                        Te estas defiendiendo de {state.target_name}
                     </Typography>
                 )
                 }
