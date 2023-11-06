@@ -9,11 +9,11 @@ const ButtonsBox = () => {
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
     useEffect(() => {
-        if (state.DtimeoutEnded) {
+        if (state.defenseTimeoutEnded) {
             handleSkip();
-            actions.setDTimeoutEnded(false);
+            actions.setDefenseTimeoutEnded(false);
         }
-    }, [state.DtimeoutEnded]);
+    }, [state.defenseTimeoutEnded]);
 
     const handleDiscardCard = () => {
         if (state.selectedCard !== null) {

@@ -172,7 +172,6 @@ export const handle_socket_messages = () => {
             actions.setOpen(true);
             break;
           case 'revelar cartas':
-            console.log(data.message_content);
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             break;
@@ -192,6 +191,9 @@ export const handle_socket_messages = () => {
               actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
+            break;
+          case 'timestamp defensa' :
+            actions.setDefenseTimestamp(data.message_content);
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)

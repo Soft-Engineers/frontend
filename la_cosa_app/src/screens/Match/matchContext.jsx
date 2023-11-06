@@ -40,7 +40,8 @@ export const MatchProvider = ({ children }) => {
     const [role, setRole] = useState('');
     const [turnState, setTurnState] = useState(null);
     const [isTurn, setIsTurn] = useState(false);
-    const [DtimeoutEnded, setDTimeoutEnded] = useState(false);
+    const [defenseTimestamp, setDefenseTimestamp] = useState(0);
+    const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
 
     const state = {
         socket,
@@ -63,7 +64,8 @@ export const MatchProvider = ({ children }) => {
         role,
         turnState,
         isTurn,
-        DtimeoutEnded,
+        defenseTimestamp,
+        defenseTimeoutEnded,
     };
 
     const actions = {
@@ -87,7 +89,8 @@ export const MatchProvider = ({ children }) => {
         setRole,
         setTurnState,
         setIsTurn,
-        setDTimeoutEnded,
+        setDefenseTimestamp,
+        setDefenseTimeoutEnded,
     };
 
     return (
