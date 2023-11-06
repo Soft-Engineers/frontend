@@ -108,19 +108,14 @@ const PlayerRound = () => {
 
     };
 
-    const clockwiseStyle = {
+    const rotationStyle = {
+        display: 'flex',
         fontSize: 'large',
         marginRight:'1rem',
         width: '100px',
         height: '100px',
     };
 
-    const antiClockwiseStyle = {
-        fontSize: 'large',
-        marginLeft:'1rem',
-        width: '100px',
-        height: '100px',
-    };
 
     return (
         <Box sx={containerStyle}>
@@ -149,10 +144,11 @@ const PlayerRound = () => {
                 />
             ))}
             <div style={iconsContainerStyle}>
-                {state.isAntiClockwise ? (
-                    <RotateLeftIcon sx={antiClockwiseStyle} />
+                {state.isClockwise ? (
+                    <RotateRightIcon sx={rotationStyle} />
+
                 ) : (
-                    <RotateRightIcon sx={clockwiseStyle} />
+                    <RotateLeftIcon sx={rotationStyle} />
                 )}
             </div>
 

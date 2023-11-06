@@ -29,6 +29,7 @@ export const MatchProvider = ({ children }) => {
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
     const [avisos, setAvisos] = useState([]);
+    const [esperaMessage, setEsperaMessage] = useState('Esperando tu turno...');
     const [isFinished, setIsFinished] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
@@ -42,7 +43,7 @@ export const MatchProvider = ({ children }) => {
     const [isTurn, setIsTurn] = useState(false);
     const [defenseTimestamp, setDefenseTimestamp] = useState(0);
     const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
-    const [isAntiClockwise, setIsAntiClockwise] = useState(false);
+    const [isClockwise, setIsClockwise] = useState(false);
 
 
     const state = {
@@ -54,6 +55,7 @@ export const MatchProvider = ({ children }) => {
         open,
         severity,
         body,
+        esperaMessage,
         avisos,
         isFinished,
         winners,
@@ -68,7 +70,7 @@ export const MatchProvider = ({ children }) => {
         isTurn,
         defenseTimestamp,
         defenseTimeoutEnded,
-        isAntiClockwise,
+        isClockwise,
     };
 
     const actions = {
@@ -79,6 +81,7 @@ export const MatchProvider = ({ children }) => {
         setOpen,
         setSeverity,
         setBody,
+        setEsperaMessage,
         setAvisos,
         setIsFinished,
         setWinners,
@@ -94,7 +97,7 @@ export const MatchProvider = ({ children }) => {
         setIsTurn,
         setDefenseTimestamp,
         setDefenseTimeoutEnded,
-        setIsAntiClockwise
+        setIsClockwise
     };
 
     return (

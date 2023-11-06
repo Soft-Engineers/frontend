@@ -5,7 +5,7 @@ import { Stack } from '@mui/material';
 import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
 import CloseIcon from '@mui/icons-material/Close';
-import { useMatchC } from '../../screens/Match/matchContext';
+import {turnStates, useMatchC} from '../../screens/Match/matchContext';
 import AddIcon from "@mui/icons-material/Add.js";
 import IconButton from "@mui/material/IconButton";
 
@@ -14,29 +14,39 @@ const ShowHandBanner = () => {
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
+    const timestamp = state.revealCard.timestamp;
 
-    const time = 10000;
-    const [mostrarMensaje, setMostrarMensaje] = useState(true);
-    const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
+    const timeoutDuration = 10000;
+    const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
 
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            setTiempoRestante(prevTiempo => {
-                if (prevTiempo <= 0) {
-                    clearInterval(intervalId);
-                    actions.setReveal(false);
-                    return 0;
-                }
 
-                return prevTiempo - 100;
-            });
-        }, 100); // Actualizar cada 100 milisegundos (0.1 segundos)
+        let timeoutId;
+
+        if (
+            timestamp &&
+            timeoutRemaining > 0
+        ) {
+            const currentTime = new Date().getTime();
+            const defenseTimestamp = timestamp * 1000;
+            const remainingTime = timeoutDuration - (currentTime - defenseTimestamp); // Calculo el tiempo restante
+
+            if (remainingTime <= 0) {
+                actions.setReveal(false);
+            } else {
+                timeoutId = setInterval(() => {
+                    setTimeoutRemaining(remainingTime);
+                }, 100);
+            }
+        } else {
+            clearInterval(timeoutId);
+        }
 
         return () => {
-            clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
-            actions.setReveal(false);
+            clearInterval(timeoutId);
         };
-    }, []);
+    }, [timestamp, timeoutRemaining]);
+
 
     const handleCloseBanner = () => {  // Handler para cerrar el banner
         actions.setReveal(false);
@@ -67,7 +77,6 @@ const ShowHandBanner = () => {
 
     return (
         <div>
-            {mostrarMensaje && (
                 <div style={overlayStyles}>
 
                     <Paper style={bannerStyles}>
@@ -92,12 +101,10 @@ const ShowHandBanner = () => {
                             ))}
                         </Stack>
                         <Box sx={{ marginTop: '10px' }} >
-                            <LinearProgress variant="determinate" value={((tiempoRestante) / time) * 100} sx={{ height: 10 }} />
+                            <LinearProgress variant="determinate" value={(timeoutRemaining / timeoutDuration) * 100} sx={{ height: 10 }} />
                         </Box>
                     </Paper>
-
                 </div>
-            )}
         </div>
     );
 };

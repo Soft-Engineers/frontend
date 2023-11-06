@@ -152,13 +152,12 @@ export const handle_socket_messages = () => {
             actions.setCurrentTurn(data.message_content.current_turn);
             actions.setRole(data.message_content.role);
             break;
-          case 'datos jugada':
-            actions.setJugadores(data.message_content.posiciones);
-            console.log(data.message_content.posiciones);
-            break;
           case 'notificación muerte':
           case 'notificación jugada':
             actions.setAvisos([...state.avisos, data.message_content]);
+            break;
+          case 'notificación espera':
+            actions.setEsperaMessage(data.message_content);
             break;
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
@@ -194,12 +193,12 @@ export const handle_socket_messages = () => {
             }
             actions.setRole('INFECTADO')
             break;
-          case 'timestamp defensa' :
+          case 'timestamp' :
             actions.setDefenseTimestamp(data.message_content);
             break;
-          case 'sentido antihorario':
-            actions.setIsAntiClockwise(data.message_content)
-              console.log(data.message_content);
+          case 'sentido horario':
+            actions.setIsClockwise(data.message_content)
+              console.log(data.message_content + 'SENTIDO');
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)

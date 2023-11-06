@@ -14,7 +14,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Chat from "../../components/Chat";
 
 const Match = () => {
-  // States
   const { state, actions } = useMatchC();
   const timeoutDuration = 20000;
   const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
@@ -29,7 +28,7 @@ const Match = () => {
     ) {
       const currentTime = new Date().getTime();
       const defenseTimestamp = state.defenseTimestamp * 1000;
-      const remainingTime = timeoutDuration - (currentTime - defenseTimestamp);
+      const remainingTime = timeoutDuration - (currentTime - defenseTimestamp); // Calculo el tiempo restante
 
       if (remainingTime <= 0) {
         actions.setDefenseTimeoutEnded(true);

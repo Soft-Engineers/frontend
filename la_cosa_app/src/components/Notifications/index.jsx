@@ -40,16 +40,24 @@ const Notifications = ({ messages}) => {
         <Paper style={ListStyle}>
             <ListItem sx={{flexDirection: 'column', alignItems: 'flex-start'}}>
                 <ListItemText primary={
-                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black'}}>
-                        Es el turno de {state.currentTurn}
+                    <Typography variant="h5" style={{ color: 'green', borderBottom: '2px solid black'}}>
+                        {`Es ${state.isTurn ? 'tu turno' : 'el turno de ' + state.currentTurn}`}
                     </Typography>
                 } />
-                {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
-                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
-                        Te estás defiendiendo
+                {state.isTurn && (
+                    <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
+                        {state.turnState === turnStates.WAIT_DEFENSE
+                            ? 'Te estas defendiendo'
+                            : state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.EXCHANGE
+                                ? 'Estas intercambiando cartas'
+                                : null}
                     </Typography>
-                )
-                }
+                )}
+                {!state.isTurn && (state.turnState === turnStates.WAIT_DEFENSE || state.turnState === turnStates.WAIT_EXCHANGE) && (
+                    <Typography variant="h6" style={{ color: '#3968B1', borderBottom: '1px solid black', marginTop: '12px' }}>
+                        {state.esperaMessage}
+                    </Typography>
+                )}
             </ListItem>
             <List>
                 {messageList.map((message, index) => renderMessage(message, index))}
