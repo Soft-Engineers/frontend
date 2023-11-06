@@ -153,6 +153,8 @@ export const handle_socket_messages = () => {
             actions.setRole(data.message_content.role);
             break;
           case 'datos jugada':
+            actions.setJugadores(data.message_content.posiciones);
+            console.log(data.message_content.posiciones);
             break;
           case 'notificación muerte':
           case 'notificación jugada':
@@ -176,7 +178,7 @@ export const handle_socket_messages = () => {
             actions.setReveal(true);
             break;
           case 'estado partida':
-            console.log(state.reveal + " REVELAR " + state.revealCard);
+            console.log(data.message_content);
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);
@@ -194,6 +196,10 @@ export const handle_socket_messages = () => {
             break;
           case 'timestamp defensa' :
             actions.setDefenseTimestamp(data.message_content);
+            break;
+          case 'sentido antihorario':
+            actions.setIsAntiClockwise(data.message_content)
+              console.log(data.message_content);
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)

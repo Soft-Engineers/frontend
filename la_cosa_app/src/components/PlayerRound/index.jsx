@@ -3,6 +3,8 @@ import {useMatchC} from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React from "react";
 import Box from "@mui/material/Box";
+import RotateRightIcon from '@mui/icons-material/RotateRight';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
@@ -61,6 +63,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 
 const PlayerRound = () => {
     const { state } = useMatchC();
+
     const currentPlayerName = sessionStorage.getItem('player_name');
 
     const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
@@ -93,12 +96,30 @@ const PlayerRound = () => {
         borderRadius: '10px',
         backgroundColor: '#f2f2ff',
         position: 'relative',
-};
-
+    };
     const roleSignStyle = {
-        position: 'absolute',
-        top: '10px',
-        left: '10px',
+        height: '100%',
+        width: '100%',
+    };
+    const iconsContainerStyle = {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%',
+
+    };
+
+    const clockwiseStyle = {
+        fontSize: 'large',
+        marginRight:'1rem',
+        width: '100px',
+        height: '100px',
+    };
+
+    const antiClockwiseStyle = {
+        fontSize: 'large',
+        marginLeft:'1rem',
+        width: '100px',
+        height: '100px',
     };
 
     return (
@@ -127,6 +148,15 @@ const PlayerRound = () => {
                     isCurrentPlayer={player.player_name === currentPlayerName}
                 />
             ))}
+            <div style={iconsContainerStyle}>
+                {state.isAntiClockwise ? (
+                    <RotateLeftIcon sx={antiClockwiseStyle} />
+                ) : (
+                    <RotateRightIcon sx={clockwiseStyle} />
+                )}
+            </div>
+
+
         </Box>
     );
 };

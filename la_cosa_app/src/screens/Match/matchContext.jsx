@@ -42,6 +42,8 @@ export const MatchProvider = ({ children }) => {
     const [isTurn, setIsTurn] = useState(false);
     const [defenseTimestamp, setDefenseTimestamp] = useState(0);
     const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
+    const [isAntiClockwise, setIsAntiClockwise] = useState(false);
+
 
     const state = {
         socket,
@@ -66,6 +68,7 @@ export const MatchProvider = ({ children }) => {
         isTurn,
         defenseTimestamp,
         defenseTimeoutEnded,
+        isAntiClockwise,
     };
 
     const actions = {
@@ -91,6 +94,7 @@ export const MatchProvider = ({ children }) => {
         setIsTurn,
         setDefenseTimestamp,
         setDefenseTimeoutEnded,
+        setIsAntiClockwise
     };
 
     return (

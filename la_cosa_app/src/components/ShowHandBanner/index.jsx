@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react';
 import { Stack } from '@mui/material';
 import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
+import CloseIcon from '@mui/icons-material/Close';
 import { useMatchC } from '../../screens/Match/matchContext';
+import AddIcon from "@mui/icons-material/Add.js";
+import IconButton from "@mui/material/IconButton";
 
 const ShowHandBanner = () => {
     const {state, actions} = useMatchC();
@@ -35,6 +38,9 @@ const ShowHandBanner = () => {
         };
     }, []);
 
+    const handleCloseBanner = () => {  // Handler para cerrar el banner
+        actions.setReveal(false);
+    };
 
     const bannerStyles = {
         position: 'absolute',
@@ -69,9 +75,15 @@ const ShowHandBanner = () => {
                             Efecto {trigger_card}
                         </Typography>
                         <Typography variant="h6" component="div" sx={{marginTop: '10px'}}>
-                            {`Esta es ${trigger_card === 'Whisky' ? 'la mano' : 'una carta'} de ${player}`}
+                            {`Esta es ${trigger_card === 'Sospecha' ? 'una carta' : 'la mano'} de ${player}`}
                         </Typography>
-
+                        <IconButton
+                            onClick= {handleCloseBanner}
+                            variant="sharp"
+                            sx={{position: 'absolute', top: '0', right: '0' , color: 'black'} }
+                        >
+                            <CloseIcon />
+                        </IconButton>
                         <Stack direction="row" sx={{justifyContent:'center', marginTop: '10px'}}>
                             {hand.map((carta, index) => (
                                 <div key={index} style={{width:'60%'}}>
