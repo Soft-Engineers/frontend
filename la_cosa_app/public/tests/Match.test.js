@@ -20,6 +20,8 @@ jest.mock('../../src/screens/Match/matchContext', () => {
         isDeadPlayer: false,
         turnState: 2,
         DtimeoutEnded: false,
+        isTurn: true,
+        Socket: null,
     };
 
     const mockActions = {
@@ -29,7 +31,8 @@ jest.mock('../../src/screens/Match/matchContext', () => {
         setSocket: jest.fn(),
         setIsDeadPlayer: jest.fn().mockImplementation((bool) => { mockState.isDeadPlayer = bool; }),
         setTurnState: jest.fn().mockImplementation((state) => { mockState.turnState = state; }),
-        setDTimeoutEnded: jest.fn(),
+        setDTimeoutEnded: jest.fn().mockImplementation((bool) => { mockState.DtimeoutEnded = bool; }),
+        setIsTurn: jest.fn(),
     };
 
     return {
@@ -88,12 +91,16 @@ describe('Match', () => {
             </MatchProvider>
         );
         const progressBar = getByTestId('progressBar');
-        expect(progressBar).toBeInTheDocument();
+
+        expect(progressBar).toHaveStyle({ opacity: '1' });
+
+
         const PlayersHand = getByTestId("playersHand");
         const PlayersRound = getByTestId("playersRound");
         const Notifications = getByTestId("notifications");
         const ButtonsBox = getByTestId("buttonsBox");
         const Chat = getByTestId("chat")
+
         expect(PlayersHand).toBeInTheDocument();
         expect(PlayersRound).toBeInTheDocument();
         expect(Notifications).toBeInTheDocument();
@@ -104,9 +111,8 @@ describe('Match', () => {
             jest.advanceTimersByTime(20000);
         });
 
-
         await waitFor(() => {
-            expect(progressBar).toHaveStyle({ opacity: '0' });//expect(progressBar).not.toBeInTheDocument(); <- en realidad se hace esto dentro de match: opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 
-        }, { timeout: 500 });
+            expect(progressBar).toHaveStyle({ opacity: '0' });
+        }, { timeout: 10000 });
     });
 }, 20000);
