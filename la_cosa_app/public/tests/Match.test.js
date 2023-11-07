@@ -94,7 +94,6 @@ describe('Match', () => {
 
         expect(progressBar).toHaveStyle({ opacity: '1' });
 
-
         const PlayersHand = getByTestId("playersHand");
         const PlayersRound = getByTestId("playersRound");
         const Notifications = getByTestId("notifications");
@@ -112,7 +111,7 @@ describe('Match', () => {
         });
 
         await waitFor(() => {
-            expect(progressBar).toHaveStyle({ opacity: '0' });
+            expect(progressBar).not.toBeInTheDocument();
         }, { timeout: 500 });
 
     });
