@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useMatchC, turnStates } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
@@ -182,13 +182,13 @@ export const handle_socket_messages = () => {
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);
             }
-            else{
+            else {
               actions.setIsTurn(false);
             }
             actions.setTurnState(data.message_content.game_state);
             break;
           case 'infectado':
-            if (state.role !== 'INFECTADO'){
+            if (state.role !== 'INFECTADO') {
               actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
@@ -199,6 +199,12 @@ export const handle_socket_messages = () => {
           case 'sentido horario':
             actions.setIsClockwise(data.message_content)
               console.log(data.message_content + 'SENTIDO');
+            break;
+          case 'obstáculos':
+            actions.setObstacles(data.message_content);
+            break;
+          case 'cuarentena':
+            actions.setCuarentena(data.message_content);
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)

@@ -1,29 +1,89 @@
 import Deck from '../../components/Deck/';
-import {useMatchC} from '../../screens/Match/matchContext.jsx';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React from "react";
 import Box from "@mui/material/Box";
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import quarantineIcon from "../../assets/quarantine.png";
+
+
+const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
+    const offset = Math.PI * 0.5;
+    const x = radiusX * Math.cos(angle + offset);
+    const y = radiusY * Math.sin(angle + offset);
+
+
+    const lineStyle = {
+        width: '10px',
+        height: '80px',
+        backgroundColor: 'brown',
+        margin: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: `rotate(${angle}rad)`,
+        border: '0.1px solid black',
+
+    };
+
+    const doorStyle = {
+        position: 'absolute',
+        transform: `translate(${x}px, ${y}px)`,
+    };
+
+
+    const nailStyle1 = {
+        width: '6px',
+        height: '6px',
+        backgroundColor: 'grey', // Color of the nails
+        borderRadius: '50%', // Make it circular
+        position: 'absolute',
+        transform: 'translate(0, 33px)', // Adjust the transform for the first nail
+    };
+
+    const nailStyle2 = {
+        width: '6px',
+        height: '6px',
+        backgroundColor: 'grey', // Color of the nails
+        borderRadius: '50%', // Make it circular
+        position: 'absolute',
+        transform: 'translate(0, -33px)', // Adjust the transform for the second nail
+    };
+
+    return (
+        <div style={doorStyle}>
+            <div style={lineStyle}>
+                <div style={nailStyle1} /> {/* Left nail */}
+                <div style={nailStyle2} /> {/* Right nail */}
+            </div>
+        </div>
+    );
+};
+
+
+
 
 const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     const { state, actions } = useMatchC();
     const x = radiusX * Math.cos(angle);
     const y = radiusY * Math.sin(angle);
-
+    const Cuarentena = state.Cuarentena;
+    const currPlayer = player.player_name;
+    const inCuarentena = Cuarentena && Cuarentena[currPlayer] > 0;
     const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
 
     const circleStyle = {
-        width: '70px',
-        height: '70px',
+        width: '60px',
+        height: '60px',
         border: (state.target_name === player.player_name && !isThisPlayerDead && (state.turnState === 2 || state.turnState === 7)) ? '2px solid red' : '2px solid transparent',
         backgroundColor: isThisPlayerDead ? 'red' : (state.currentTurn === player.player_name) ? 'green' : '#3498db',
-        margin: '10px',
+        margin: '20px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '50%',
-};
+    };
 
     const cardStyle = {
         position: 'absolute',
@@ -39,6 +99,34 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         fontWeight: isCurrentPlayer ? 'bold' : 'normal',
     };
 
+    const cuarentenaStyle = {
+        box: {
+            position: 'absolute',
+            width: '70%',
+            height: '65px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            border: '1px solid black',
+            boxShadow: '0 0 0 5px yellow, 0 0 0 6px black',
+            borderRadius: '35%',
+        },
+        desc: {
+            textAlign: 'center',
+            fontWeight: 'bolder',
+            color: 'black',
+            border: '2px solid black',
+            backgroundColor: 'yellow',
+            height: '20px',
+            width: '80%',
+            transform: 'translate(10%, -100%)',
+        },
+        icon: {
+            display: 'flex',
+            width: '40px',
+            height: '40px',
+            transform: 'translate(0%, -70%)',
+        }
+    };
+
     const handleClick = () => {
         if (isThisPlayerDead) {
             return;
@@ -52,11 +140,31 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
-            <div className="circle" style={circleStyle}>
-                <span className="player-name" style={nameStyle}>
-                    {player.player_name}
-                </span>
+
+            <div style={{ display: 'flex' }}>
+                <div className="circle" style={circleStyle}>
+                    {inCuarentena &&
+                        <>
+                    <div style={cuarentenaStyle.box}/>
+                    <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon} />
+                        </>
+
+                    }
+                    <span className="player-name" style={nameStyle}>
+                        {player.player_name}
+                    </span>
+                </div>
             </div>
+
+            {inCuarentena && (
+
+                <div style={cuarentenaStyle.desc}>
+                    {Cuarentena[currPlayer]} turnos
+                </div>
+
+            )}
+
+
         </div>
     );
 };
@@ -65,14 +173,13 @@ const PlayerRound = () => {
     const { state } = useMatchC();
 
     const currentPlayerName = sessionStorage.getItem('player_name');
-
     const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
-
     const totalPlayers = state.jugadores.length;
     const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const radiusX = 160; // Horizontal radius
-    const radiusY = 150; // Vertical radius
+    const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position);
+    const radiusX = 200;
+    const radiusY = 170;
     const centerX = 0;
     const centerY = 0;
 
@@ -117,6 +224,7 @@ const PlayerRound = () => {
     };
 
 
+
     return (
         <Box sx={containerStyle}>
             <div style={roleSignStyle}>
@@ -134,14 +242,20 @@ const PlayerRound = () => {
             </div>
 
             {sortedPlayers.map((player, index) => (
-                <PlayerCard
-                    key={index}
-                    player={player}
-                    angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
-                    radiusX={radiusX}
-                    radiusY={radiusY}
-                    isCurrentPlayer={player.player_name === currentPlayerName}
-                />
+                <React.Fragment key={index}>
+                    <PlayerCard
+                        player={player}
+                        angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                        isCurrentPlayer={player.player_name === currentPlayerName}
+                    />
+                    {sortedboolDoors[index] && <DoorBtPlayers
+                        angle={(2 * Math.PI) * (currentPlayerIndex - index + 0.5 - 1) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                    />}
+                </React.Fragment>
             ))}
             <div style={iconsContainerStyle}>
                 {state.isClockwise ? (
@@ -156,5 +270,4 @@ const PlayerRound = () => {
         </Box>
     );
 };
-
 export default PlayerRound;
