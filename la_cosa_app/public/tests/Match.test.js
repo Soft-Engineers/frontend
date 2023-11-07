@@ -21,7 +21,7 @@ jest.mock('../../src/screens/Match/matchContext', () => {
         turnState: 2,
         DtimeoutEnded: false,
         isTurn: true,
-        Socket: null,
+        socket: { send: jest.fn() },
     };
 
     const mockActions = {
@@ -113,6 +113,7 @@ describe('Match', () => {
 
         await waitFor(() => {
             expect(progressBar).toHaveStyle({ opacity: '0' });
-        }, { timeout: 10000 });
+        }, { timeout: 500 });
+
     });
-}, 20000);
+});
