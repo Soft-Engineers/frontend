@@ -10,7 +10,7 @@ const ButtonsBox = () => {
 
     console.log(state.role);
     useEffect(() => {
-        if (state.defenseTimeoutEnded) {
+        if (state.defenseTimeoutEnded && state.isTurn) {
             handleSkip();
             actions.setDefenseTimeoutEnded(false);
         }

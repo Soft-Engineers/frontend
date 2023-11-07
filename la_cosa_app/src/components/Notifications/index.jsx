@@ -54,7 +54,7 @@ const Notifications = ({ messages}) => {
                     </Typography>
                 )}
                 {!state.isTurn && (state.turnState === turnStates.WAIT_DEFENSE || state.turnState === turnStates.WAIT_EXCHANGE) && (
-                    <Typography variant="h6" style={{ color: '#3968B1', borderBottom: '1px solid black', marginTop: '12px' }}>
+                    <Typography variant="h6" style={{ color: '#3968B1', borderBottom: '1px dotted black', marginTop: '12px' }}>
                         {state.esperaMessage}
                     </Typography>
                 )}
