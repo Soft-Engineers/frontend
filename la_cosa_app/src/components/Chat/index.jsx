@@ -58,19 +58,14 @@ const Chat = () => {
                 },
             };
             state.socket.send(JSON.stringify(request));
-            // Add the message to the local list with the user as the author and timestamp
-            const newMessage = {
-                author: 'Your Name', // Replace with the actual author's name
-                message: inputMessage,
-                timestamp: new Date().getTime(),
-            };
-            setMessagesList([...messagesList, newMessage]);
+
             setInputMessage('');
         }
     };
 
     const renderMessage = (message, index) => {
-        const isMainUser = message.author === 'Your Name';
+        const isMainUser = message.author === sessionStorage.getItem('player_name');
+        console.log(localStorage.getItem('player_name'));
         return (
             <ListItem key={index} sx={isMainUser ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }}>
                 {isMainUser && (
@@ -104,7 +99,6 @@ const Chat = () => {
         );
     };
 
-    // You should also have a function to retrieve chat messages from the server and add them to the state.
 
     return (
         <Box style={BoxStyle} sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

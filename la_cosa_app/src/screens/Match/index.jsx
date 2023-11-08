@@ -71,7 +71,7 @@ const Match = () => {
                   value={(timeoutRemaining / timeoutDuration) * 100}
                   sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height:'160px'}} >
+              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height:'160px' ,justifyContent: 'space-between'}} >
                 <PlayersHand cartas={state.hand}/>
                 <ButtonsBox />
               </Box>

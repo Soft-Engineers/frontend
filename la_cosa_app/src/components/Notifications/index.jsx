@@ -5,15 +5,15 @@ import { List } from '@mui/material';
 import { useMatchC, turnStates } from '../../screens/Match/matchContext.jsx';
 import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
-import OpenInFullSharpIcon from '@mui/icons-material/OpenInFullSharp';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import ExpandMoreSharpIcon from '@mui/icons-material/ExpandMoreSharp';
+import ExpandLessSharpIcon from '@mui/icons-material/ExpandLessSharp';
 import IconButton from "@mui/material/IconButton";
 
 const BoxStyle = {
     display: 'flex',
     flexDirection: 'column',
     maxHeight: '100%',
-    overflow: 'hidden', // Use 'hidden' to hide content when minimized
+    overflow: 'hidden',
     marginLeft: '20px',
     marginBottom: '16.1px',
     border: '1px solid grey',
@@ -22,7 +22,7 @@ const BoxStyle = {
 
 const buttonStyle = {
     position: 'absolute',
-    top: '10px',
+    top: '70px',
     right: '10px',
 };
 
@@ -64,7 +64,7 @@ const Notifications = () => {
     };
 
     return (
-        <Box style={{ ...BoxStyle, height: minimized ? '16%' : '100%' }}>
+        <Box style={{ ...BoxStyle}}>
             <ListItem sx={{ flexDirection: 'column', alignItems: 'center', borderBottom: '0.1px solid grey' }}>
                 <ListItemText primary={
                     <Typography variant="h5" style={{ color: 'green' }}>
@@ -97,13 +97,13 @@ const Notifications = () => {
                 )}
             </ListItem>
             <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
-                {minimized ? <OpenInFullSharpIcon /> : <CloseFullscreenIcon />}
+                {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
             </IconButton>
-            <div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block' }} ref={scrollRef}>
+            {!minimized && (notificationsList.length !== 0) && (<div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block' }} ref={scrollRef}>
                 <List>
                     {notificationsList.map((notification, index) => renderNotification(notification, index))}
                 </List>
-            </div>
+            </div>)}
         </Box>
     );
 };
