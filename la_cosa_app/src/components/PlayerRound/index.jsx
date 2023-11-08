@@ -10,13 +10,13 @@ import quarantineIcon from "../../assets/quarantine.png";
 
 const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
     const offset = Math.PI * 0.5;
-    const x = radiusX * Math.cos(angle + offset);
-    const y = radiusY * Math.sin(angle + offset);
+    const x = radiusX * Math.cos(angle + offset + 0.2);
+    const y = radiusY * Math.sin(angle + offset - 0.2);
 
 
     const lineStyle = {
         width: '10px',
-        height: '80px',
+        height: '100px',
         backgroundColor: 'brown',
         margin: '10px',
         display: 'flex',

@@ -29,7 +29,7 @@ export const MatchProvider = ({ children }) => {
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
     const [avisos, setAvisos] = useState([]);
-    const [esperaMessage, setEsperaMessage] = useState('Esperando tu turno...');
+    const [esperaMessage, setEsperaMessage] = useState('aaaaaaaaa');
     const [isFinished, setIsFinished] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
