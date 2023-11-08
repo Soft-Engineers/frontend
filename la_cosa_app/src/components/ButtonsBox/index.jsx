@@ -303,7 +303,16 @@ const ButtonsBox = () => {
                             </Button>
                         </>)
                     }
-
+                    {state.turnState === turnStates.DISCARD && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleDiscardCard}
+                            sx={styles.button}
+                        >
+                            Descartar carta
+                        </Button>
+                    )}
                 </>
             )}
             {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alredySelected ? (

@@ -17,6 +17,7 @@ export const turnStates = {
     PANIC: 7,
     VUELTA_Y_VUELTA: 8,
     REVELACIONES: 9,
+    DISCARD: 10,
 };
 
 
