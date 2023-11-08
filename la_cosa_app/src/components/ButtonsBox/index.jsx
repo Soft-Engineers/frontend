@@ -8,7 +8,6 @@ const ButtonsBox = () => {
     const { state, actions } = useMatchC();
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
-    console.log(state.role);
     useEffect(() => {
         if (state.defenseTimeoutEnded && state.isTurn) {
             handleSkip();
@@ -18,9 +17,6 @@ const ButtonsBox = () => {
 
     const handleDiscardCard = () => {
         if (state.selectedCard !== null) {
-            console.log({
-                hand: state.hand,
-            });
             const request = {
                 message_type: 'descartar carta',
                 message_content: {
@@ -36,9 +32,6 @@ const ButtonsBox = () => {
     };
     const handlePlayCard = () => {
         if (state.selectedCard !== null) {
-            console.log({
-                hand: state.hand,
-            });
             const request = {
                 message_type: 'jugar carta',
                 message_content: {
@@ -133,10 +126,11 @@ const ButtonsBox = () => {
             alignItems: 'center',
             textAlign: 'center',
             border: '1px solid grey',
-            borderRadius: '30px',
+            borderRadius: '10px',
             marginLeft: '1rem',
             fontSize: '18px',
-            width: '100%',
+            minWidth: '40%',
+            flex: '1',
         },
         button: {
             backgroundColor: '#515952',

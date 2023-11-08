@@ -1,7 +1,7 @@
 import Deck from '../../components/Deck/';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
-import React from "react";
+import React, {useEffect} from "react";
 import Box from "@mui/material/Box";
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -10,15 +10,14 @@ import quarantineIcon from "../../assets/quarantine.png";
 
 const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
     const offset = Math.PI * 0.5;
-    const x = radiusX * Math.cos(angle + offset);
-    const y = radiusY * Math.sin(angle + offset);
+    const x = (radiusX - 30) * Math.cos(angle + offset);
+    const y = (radiusY - 30) * Math.sin(angle + offset);
 
 
     const lineStyle = {
         width: '10px',
-        height: '80px',
+        height: '120px',
         backgroundColor: 'brown',
-        margin: '10px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -126,6 +125,10 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
             transform: 'translate(0%, -70%)',
         }
     };
+
+    useEffect(() => {
+        actions.setTargetName(null); // Cuando cambia el turno, se resetea el target
+    }, [state.currentTurn]);
 
     const handleClick = () => {
         if (isThisPlayerDead) {

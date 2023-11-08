@@ -1,5 +1,5 @@
 import { turnStates, useMatchC } from './matchContext';
-import { Grid, Box, Paper } from '@mui/material';
+import { Grid, Box} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import SnackBar from '../../components/SnackBar';
 import PlayersHand from "../../components/PlayersHand";
@@ -71,18 +71,16 @@ const Match = () => {
                   value={(timeoutRemaining / timeoutDuration) * 100}
                   sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '150px', maxHeight: '150px'}} >
-                <PlayersHand cartas={state.hand} />
+              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height:'160px' ,justifyContent: 'space-between'}} >
+                <PlayersHand cartas={state.hand}/>
                 <ButtonsBox />
               </Box>
 
             </Grid>}
         {/* Second half */}
         <Grid item xs={4} sx={{ height: '95vh', display: 'flex', flexDirection: 'column', width: '95%'}}>
-          <Box sx={{minHeight: 'calc(100%-150px)', maxHeight: 'calc(100%-150px)', overflow: 'auto', marginLeft: '20px', marginBottom: '16.1px', border: '1px solid grey', borderRadius: '10px', flex: '1'}}>
-            <Notifications messages={state.avisos} />
-          </Box>
-          <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px',maxHeight: '148px', minHeight: '148px', marginLeft: '1.4rem',}}>
+            <Notifications/>
+          <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px', marginLeft: '1.4rem', minHeight: '158px', flex: '1'}}>
             <Chat/>
           </Box>
         </Grid>

@@ -154,10 +154,14 @@ export const handle_socket_messages = () => {
             break;
           case 'notificación muerte':
           case 'notificación jugada':
-            actions.setAvisos([...state.avisos, data.message_content]);
+            actions.setNotifications([...state.notifications, data.message_content]);
             break;
           case 'notificación espera':
-            actions.setEsperaMessage(data.message_content);
+            actions.setWaitMessage(data.message_content);
+            break;
+          case 'notificación chat':
+            console.log(data.message_content)
+            actions.setMessages([...state.messages, data.message_content]);
             break;
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
@@ -177,7 +181,6 @@ export const handle_socket_messages = () => {
             actions.setReveal(true);
             break;
           case 'estado partida':
-            console.log(data.message_content);
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);
@@ -189,7 +192,7 @@ export const handle_socket_messages = () => {
             break;
           case 'infectado':
             if (state.role !== 'INFECTADO') {
-              actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
+              actions.setNotifications([...state.notifications, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
             break;
@@ -198,7 +201,6 @@ export const handle_socket_messages = () => {
             break;
           case 'sentido horario':
             actions.setIsClockwise(data.message_content)
-              console.log(data.message_content + 'SENTIDO');
             break;
           case 'obstáculos':
             actions.setObstacles(data.message_content);
