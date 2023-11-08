@@ -309,7 +309,7 @@ const ButtonsBox = () => {
                     )}
                 </>
             )}
-            {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alredySelected ? (
+            {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected ? (
                 <p>Esperando a los demás jugadores...</p>
               ) : (
                 state.turnState === turnStates.VUELTA_Y_VUELTA && (
@@ -330,9 +330,7 @@ const ButtonsBox = () => {
                         <p>Esperando intercambio....</p>
                     ) : state.turnState === turnStates.WAIT_DEFENSE ? (
                         <p>Esperando defensa...</p>
-                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? (
-                        null
-                    ): (
+                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null: (
                         <p>Esperando turno...</p>
                     )}
                 </>

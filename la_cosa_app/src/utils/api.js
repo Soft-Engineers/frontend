@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useMatchC, turnStates } from '../screens/Match/matchContext';
+import { useMatchC} from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -210,9 +210,9 @@ export const handle_socket_messages = () => {
             break;
           case 'carta ya seleccionada':
             if (data.message_content === 1){
-              actions.setAlredySelected(true);
+              actions.setAlreadySelected(true);
             }else{
-              actions.setAlredySelected(false);
+              actions.setAlreadySelected(false);
             }
             break;
           default:

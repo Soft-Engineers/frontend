@@ -49,7 +49,7 @@ export const MatchProvider = ({ children }) => {
     const [isClockwise, setIsClockwise] = useState(false);
     const [Obstacles, setObstacles] = useState([]);
     const [Cuarentena, setCuarentena] = useState(null);
-    const [alredySelected, setAlredySelected] = useState(false);
+    const [alreadySelected, setAlreadySelected] = useState(false);
     const [messages, setMessages] = useState([]);
 
     const state = {
@@ -80,7 +80,7 @@ export const MatchProvider = ({ children }) => {
         Obstacles,
         Cuarentena,
         messages,
-        alredySelected,
+        alreadySelected,
     };
 
     const actions = {
@@ -111,7 +111,7 @@ export const MatchProvider = ({ children }) => {
         setObstacles,
         setCuarentena,
         setMessages,
-        setAlredySelected,
+        setAlreadySelected,
     };
 
     return (
