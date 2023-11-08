@@ -206,6 +206,13 @@ export const handle_socket_messages = () => {
           case 'cuarentena':
             actions.setCuarentena(data.message_content);
             break;
+          case 'carta ya seleccionada':
+            if (data.message_content === 1){
+              actions.setAlredySelected(true);
+            }else{
+              actions.setAlredySelected(false);
+            }
+            break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)
             break;
