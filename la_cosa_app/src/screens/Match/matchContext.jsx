@@ -28,8 +28,8 @@ export const MatchProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
-    const [avisos, setAvisos] = useState([]);
-    const [esperaMessage, setEsperaMessage] = useState('aaaaaaaaa');
+    const [notifications, setNotifications] = useState([]);
+    const [waitMessage, setWaitMessage] = useState('');
     const [isFinished, setIsFinished] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
@@ -46,6 +46,7 @@ export const MatchProvider = ({ children }) => {
     const [isClockwise, setIsClockwise] = useState(false);
     const [Obstacles, setObstacles] = useState([]);
     const [Cuarentena, setCuarentena] = useState(null);
+    const [messages, setMessages] = useState([]);
 
     const state = {
         socket,
@@ -56,8 +57,8 @@ export const MatchProvider = ({ children }) => {
         open,
         severity,
         body,
-        esperaMessage,
-        avisos,
+        waitMessage,
+        notifications,
         isFinished,
         winners,
         reason,
@@ -74,6 +75,7 @@ export const MatchProvider = ({ children }) => {
         isClockwise,
         Obstacles,
         Cuarentena,
+        messages,
     };
 
     const actions = {
@@ -84,8 +86,8 @@ export const MatchProvider = ({ children }) => {
         setOpen,
         setSeverity,
         setBody,
-        setEsperaMessage,
-        setAvisos,
+        setWaitMessage,
+        setNotifications,
         setIsFinished,
         setWinners,
         setReason,
@@ -103,6 +105,7 @@ export const MatchProvider = ({ children }) => {
         setIsClockwise,
         setObstacles,
         setCuarentena,
+        setMessages,
     };
 
     return (
