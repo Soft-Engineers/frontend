@@ -15,6 +15,9 @@ export const turnStates = {
     WAIT_EXCHANGE: 5,
     WAIT_DEFENSE: 6,
     PANIC: 7,
+    VUELTA_Y_VUELTA: 8,
+    REVELACIONES: 9,
+    DISCARD: 10,
 };
 
 
@@ -46,6 +49,7 @@ export const MatchProvider = ({ children }) => {
     const [isClockwise, setIsClockwise] = useState(false);
     const [Obstacles, setObstacles] = useState([]);
     const [Cuarentena, setCuarentena] = useState(null);
+    const [alredySelected, setAlredySelected] = useState(false);
 
     const state = {
         socket,
@@ -74,6 +78,7 @@ export const MatchProvider = ({ children }) => {
         isClockwise,
         Obstacles,
         Cuarentena,
+        alredySelected,
     };
 
     const actions = {
@@ -103,6 +108,7 @@ export const MatchProvider = ({ children }) => {
         setIsClockwise,
         setObstacles,
         setCuarentena,
+        setAlredySelected,
     };
 
     return (
