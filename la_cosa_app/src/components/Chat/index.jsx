@@ -14,7 +14,7 @@ const Chat = ({socket}) => {
 
     useEffect(() => {
         if (state.chatHistory.length > 0) {
-            setMessagesList(state.chatHistory);
+            setMessagesList([...state.messages, ...state.chatHistory]);
         }
     }
     , [state.chatHistory]);

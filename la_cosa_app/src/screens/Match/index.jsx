@@ -98,7 +98,7 @@ const Match = () => {
         <Grid item xs={4} sx={{ height: '95vh', display: 'flex', flexDirection: 'column', width: '95%'}}>
           <Notifications/>
           <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px', marginLeft: '1.4rem', minHeight: '158px', flex: '1'}}>
-            <Chat/>
+            <Chat socket={state.socket}/>
           </Box>
         </Grid>
         {state.isDeadPlayer && (
