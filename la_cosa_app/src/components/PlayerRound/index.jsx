@@ -135,8 +135,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         width: '40px',
         height: '40px',
         //backgroundColor: 'black',
-        transform: 'translate(0, -40px)',
-        rotate: `${angle - 29.85}rad`
+        transform: inCuarentena ? 'translate( 0, -65px)' : 'translate(0, -40px)',
+        rotate: `${angle - 29.85}rad`,
+        zIndex: '990',
     }
 
     useEffect(() => {
@@ -171,6 +172,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
                     </span>
                     {isCurrentPlayer && (<KeyboardDoubleArrowDownIcon style={currPlayerStyle} />)}
                 </div>
+
             </div>
 
             {inCuarentena && (
