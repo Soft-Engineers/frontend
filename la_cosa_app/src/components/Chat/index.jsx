@@ -5,32 +5,19 @@ import Typography from '@mui/material/Typography';
 import { useMatchC } from "../../screens/Match/matchContext.jsx";
 import ListItem from "@mui/material/ListItem";
 
-const BoxStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    maxHeight: '100%',
-};
 
-const Chat = () => {
-    const { state, actions } = useMatchC();
+const Chat = ({socket}) => {
+    const { state} = useMatchC();
     const scrollRef = useRef(null);
     const [messagesList, setMessagesList] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
 
     useEffect(() => {
-        const newMessage = {
-            author: '', // Replace with the actual author's name
-            message: (
-                <span>
-                ¡Bienvenido al Juego de la Cosa! Lee las reglas <a href="https://famaf.aulavirtual.unc.edu.ar/pluginfile.php/27371/mod_resource/content/1/Reglas%20del%20Juego_%20La%20Cosa.pdf" target="_blank" rel="noopener noreferrer">
-                    acá
-                </a>
-            </span>
-            ),
-            timestamp: new Date().getTime(),
-        };
-        setMessagesList([...messagesList, newMessage]);
-    }, []);
+        if (state.chatHistory.length > 0) {
+            setMessagesList(state.chatHistory);
+        }
+    }
+    , [state.chatHistory]);
 
     useEffect(() => {
         setMessagesList((prevMessages) => {
@@ -57,7 +44,7 @@ const Chat = () => {
                     message: inputMessage,
                 },
             };
-            state.socket.send(JSON.stringify(request));
+            socket.send(JSON.stringify(request));
 
             setInputMessage('');
         }
@@ -65,7 +52,6 @@ const Chat = () => {
 
     const renderMessage = (message, index) => {
         const isMainUser = message.author === sessionStorage.getItem('player_name');
-        console.log(localStorage.getItem('player_name'));
         return (
             <ListItem key={index} sx={isMainUser ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }}>
                 {isMainUser && (
@@ -101,7 +87,7 @@ const Chat = () => {
 
 
     return (
-        <Box style={BoxStyle} sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 ,height: '100%',maxHeight: '100%',}}>
             <div style={{ overflowY: 'auto',overflowX: 'hidden', minWidth: '100%', flexGrow: 1 }} ref={scrollRef}>
                 {messagesList.map((message, index) => renderMessage(message, index))}
             </div>
@@ -109,6 +95,7 @@ const Chat = () => {
                 label="Escribe un mensaje"
                 variant="outlined"
                 fullWidth
+                size="small"
                 value={inputMessage}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {

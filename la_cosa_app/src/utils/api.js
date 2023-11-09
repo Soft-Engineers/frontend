@@ -140,7 +140,7 @@ export const handle_socket_messages = () => {
         const data = JSON.parse(event.data);
         switch (data.message_type) {
           case "posiciones":
-            actions.setJugadores(data.message_content);
+            actions.setPosiciones(data.message_content);
             break;
           case "muertes":
             actions.setDeadPlayerNames(data.message_content);
@@ -162,6 +162,9 @@ export const handle_socket_messages = () => {
           case 'notificación chat':
             console.log(data.message_content)
             actions.setMessages([...state.messages, data.message_content]);
+            break;
+          case 'historial':
+            actions.setChatHistory(data.message_content);
             break;
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
@@ -224,7 +227,6 @@ export const handle_socket_messages = () => {
         console.log("Desconectado del socket de la partida");
       };
 
-      // Set the socket state
       actions.setSocket(matchSocket);
 
       return () => {

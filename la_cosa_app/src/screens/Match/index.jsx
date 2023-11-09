@@ -19,6 +19,23 @@ const Match = () => {
   const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
 
   useEffect(() => {
+    actions.setMessages([]);
+    actions.setChatHistory([]);
+    const newMessage = {
+      author: '', // Replace with the actual author's name
+      message: (
+          <span>
+                ¡Bienvenido al Juego de la Cosa! Lee las reglas <a href="https://famaf.aulavirtual.unc.edu.ar/pluginfile.php/27371/mod_resource/content/1/Reglas%20del%20Juego_%20La%20Cosa.pdf" target="_blank" rel="noopener noreferrer">
+                    acá
+                </a>
+            </span>
+      ),
+      timestamp: new Date().getTime(),
+    };
+    actions.setMessages([...state.messages, newMessage]);
+  }, []);
+
+  useEffect(() => {
     let timeoutId;
 
     if (
@@ -72,14 +89,14 @@ const Match = () => {
                   sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
               />
               <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height:'160px' ,justifyContent: 'space-between'}} >
-                <PlayersHand cartas={state.hand}/>
-                <ButtonsBox />
+                <PlayersHand/>
+                <ButtonsBox/>
               </Box>
 
             </Grid>}
         {/* Second half */}
         <Grid item xs={4} sx={{ height: '95vh', display: 'flex', flexDirection: 'column', width: '95%'}}>
-            <Notifications/>
+          <Notifications/>
           <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px', marginLeft: '1.4rem', minHeight: '158px', flex: '1'}}>
             <Chat/>
           </Box>

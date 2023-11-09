@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { List } from '@mui/material';
@@ -22,29 +22,21 @@ const BoxStyle = {
 
 const buttonStyle = {
     position: 'absolute',
-    top: '70px',
-    right: '10px',
+    top: '40px',
+    right: '15px',
 };
 
 const Notifications = () => {
     const { state } = useMatchC();
-    const scrollRef = useRef(null);
-
     const [notificationsList, setNotificationsList] = useState([]);
     const [minimized, setMinimized] = useState(false);
 
     useEffect(() => {
         setNotificationsList((prevNotifications) => {
-            return [...prevNotifications, ...state.notifications];
+            return [...state.notifications, ...prevNotifications];
         });
     }, [state.notifications]);
 
-    useEffect(() => {
-        if (scrollRef.current) {
-            const notificationBody = scrollRef.current;
-            notificationBody.scrollTop = notificationBody.scrollHeight - notificationBody.clientHeight;
-        }
-    }, [notificationsList]);
 
     const renderNotification = (notification, index) => {
         const isInfected = notification.includes('LA COSA TE INFECTÓ!!');
@@ -64,7 +56,7 @@ const Notifications = () => {
     };
 
     return (
-        <Box style={{ ...BoxStyle}}>
+        <Box style={BoxStyle}>
             <ListItem sx={{ flexDirection: 'column', alignItems: 'center', borderBottom: '0.1px solid grey' }}>
                 <ListItemText primary={
                     <Typography variant="h5" style={{ color: 'green' }}>
@@ -99,7 +91,8 @@ const Notifications = () => {
             <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
                 {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
             </IconButton>
-            {!minimized && (notificationsList.length !== 0) && (<div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block' }} ref={scrollRef}>
+            {!minimized && (notificationsList.length !== 0) && (
+                <div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block', resize: 'vertical', scrollbarColor: 'gray white'}}>
                 <List>
                     {notificationsList.map((notification, index) => renderNotification(notification, index))}
                 </List>

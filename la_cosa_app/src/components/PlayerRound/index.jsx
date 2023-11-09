@@ -176,9 +176,9 @@ const PlayerRound = () => {
     const { state } = useMatchC();
 
     const currentPlayerName = sessionStorage.getItem('player_name');
-    const currentPlayer = state.jugadores.find((player) => player.player_name === currentPlayerName);
-    const totalPlayers = state.jugadores.length;
-    const sortedPlayers = state.jugadores.sort((a, b) => a.position - b.position);
+    const currentPlayer = state.posiciones.find((player) => player.player_name === currentPlayerName);
+    const totalPlayers = state.posiciones.length;
+    const sortedPlayers = state.posiciones.sort((a, b) => a.position - b.position);
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
     const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position);
     const radiusX = 200;

@@ -24,7 +24,7 @@ export const turnStates = {
 export const MatchProvider = ({ children }) => {
 
     const [socket, setSocket] = useState(null);
-    const [jugadores, setJugadores] = useState([]);
+    const [posiciones, setPosiciones] = useState([]);
     const [currentTurn, setCurrentTurn] = useState('');
     const [hand, setHand] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
@@ -51,10 +51,11 @@ export const MatchProvider = ({ children }) => {
     const [Cuarentena, setCuarentena] = useState(null);
     const [alreadySelected, setAlreadySelected] = useState(false);
     const [messages, setMessages] = useState([]);
+    const [chatHistory, setChatHistory] = useState([]);
 
     const state = {
         socket,
-        jugadores,
+        posiciones,
         currentTurn,
         hand,
         selectedCard,
@@ -80,12 +81,13 @@ export const MatchProvider = ({ children }) => {
         Obstacles,
         Cuarentena,
         messages,
+        chatHistory,
         alreadySelected,
     };
 
     const actions = {
         setSocket,
-        setJugadores,
+        setPosiciones,
         setHand,
         setSelectedCard,
         setOpen,
@@ -111,6 +113,7 @@ export const MatchProvider = ({ children }) => {
         setObstacles,
         setCuarentena,
         setMessages,
+        setChatHistory,
         setAlreadySelected,
     };
 
