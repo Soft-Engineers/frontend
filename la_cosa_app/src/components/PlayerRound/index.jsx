@@ -1,11 +1,12 @@
 import Deck from '../../components/Deck/';
 import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import quarantineIcon from "../../assets/quarantine.png";
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 
 const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
@@ -117,6 +118,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
             height: '20px',
             width: '80%',
             transform: 'translate(10%, -100%)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
         },
         icon: {
             display: 'flex',
@@ -125,6 +129,15 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
             transform: 'translate(0%, -70%)',
         }
     };
+
+    const currPlayerStyle = {
+        position: 'absolute',
+        width: '40px',
+        height: '40px',
+        //backgroundColor: 'black',
+        transform: 'translate(0, -50px)',
+        rotate: `${angle}rad`
+    }
 
     useEffect(() => {
         actions.setTargetName(null); // Cuando cambia el turno, se resetea el target
@@ -148,14 +161,15 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
                 <div className="circle" style={circleStyle}>
                     {inCuarentena &&
                         <>
-                    <div style={cuarentenaStyle.box}/>
-                    <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon} />
+                            <div style={cuarentenaStyle.box} />
+                            <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon} />
                         </>
 
                     }
                     <span className="player-name" style={nameStyle}>
                         {player.player_name}
                     </span>
+                    {isCurrentPlayer && (<KeyboardDoubleArrowDownIcon style={currPlayerStyle} />)}
                 </div>
             </div>
 
@@ -178,9 +192,9 @@ const PlayerRound = () => {
     const currentPlayerName = sessionStorage.getItem('player_name');
     const currentPlayer = state.posiciones.find((player) => player.player_name === currentPlayerName);
     const totalPlayers = state.posiciones.length;
-    const sortedPlayers = state.posiciones.sort((a, b) => a.position - b.position);
+    const sortedPlayers = state.posiciones.sort((a, b) => a.position - b.position);//state.posiciones;//
     const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-    const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position);
+    const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position); //state.Obstacles;//
     const radiusX = 200;
     const radiusY = 170;
     const centerX = 0;
@@ -221,7 +235,7 @@ const PlayerRound = () => {
     const rotationStyle = {
         display: 'flex',
         fontSize: 'large',
-        marginRight:'1rem',
+        marginRight: '1rem',
         width: '100px',
         height: '100px',
     };
@@ -248,13 +262,13 @@ const PlayerRound = () => {
                 <React.Fragment key={index}>
                     <PlayerCard
                         player={player}
-                        angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        angle={(2 * Math.PI) * (index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
                     {sortedboolDoors[index] && <DoorBtPlayers
-                        angle={(2 * Math.PI) * (currentPlayerIndex - index + 0.5 - 1) / totalPlayers}
+                        angle={(2 * Math.PI) * (index + 0.5 - 1) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
                     />}
