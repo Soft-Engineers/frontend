@@ -135,8 +135,8 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         width: '40px',
         height: '40px',
         //backgroundColor: 'black',
-        transform: 'translate(0, -50px)',
-        rotate: `${angle}rad`
+        transform: 'translate(0, -40px)',
+        rotate: `${angle - 29.85}rad`
     }
 
     useEffect(() => {
