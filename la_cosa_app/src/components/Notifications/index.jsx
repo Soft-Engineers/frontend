@@ -81,9 +81,13 @@ const Notifications = () => {
                 )}
                 {!state.isTurn && (
                     <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
-                        {state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE
+                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE) && state.waitMessage !== ''
                             ? state.waitMessage
-                            : 'Esperando tu turno...'}
+                            : state.turnState === turnStates.WAIT_EXCHANGE
+                                ? 'Esperando intercambio'
+                                : state.turnState === turnStates.WAIT_DEFENSE
+                                    ? 'Esperando defensa'
+                                        : 'Esperando tu turno...'}
 
                     </Typography>
                 )}

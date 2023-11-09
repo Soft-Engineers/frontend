@@ -55,7 +55,7 @@ const Chat = ({socket}) => {
         return (
             <ListItem key={index} sx={isMainUser ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }}>
                 {isMainUser && (
-                <Typography variant="caption" color="textSecondary" sx={{marginRight:'2rem'}} >
+                <Typography variant="caption" color="textSecondary" sx={{marginRight:'1rem'}} >
                     {new Date(message.timestamp).toLocaleTimeString()}
                 </Typography>
                 )}
@@ -77,7 +77,7 @@ const Chat = ({socket}) => {
                     <Typography variant="body1">{message.message}</Typography>
                 </Box>
                 {!isMainUser && (
-                    <Typography variant="caption" color="textSecondary" sx={{marginLeft:'2rem'}} >
+                    <Typography variant="caption" color="textSecondary" sx={{marginLeft:'1rem'}} >
                         {new Date(message.timestamp).toLocaleTimeString()}
                     </Typography>
                 )}

@@ -168,7 +168,7 @@ const ButtonsBox = () => {
             {state.isTurn && (
                 <>
                     {state.turnState === turnStates.DRAW_CARD && (
-                        <p>Antes de jugar debes robar una carta del mazo.</p>
+                        <p>Antes de jugar tenés que robar una carta del mazo.</p>
                     )}
                     {state.turnState === turnStates.PLAY_TURN && (
                         <>
