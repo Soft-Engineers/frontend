@@ -1,62 +1,108 @@
 import React, { useEffect, useState } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
 import { List } from '@mui/material';
-import {useMatchC, turnStates} from "../../screens/Match/matchContext.jsx";
-import Typography from "@mui/material/Typography";
+import { useMatchC, turnStates } from '../../screens/Match/matchContext.jsx';
+import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import ExpandMoreSharpIcon from '@mui/icons-material/ExpandMoreSharp';
+import ExpandLessSharpIcon from '@mui/icons-material/ExpandLessSharp';
+import IconButton from "@mui/material/IconButton";
 
-const ListStyle = {
-    display : 'flex',
+const BoxStyle = {
+    display: 'flex',
     flexDirection: 'column',
+    maxHeight: '100%',
+    overflow: 'hidden',
+    marginLeft: '20px',
+    marginBottom: '16.1px',
+    border: '1px solid grey',
+    borderRadius: '10px',
 };
 
+const buttonStyle = {
+    position: 'absolute',
+    top: '40px',
+    right: '15px',
+};
 
-const Notifications = ({ messages}) => {
-    const { state} = useMatchC();
-
-    const [messageList, setMessageList] = useState([]);
+const Notifications = () => {
+    const { state } = useMatchC();
+    const [notificationsList, setNotificationsList] = useState([]);
+    const [minimized, setMinimized] = useState(false);
 
     useEffect(() => {
-        setMessageList((prevMessages) => {
-            return [...messages, ...prevMessages];
+        setNotificationsList((prevNotifications) => {
+            return [...state.notifications, ...prevNotifications];
         });
-    }, [messages]);
+    }, [state.notifications]);
 
-    const renderMessage = (message, index) => {
-        const isInfected = message.includes('LA COSA TE INFECTÓ!!');
-        const messageStyle = {
-            color: isInfected ? 'red': 'black',
+
+    const renderNotification = (notification, index) => {
+        const isInfected = notification.includes('LA COSA TE INFECTÓ!!');
+        const notificationStyle = {
+            color: isInfected ? 'red' : 'black',
         };
 
         return (
-            <ListItem key={index}>
-                <ListItemText primary={message} style={messageStyle} />
+            <ListItem key={index} style={{ borderTop: index === 0 ? 'none' : '1px dashed black' }}>
+                <ListItemText primary={notification} style={notificationStyle} />
             </ListItem>
         );
     };
 
+    const toggleMinimized = () => {
+        setMinimized(!minimized);
+    };
+
     return (
-        <Paper style={ListStyle}>
-            <ListItem sx={{flexDirection: 'column', alignItems: 'flex-start'}}>
+        <Box style={BoxStyle}>
+            <ListItem sx={{ flexDirection: 'column', alignItems: 'center', borderBottom: '0.1px solid grey' }}>
                 <ListItemText primary={
-                    <Typography variant="h6" style={{ color: 'green', borderBottom: '2px solid black'}}>
-                        Es el turno de {state.currentTurn}
+                    <Typography variant="h5" style={{ color: 'green' }}>
+                        {`Es ${state.isTurn ? 'tu turno' : 'el turno de ' + state.currentTurn}`}
                     </Typography>
                 } />
-                {state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (
-                    <Typography variant="h5" style={{ color: '#3968B1', borderBottom: '2px solid black', marginTop: '12px'}}>
-                        TE JUGARON UNA CARTA, DEFENDETE!!
+                {state.isTurn && (
+                    <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
+                        {state.turnState === turnStates.WAIT_DEFENSE
+                            ? 'Te estas defendiendo'
+                            : state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.EXCHANGE
+                                ? 'Tenés que intercambiar una carta'
+                                : state.turnState === turnStates.DRAW_CARD
+                                    ? 'Tenés que robar una carta'
+                                    : state.turnState === turnStates.PLAY_TURN
+                                        ? 'Tenés que jugar o descartar una carta'
+                                        : state.turnState === turnStates.PANIC
+                                            ? 'Tenés que jugar la carta de pánico'
+                                            : null }
+
                     </Typography>
-                )
-                }
+                )}
+                {!state.isTurn && (
+                    <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
+                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE) && state.waitMessage !== ''
+                            ? state.waitMessage
+                            : state.turnState === turnStates.WAIT_EXCHANGE
+                                ? 'Esperando intercambio'
+                                : state.turnState === turnStates.WAIT_DEFENSE
+                                    ? 'Esperando defensa'
+                                        : 'Esperando tu turno...'}
+
+                    </Typography>
+                )}
             </ListItem>
-            <List>
-                {messageList.map((message, index) => renderMessage(message, index))}
-            </List>
-        </Paper>
+            <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
+                {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
+            </IconButton>
+            {!minimized && (notificationsList.length !== 0) && (
+                <div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block', resize: 'vertical', scrollbarColor: 'gray white'}}>
+                <List>
+                    {notificationsList.map((notification, index) => renderNotification(notification, index))}
+                </List>
+            </div>)}
+        </Box>
     );
 };
 
 export default Notifications;
-

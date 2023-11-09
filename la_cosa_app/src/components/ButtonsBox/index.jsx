@@ -9,17 +9,14 @@ const ButtonsBox = () => {
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
     useEffect(() => {
-        if (state.DtimeoutEnded) {
+        if (state.defenseTimeoutEnded && state.isTurn) {
             handleSkip();
-            actions.setDTimeoutEnded(false);
+            actions.setDefenseTimeoutEnded(false);
         }
-    }, [state.DtimeoutEnded]);
+    }, [state.defenseTimeoutEnded]);
 
     const handleDiscardCard = () => {
         if (state.selectedCard !== null) {
-            console.log({
-                hand: state.hand,
-            });
             const request = {
                 message_type: 'descartar carta',
                 message_content: {
@@ -35,9 +32,6 @@ const ButtonsBox = () => {
     };
     const handlePlayCard = () => {
         if (state.selectedCard !== null) {
-            console.log({
-                hand: state.hand,
-            });
             const request = {
                 message_type: 'jugar carta',
                 message_content: {
@@ -86,6 +80,44 @@ const ButtonsBox = () => {
         state.socket.send(JSON.stringify(request));
     };
 
+    const handleShowHand = () => {
+        const request = {
+            message_type: 'revelaciones',
+            message_content: {
+                'decision': 'revelar mano',
+            },
+        };
+        state.socket.send(JSON.stringify(request));
+    };
+
+    const handleShowInfectedCard = () => {
+        const request = {
+            message_type: 'revelaciones',
+            message_content: {
+                'decision': 'revelar carta',
+            },
+        };
+        state.socket.send(JSON.stringify(request));        
+    };
+
+    const handleSkipRevelaciones = () => {
+        const request = {
+            message_type: 'revelaciones',
+            message_content: {
+                'decision': 'omitir revelaciones',
+            },
+        };
+        state.socket.send(JSON.stringify(request));
+    };
+
+    const hasInfectedCard = (hand) => {
+        for (let i = 0; i < hand.length; i++) {
+            if (hand[i].card_name === '¡Infectado!') {
+                return true;
+            }
+        }
+    };
+
     const styles = {
         box: {
             display: 'flex',
@@ -94,10 +126,12 @@ const ButtonsBox = () => {
             alignItems: 'center',
             textAlign: 'center',
             border: '1px solid grey',
-            borderRadius: '30px',
+            borderRadius: '10px',
             marginLeft: '1rem',
             fontSize: '18px',
-            width: '100%',
+            minWidth: '40%',
+            maxWidth: '40%',
+            flex: '1',
         },
         button: {
             backgroundColor: '#515952',
@@ -134,7 +168,7 @@ const ButtonsBox = () => {
             {state.isTurn && (
                 <>
                     {state.turnState === turnStates.DRAW_CARD && (
-                        <p>Antes de jugar debes robar una carta del mazo.</p>
+                        <p>Antes de jugar tenés que robar una carta del mazo.</p>
                     )}
                     {state.turnState === turnStates.PLAY_TURN && (
                         <>
@@ -154,7 +188,7 @@ const ButtonsBox = () => {
                             >
                                 Descartar carta
                             </Button>
-                            {state.role === 'LA COSA' && (
+                            {state.role === 'LA_COSA' && (
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -174,14 +208,14 @@ const ButtonsBox = () => {
 
                     {state.turnState === turnStates.EXCHANGE && (
 
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleExchange}
-                                sx={styles.button}
-                            >
-                                Intercambiar
-                            </Button>)
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleExchange}
+                            sx={styles.button}
+                        >
+                            Intercambiar
+                        </Button>)
 
                     }
                     {state.turnState === turnStates.WAIT_EXCHANGE && (
@@ -234,15 +268,70 @@ const ButtonsBox = () => {
                             Jugar Carta
                         </Button>
                     )}
+                    {(state.turnState === turnStates.REVELACIONES) && (
+                        <>
+                            {hasInfectedCard(state.hand) &&(
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleShowInfectedCard}
+                                    sx={styles.button}
+                                >
+                                    Revelar carta ¡Infectado!
+                                </Button>
+                            )}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleShowHand}
+                                sx={styles.button}
+                            >
+                                Revelar mano
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSkipRevelaciones}
+                                sx={styles.button}
+                            >
+                                Pasar
+                            </Button>
+                        </>)
+                    }
+                    {state.turnState === turnStates.DISCARD && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleDiscardCard}
+                            sx={styles.button}
+                        >
+                            Descartar carta
+                        </Button>
+                    )}
                 </>
             )}
+            {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected ? (
+                <p>Esperando a los demás jugadores...</p>
+              ) : (
+                state.turnState === turnStates.VUELTA_Y_VUELTA && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleExchange}
+                    sx={styles.button}
+                  >
+                    Intercambiar
+                  </Button>
+                )
+              )
+            }
             {!state.isTurn && (
                 <>
                     {state.turnState === turnStates.WAIT_EXCHANGE ? (
                         <p>Esperando intercambio....</p>
                     ) : state.turnState === turnStates.WAIT_DEFENSE ? (
                         <p>Esperando defensa...</p>
-                    ) : (
+                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null: (
                         <p>Esperando turno...</p>
                     )}
                 </>

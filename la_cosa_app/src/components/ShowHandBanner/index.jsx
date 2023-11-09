@@ -4,41 +4,56 @@ import { useState, useEffect } from 'react';
 import { Stack } from '@mui/material';
 import Carta from '../Carta';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useMatchC } from '../../screens/Match/matchContext';
+import CloseIcon from '@mui/icons-material/Close';
+import {useMatchC} from '../../screens/Match/matchContext';
+import IconButton from "@mui/material/IconButton";
 
 const ShowHandBanner = () => {
-    const {state, actions} = useMatchC();
+    const { state, actions } = useMatchC();
     const hand = state.revealCard.cards;
     const player = state.revealCard.cards_owner;
     const trigger_card = state.revealCard.trigger_card;
+    const timestamp = state.revealCard.timestamp;
 
-    const time = 10000;
-    const [mostrarMensaje, setMostrarMensaje] = useState(true);
-    const [tiempoRestante, setTiempoRestante] = useState(time);// 20000 milisegundos (10 segundos)
+    const timeoutDuration = 10000;
+    const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
 
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            setTiempoRestante(prevTiempo => {
-                if (prevTiempo <= 0) {
-                    clearInterval(intervalId);
-                    actions.setReveal(false);
-                    return 0;
-                }
 
-                return prevTiempo - 100;
-            });
-        }, 100); // Actualizar cada 100 milisegundos (0.1 segundos)
+        let timeoutId;
+
+        if (
+            timestamp &&
+            timeoutRemaining > 0
+        ) {
+            const currentTime = new Date().getTime();
+            const defenseTimestamp = timestamp * 1000;
+            const remainingTime = timeoutDuration - (currentTime - defenseTimestamp); // Calculo el tiempo restante
+
+            if (remainingTime <= 0) {
+                actions.setReveal(false);
+            } else {
+                timeoutId = setInterval(() => {
+                    setTimeoutRemaining(remainingTime);
+                }, 100);
+            }
+        } else {
+            clearInterval(timeoutId);
+        }
 
         return () => {
-            clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
-            actions.setReveal(false);
+            clearInterval(timeoutId);
         };
-    }, []);
+    }, [timestamp, timeoutRemaining]);
 
+
+    const handleCloseBanner = () => {  // Handler para cerrar el banner
+        actions.setReveal(false);
+    };
 
     const bannerStyles = {
         position: 'absolute',
-        top: '35%',
+        top: '30%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         padding: '20px',
@@ -61,31 +76,34 @@ const ShowHandBanner = () => {
 
     return (
         <div>
-            {mostrarMensaje && (
                 <div style={overlayStyles}>
 
                     <Paper style={bannerStyles}>
-                        <Typography variant="h5" component="div" style={{borderBottom: '2px solid black'}}>
+                        <Typography variant="h5" component="div" style={{ borderBottom: '2px solid black' }}>
                             Efecto {trigger_card}
                         </Typography>
                         <Typography variant="h6" component="div" sx={{marginTop: '10px'}}>
-                            {`Esta es ${trigger_card === 'Whisky' ? 'la mano' : 'una carta'} de ${player}`}
+                            {`Esta es ${trigger_card === 'Sospecha' ? 'una carta' : 'la mano'} de ${player}`}
                         </Typography>
-
+                        <IconButton
+                            onClick= {handleCloseBanner}
+                            variant="sharp"
+                            sx={{position: 'absolute', top: '0', right: '0' , color: 'black'} }
+                        >
+                            <CloseIcon />
+                        </IconButton>
                         <Stack direction="row" sx={{justifyContent:'center', marginTop: '10px'}}>
                             {hand.map((carta, index) => (
-                                <div key={index} style={{width:'60%'}}>
+                                <div key={index} style={{ width: '60%' }}>
                                     <Carta nombre={carta} />
                                 </div>
                             ))}
                         </Stack>
                         <Box sx={{ marginTop: '10px' }} >
-                            <LinearProgress variant="determinate" value={((tiempoRestante) / time) * 100} sx={{ height: 10 }} />
+                            <LinearProgress variant="determinate" value={(timeoutRemaining / timeoutDuration) * 100} sx={{ height: 10 }} />
                         </Box>
                     </Paper>
-
                 </div>
-            )}
         </div>
     );
 };

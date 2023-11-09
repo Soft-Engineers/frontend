@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect} from "react";
-import { useMatchC, turnStates } from '../screens/Match/matchContext';
+import { useEffect } from "react";
+import { useMatchC} from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -140,7 +140,7 @@ export const handle_socket_messages = () => {
         const data = JSON.parse(event.data);
         switch (data.message_type) {
           case "posiciones":
-            actions.setJugadores(data.message_content);
+            actions.setPosiciones(data.message_content);
             break;
           case "muertes":
             actions.setDeadPlayerNames(data.message_content);
@@ -152,11 +152,19 @@ export const handle_socket_messages = () => {
             actions.setCurrentTurn(data.message_content.current_turn);
             actions.setRole(data.message_content.role);
             break;
-          case 'datos jugada':
-            break;
           case 'notificación muerte':
           case 'notificación jugada':
-            actions.setAvisos([...state.avisos, data.message_content]);
+            actions.setNotifications([...state.notifications, data.message_content]);
+            break;
+          case 'notificación espera':
+            actions.setWaitMessage(data.message_content);
+            break;
+          case 'notificación chat':
+            console.log(data.message_content)
+            actions.setMessages([...state.messages, data.message_content]);
+            break;
+          case 'historial':
+            actions.setChatHistory(data.message_content);
             break;
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
@@ -172,26 +180,43 @@ export const handle_socket_messages = () => {
             actions.setOpen(true);
             break;
           case 'revelar cartas':
-            console.log(data.message_content);
             actions.setRevealCard(data.message_content);
             actions.setReveal(true);
             break;
           case 'estado partida':
-            console.log(state.reveal + " REVELAR " + state.revealCard);
             actions.setCurrentTurn(data.message_content.turn);
             if (data.message_content.turn === player_name) {
               actions.setIsTurn(true);
             }
-            else{
+            else {
               actions.setIsTurn(false);
             }
             actions.setTurnState(data.message_content.game_state);
             break;
           case 'infectado':
-            if (state.role !== 'INFECTADO'){
-              actions.setAvisos([...state.avisos, 'LA COSA TE INFECTÓ!!']);
+            if (state.role !== 'INFECTADO') {
+              actions.setNotifications([...state.notifications, 'LA COSA TE INFECTÓ!!']);
             }
             actions.setRole('INFECTADO')
+            break;
+          case 'timestamp' :
+            actions.setDefenseTimestamp(data.message_content);
+            break;
+          case 'sentido horario':
+            actions.setIsClockwise(data.message_content)
+            break;
+          case 'obstáculos':
+            actions.setObstacles(data.message_content);
+            break;
+          case 'cuarentena':
+            actions.setCuarentena(data.message_content);
+            break;
+          case 'carta ya seleccionada':
+            if (data.message_content === 1){
+              actions.setAlreadySelected(true);
+            }else{
+              actions.setAlreadySelected(false);
+            }
             break;
           default:
             //console.log("Mensaje no reconocido:" + data.message_content)
@@ -202,7 +227,6 @@ export const handle_socket_messages = () => {
         console.log("Desconectado del socket de la partida");
       };
 
-      // Set the socket state
       actions.setSocket(matchSocket);
 
       return () => {
