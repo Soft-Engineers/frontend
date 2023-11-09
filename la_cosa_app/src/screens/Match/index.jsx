@@ -86,7 +86,7 @@ const Match = () => {
           <LinearProgress
             variant="determinate"
             value={(timeoutRemaining / timeoutDuration) * 100}
-            sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (timeoutRemaining != 0) ? 1 : 0 }}
+            sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE && (timeoutRemaining == 0) ? 1 : 0 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height: '160px', justifyContent: 'space-between' }} >
             <PlayersHand />

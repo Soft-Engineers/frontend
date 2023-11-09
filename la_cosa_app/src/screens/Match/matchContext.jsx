@@ -52,6 +52,7 @@ export const MatchProvider = ({ children }) => {
     const [alreadySelected, setAlreadySelected] = useState(false);
     const [messages, setMessages] = useState([]);
     const [chatHistory, setChatHistory] = useState([]);
+    const [targetDoor, setTargetDoor] = useState(null);
 
     const state = {
         socket,
@@ -83,6 +84,7 @@ export const MatchProvider = ({ children }) => {
         messages,
         chatHistory,
         alreadySelected,
+        targetDoor,
     };
 
     const actions = {
@@ -115,6 +117,7 @@ export const MatchProvider = ({ children }) => {
         setMessages,
         setChatHistory,
         setAlreadySelected,
+        setTargetDoor,
     };
 
     return (

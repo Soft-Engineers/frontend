@@ -7,23 +7,32 @@ import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import quarantineIcon from "../../assets/quarantine.png";
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import { useState } from 'react';
 
 
-const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
+const DoorBtPlayers = ({ angle, radiusX, radiusY, position }) => {
+    const { state, actions } = useMatchC();
     const offset = Math.PI * 0.5;
     const x = (radiusX - 30) * Math.cos(angle + offset);
     const y = (radiusY - 30) * Math.sin(angle + offset);
 
-
+    const handleDoorClick = () => {
+        if (state.targetDoor === null) {
+            console.log(position);
+            actions.setTargetDoor(position);
+        } else {
+            actions.setTargetDoor(null);
+        }
+    }
     const lineStyle = {
         width: '10px',
         height: '120px',
-        backgroundColor: 'brown',
+        backgroundColor: '#8b4513', // Color of the door
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         transform: `rotate(${angle}rad)`,
-        border: '0.1px solid black',
+        border: state.targetDoor === null || state.isTurn === false ? '0.1px solid black' : '2px solid red',
 
     };
 
@@ -52,7 +61,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
     };
 
     return (
-        <div style={doorStyle}>
+        <div onClick={handleDoorClick} style={doorStyle}>
             <div style={lineStyle}>
                 <div style={nailStyle1} /> {/* Left nail */}
                 <div style={nailStyle2} /> {/* Right nail */}
@@ -272,6 +281,7 @@ const PlayerRound = () => {
                         angle={(2 * Math.PI) * (index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
+                        position={index}
                     />}
                 </React.Fragment>
             ))}
