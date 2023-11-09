@@ -134,7 +134,6 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         position: 'absolute',
         width: '40px',
         height: '40px',
-        //backgroundColor: 'black',
         transform: inCuarentena ? 'translate( 0, -65px)' : 'translate(0, -40px)',
         rotate: `${angle - 29.85}rad`,
         zIndex: '990',
