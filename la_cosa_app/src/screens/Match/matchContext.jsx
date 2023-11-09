@@ -15,20 +15,24 @@ export const turnStates = {
     WAIT_EXCHANGE: 5,
     WAIT_DEFENSE: 6,
     PANIC: 7,
+    VUELTA_Y_VUELTA: 8,
+    REVELACIONES: 9,
+    DISCARD: 10,
 };
 
 
 export const MatchProvider = ({ children }) => {
 
     const [socket, setSocket] = useState(null);
-    const [jugadores, setJugadores] = useState([]);
+    const [posiciones, setPosiciones] = useState([]);
     const [currentTurn, setCurrentTurn] = useState('');
     const [hand, setHand] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
-    const [avisos, setAvisos] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [waitMessage, setWaitMessage] = useState('');
     const [isFinished, setIsFinished] = useState(false);
     const [winners, setWinners] = useState([]);
     const [reason, setReason] = useState('');
@@ -40,20 +44,26 @@ export const MatchProvider = ({ children }) => {
     const [role, setRole] = useState('');
     const [turnState, setTurnState] = useState(null);
     const [isTurn, setIsTurn] = useState(false);
-    const [DtimeoutEnded, setDTimeoutEnded] = useState(false);
+    const [defenseTimestamp, setDefenseTimestamp] = useState(0);
+    const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
+    const [isClockwise, setIsClockwise] = useState(false);
     const [Obstacles, setObstacles] = useState([]);
     const [Cuarentena, setCuarentena] = useState(null);
+    const [alreadySelected, setAlreadySelected] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [chatHistory, setChatHistory] = useState([]);
 
     const state = {
         socket,
-        jugadores,
+        posiciones,
         currentTurn,
         hand,
         selectedCard,
         open,
         severity,
         body,
-        avisos,
+        waitMessage,
+        notifications,
         isFinished,
         winners,
         reason,
@@ -65,20 +75,26 @@ export const MatchProvider = ({ children }) => {
         role,
         turnState,
         isTurn,
-        DtimeoutEnded,
+        defenseTimestamp,
+        defenseTimeoutEnded,
+        isClockwise,
         Obstacles,
         Cuarentena,
+        messages,
+        chatHistory,
+        alreadySelected,
     };
 
     const actions = {
         setSocket,
-        setJugadores,
+        setPosiciones,
         setHand,
         setSelectedCard,
         setOpen,
         setSeverity,
         setBody,
-        setAvisos,
+        setWaitMessage,
+        setNotifications,
         setIsFinished,
         setWinners,
         setReason,
@@ -91,9 +107,14 @@ export const MatchProvider = ({ children }) => {
         setRole,
         setTurnState,
         setIsTurn,
-        setDTimeoutEnded,
+        setDefenseTimestamp,
+        setDefenseTimeoutEnded,
+        setIsClockwise,
         setObstacles,
         setCuarentena,
+        setMessages,
+        setChatHistory,
+        setAlreadySelected,
     };
 
     return (

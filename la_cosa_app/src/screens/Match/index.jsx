@@ -1,5 +1,5 @@
 import { turnStates, useMatchC } from './matchContext';
-import { Grid, Box, Paper } from '@mui/material';
+import { Grid, Box} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import SnackBar from '../../components/SnackBar';
 import PlayersHand from "../../components/PlayersHand";
@@ -14,35 +14,54 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Chat from "../../components/Chat";
 
 const Match = () => {
-  // States
   const { state, actions } = useMatchC();
-  const timeoutDuration = 20000; // Set the timeout duration in milliseconds
+  const timeoutDuration = 20000;
   const [timeoutRemaining, setTimeoutRemaining] = useState(timeoutDuration);
+
+  useEffect(() => {
+    actions.setMessages([]);
+    actions.setChatHistory([]);
+    const newMessage = {
+      author: '', // Replace with the actual author's name
+      message: (
+          <span>
+                ¡Bienvenido al Juego de la Cosa! Lee las reglas <a href="https://famaf.aulavirtual.unc.edu.ar/pluginfile.php/27371/mod_resource/content/1/Reglas%20del%20Juego_%20La%20Cosa.pdf" target="_blank" rel="noopener noreferrer">
+                    acá
+                </a>
+            </span>
+      ),
+      timestamp: new Date().getTime(),
+    };
+    actions.setMessages([...state.messages, newMessage]);
+  }, []);
 
   useEffect(() => {
     let timeoutId;
 
-    if (state.turnState === turnStates.WAIT_DEFENSE && timeoutRemaining > 0) {
-      timeoutId = setInterval(() => {
-        setTimeoutRemaining((prevTime) => {
-          if (prevTime <= 0) {
-            clearInterval(timeoutId);
-            actions.setDTimeoutEnded(true);
-            return 0;
-          }
-          return prevTime - 100;
-        });
-      }, 100);
+    if (
+        state.turnState === turnStates.WAIT_DEFENSE &&
+        state.defenseTimestamp &&
+        timeoutRemaining > 0
+    ) {
+      const currentTime = new Date().getTime();
+      const defenseTimestamp = state.defenseTimestamp * 1000;
+      const remainingTime = timeoutDuration - (currentTime - defenseTimestamp); // Calculo el tiempo restante
+
+      if (remainingTime <= 0) {
+        actions.setDefenseTimeoutEnded(true);
+      } else {
+        timeoutId = setInterval(() => {
+          setTimeoutRemaining(remainingTime);
+        }, 100);
+      }
     } else {
       clearInterval(timeoutId);
-      setTimeoutRemaining(timeoutDuration);
     }
 
     return () => {
-      clearInterval(timeoutId); // Cleanup on unmount
+      clearInterval(timeoutId);
     };
-  }, [state.turnState]);
-
+  }, [state.turnState, state.defenseTimestamp, timeoutRemaining]);
 
 
   handle_socket_messages();
@@ -69,19 +88,17 @@ const Match = () => {
                   value={(timeoutRemaining / timeoutDuration) * 100}
                   sx={{ height: '12px', marginTop: '4px', marginBottom: '4px', opacity: state.isTurn && state.turnState === turnStates.WAIT_DEFENSE ? 1 : 0 }}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '180px', maxHeight: '180px'}} >
-                <PlayersHand cartas={state.hand} />
-                <ButtonsBox />
+              <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: '160px', maxHeight: '160px', height:'160px' ,justifyContent: 'space-between'}} >
+                <PlayersHand/>
+                <ButtonsBox/>
               </Box>
 
             </Grid>}
         {/* Second half */}
         <Grid item xs={4} sx={{ height: '95vh', display: 'flex', flexDirection: 'column', width: '95%'}}>
-          <Box sx={{minHeight: 'calc(100%-180px)', maxHeight: 'calc(100%-180px)', overflow: 'auto', marginLeft: '20px', marginBottom: '16.1px', border: '1px solid grey', borderRadius: '10px', flex: '1'}}>
-            <Notifications messages={state.avisos} />
-          </Box>
-          <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px',maxHeight: '178px', minHeight: '178px', marginLeft: '1.4rem',}}>
-            <Chat/>
+          <Notifications/>
+          <Box sx={{display : 'flex', flexDirection: 'column', border: '1px solid grey', borderRadius: '10px', marginLeft: '1.4rem', minHeight: '158px', flex: '1'}}>
+            <Chat socket={state.socket}/>
           </Box>
         </Grid>
         {state.isDeadPlayer && (

@@ -48,11 +48,12 @@ const RoleSign = () => {
                 }
                 placement="bottom-end"
                 arrow
-                interactive="true"
+                interactive={true}
             >
                 <span
                     style={style}
-                    onClick={handleTooltipOpen}
+                    onMouseEnter={handleTooltipOpen}
+                    onMouseLeave={handleTooltipClose}
                 >
                     {state.role.includes('LA_COSA') ? 'LA COSA' : state.role}
                 </span>

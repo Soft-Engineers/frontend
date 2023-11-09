@@ -42,7 +42,7 @@ const PlayersHand = () => {
     }, [state.currentTurn, state.hand]);
 
     return (
-        <Stack direction="row" spacing={0}>
+        <Stack direction="row" spacing={-0.1}>
             {state.hand.map((objCarta, index) => (
                 <div
                     key={index}
