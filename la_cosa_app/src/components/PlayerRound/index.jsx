@@ -16,15 +16,10 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
     const x = (radiusX - 30) * Math.cos(angle + offset);
     const y = (radiusY - 30) * Math.sin(angle + offset);
 
-    const handleDoorClick = () => {
-        console.log(currPlayer);
-        if (state.targetDoor === null) {
-            if (array[currPlayer]) {
-                actions.setTargetDoor(currPlayer);
-            }
-            else if (array[currPlayer - 1]) {
-                actions.setTargetDoor(currPlayer - 1);
-            }
+    const handleDoorClick = (event) => {
+        const id = event.currentTarget.id;
+        if (state.targetDoor === null && state.isTurn === true) {
+            actions.setTargetDoor(id);
         } else {
             actions.setTargetDoor(null);
         }
@@ -67,7 +62,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
     };
 
     return (
-        <div onClick={handleDoorClick} style={doorStyle}>
+        <div onClick={handleDoorClick} style={doorStyle} id={currPlayer}>
             <div style={lineStyle}>
                 <div style={nailStyle1} /> {/* Left nail */}
                 <div style={nailStyle2} /> {/* Right nail */}
