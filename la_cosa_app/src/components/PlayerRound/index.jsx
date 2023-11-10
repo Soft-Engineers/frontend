@@ -18,8 +18,9 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
 
     const handleDoorClick = (event) => {
         const id = event.currentTarget.id;
-        console.log(array[id]);
-        if (state.targetDoor === null && state.isTurn === true && state.target_name === null) {
+        //console.log(array[id]);
+        //console.log(id);
+        if (state.isTurn === true && state.targetDoor != id) {
             actions.setTargetDoor(id);
         }
         else {
@@ -35,8 +36,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
         justifyContent: 'center',
         alignItems: 'center',
         transform: `rotate(${angle}rad)`,
-        border: state.targetDoor !== index
-            || state.isTurn === false || state.targetDoor !== index ? '0.1px solid black' : '2px solid red',
+        border: state.isTurn == false || state.targetDoor != index ? '0.1px solid black' : '2px solid red',
     };
 
     const doorStyle = {
@@ -159,7 +159,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         if (isThisPlayerDead) {
             return;
         }
-        if (state.target_name === player.player_name || !(state.targetDoor === null)) {
+        if (state.target_name === player.player_name) {
             actions.setTargetName(null);
         } else {
             actions.setTargetName(player.player_name);
@@ -280,7 +280,7 @@ const PlayerRound = () => {
                         radiusY={radiusY}
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
-                    {sortedboolDoors[index] && <DoorBtPlayers
+                    {/*sortedboolDoors[index] &&*/ <DoorBtPlayers
                         angle={(2 * Math.PI) * (index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
