@@ -10,16 +10,21 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import { useState } from 'react';
 
 
-const DoorBtPlayers = ({ angle, radiusX, radiusY, position }) => {
+const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
     const { state, actions } = useMatchC();
     const offset = Math.PI * 0.5;
     const x = (radiusX - 30) * Math.cos(angle + offset);
     const y = (radiusY - 30) * Math.sin(angle + offset);
 
     const handleDoorClick = () => {
+        console.log(currPlayer);
         if (state.targetDoor === null) {
-            console.log(position);
-            actions.setTargetDoor(position);
+            if (array[currPlayer]) {
+                actions.setTargetDoor(currPlayer);
+            }
+            else if (array[currPlayer - 1]) {
+                actions.setTargetDoor(currPlayer - 1);
+            }
         } else {
             actions.setTargetDoor(null);
         }
@@ -32,8 +37,9 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, position }) => {
         justifyContent: 'center',
         alignItems: 'center',
         transform: `rotate(${angle}rad)`,
-        border: state.targetDoor === null || state.isTurn === false ? '0.1px solid black' : '2px solid red',
-
+        border: state.targetDoor === null
+            || state.isTurn === false
+            || (!(array[currPlayer - 1]) && !(array[currPlayer])) ? '0.1px solid black' : '2px solid red',
     };
 
     const doorStyle = {
@@ -281,7 +287,8 @@ const PlayerRound = () => {
                         angle={(2 * Math.PI) * (index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
-                        position={index}
+                        array={sortedboolDoors}
+                        currPlayer={currentPlayer.position}
                     />}
                 </React.Fragment>
             ))}
