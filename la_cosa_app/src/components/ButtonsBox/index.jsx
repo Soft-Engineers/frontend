@@ -33,9 +33,9 @@ const ButtonsBox = () => {
     const handlePlayCard = () => {
         if (state.selectedCard !== null) {
             let card_target = null;
-            if (state.selectedCard.card_name === 'Hacha') {
-                card_target = state.targetDoor !== null ? state.targetDoor : state.target_name;
-            } else {
+            if (state.targetDoor !== null) {
+                card_target = parseInt(state.targetDoor);
+            }else{
                 card_target = state.target_name;
             }
 
