@@ -32,12 +32,19 @@ const ButtonsBox = () => {
     };
     const handlePlayCard = () => {
         if (state.selectedCard !== null) {
+            let card_target = null;
+            if (state.selectedCard.card_name === 'Hacha') {
+                card_target = state.targetDoor;
+            } else {
+                card_target = state.target_name;
+            }
+
             const request = {
                 message_type: 'jugar carta',
                 message_content: {
                     card_name: state.selectedCard.card_name,
                     card_id: state.selectedCard.card_id,
-                    target: state.target_name,
+                    target: card_target
                 },
             };
             state.socket.send(JSON.stringify(request));
@@ -47,6 +54,8 @@ const ButtonsBox = () => {
             actions.setOpen(true);
         }
     };
+
+
 
     const handleExchange = () => {
         if (state.selectedCard !== null) {
@@ -97,7 +106,7 @@ const ButtonsBox = () => {
                 'decision': 'revelar carta',
             },
         };
-        state.socket.send(JSON.stringify(request));        
+        state.socket.send(JSON.stringify(request));
     };
 
     const handleSkipRevelaciones = () => {
@@ -270,7 +279,7 @@ const ButtonsBox = () => {
                     )}
                     {(state.turnState === turnStates.REVELACIONES) && (
                         <>
-                            {hasInfectedCard(state.hand) &&(
+                            {hasInfectedCard(state.hand) && (
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -312,18 +321,18 @@ const ButtonsBox = () => {
             )}
             {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected ? (
                 <p>Esperando a los demás jugadores...</p>
-              ) : (
+            ) : (
                 state.turnState === turnStates.VUELTA_Y_VUELTA && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleExchange}
-                    sx={styles.button}
-                  >
-                    Intercambiar
-                  </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleExchange}
+                        sx={styles.button}
+                    >
+                        Intercambiar
+                    </Button>
                 )
-              )
+            )
             }
             {!state.isTurn && (
                 <>
@@ -331,7 +340,7 @@ const ButtonsBox = () => {
                         <p>Esperando intercambio....</p>
                     ) : state.turnState === turnStates.WAIT_DEFENSE ? (
                         <p>Esperando defensa...</p>
-                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null: (
+                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null : (
                         <p>Esperando turno...</p>
                     )}
                 </>
