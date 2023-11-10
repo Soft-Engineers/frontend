@@ -10,7 +10,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import { useState } from 'react';
 
 
-const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
+const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
     const { state, actions } = useMatchC();
     const offset = Math.PI * 0.5;
     const x = (radiusX - 30) * Math.cos(angle + offset);
@@ -18,12 +18,15 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
 
     const handleDoorClick = (event) => {
         const id = event.currentTarget.id;
-        if (state.targetDoor === null && state.isTurn === true) {
+        console.log(array[id]);
+        if (state.targetDoor === null && state.isTurn === true && state.target_name === null) {
             actions.setTargetDoor(id);
-        } else {
+        }
+        else {
             actions.setTargetDoor(null);
         }
     }
+
     const lineStyle = {
         width: '10px',
         height: '120px',
@@ -32,9 +35,8 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
         justifyContent: 'center',
         alignItems: 'center',
         transform: `rotate(${angle}rad)`,
-        border: state.targetDoor === null
-            || state.isTurn === false
-            || (!(array[currPlayer - 1]) && !(array[currPlayer])) ? '0.1px solid black' : '2px solid red',
+        border: state.targetDoor !== index
+            || state.isTurn === false || state.targetDoor !== index ? '0.1px solid black' : '2px solid red',
     };
 
     const doorStyle = {
@@ -62,7 +64,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, currPlayer }) => {
     };
 
     return (
-        <div onClick={handleDoorClick} style={doorStyle} id={currPlayer}>
+        <div onClick={handleDoorClick} style={doorStyle} id={index}>
             <div style={lineStyle}>
                 <div style={nailStyle1} /> {/* Left nail */}
                 <div style={nailStyle2} /> {/* Right nail */}
@@ -157,7 +159,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
         if (isThisPlayerDead) {
             return;
         }
-        if (state.target_name === player.player_name) {
+        if (state.target_name === player.player_name || !(state.targetDoor === null)) {
             actions.setTargetName(null);
         } else {
             actions.setTargetName(player.player_name);
@@ -283,7 +285,7 @@ const PlayerRound = () => {
                         radiusX={radiusX}
                         radiusY={radiusY}
                         array={sortedboolDoors}
-                        currPlayer={currentPlayer.position}
+                        index={index}
                     />}
                 </React.Fragment>
             ))}

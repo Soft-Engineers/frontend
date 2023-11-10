@@ -34,7 +34,7 @@ const ButtonsBox = () => {
         if (state.selectedCard !== null) {
             let card_target = null;
             if (state.selectedCard.card_name === 'Hacha') {
-                card_targeT = state.targetDoor !== null ? state.targetDoor : state.target_name;
+                card_target = state.targetDoor !== null ? state.targetDoor : state.target_name;
             } else {
                 card_target = state.target_name;
             }
