@@ -275,13 +275,13 @@ const PlayerRound = () => {
                 <React.Fragment key={index}>
                     <PlayerCard
                         player={player}
-                        angle={(2 * Math.PI) * (index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        angle={(2 * Math.PI) * (totalPlayers-index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
                     {sortedboolDoors[index] && <DoorBtPlayers
-                        angle={(2 * Math.PI) * (index + 0.5) / totalPlayers}
+                        angle={(2 * Math.PI) * (totalPlayers-index + 0.5 - 1) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
                         array={sortedboolDoors}
@@ -297,8 +297,6 @@ const PlayerRound = () => {
                     <RotateLeftIcon sx={rotationStyle} />
                 )}
             </div>
-
-
         </Box>
     );
 };
