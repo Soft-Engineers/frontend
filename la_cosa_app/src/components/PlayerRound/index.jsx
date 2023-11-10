@@ -280,7 +280,7 @@ const PlayerRound = () => {
                         radiusY={radiusY}
                         isCurrentPlayer={player.player_name === currentPlayerName}
                     />
-                    {/*sortedboolDoors[index] &&*/ <DoorBtPlayers
+                    {sortedboolDoors[index] && <DoorBtPlayers
                         angle={(2 * Math.PI) * (index + 0.5) / totalPlayers}
                         radiusX={radiusX}
                         radiusY={radiusY}
