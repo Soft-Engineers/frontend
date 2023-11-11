@@ -86,10 +86,10 @@ const Notifications = () => {
                             ? 'Tenés que jugar o descartar una carta'
                             : state.turnState === turnStates.PANIC
                             ? 'Tenés que jugar la carta de pánico'
-                            : state.turnState === turnStates.VUELTA_Y_VUELTA
-                            ? 'Esperando que el efecto "Vuelta y vuelta"'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
+                            ? 'Tenés que intercambiar con el siguiente'
                             : state.turnState === turnStates.REVELACIONES
-                            ? 'Esperando el efecto "Revelaciones"'
+                            ? 'Elegí si revelar o no las cartas de tu mano'
                             : state.turnState === turnStates.DISCARD
                             ? 'Tenés que descartar'
                             : null }
