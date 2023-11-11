@@ -22,7 +22,7 @@ const BoxStyle = {
 
 const buttonStyle = {
     position: 'absolute',
-    top: '40px',
+    top: '10px',
     right: '15px',
 };
 
@@ -41,7 +41,13 @@ const Notifications = () => {
         //if turnstates changes to VUELTA_Y_VUELTA, set state.waitMessage to 'Esperando que se termine el efecto vuelta y vuelta'
         // if turnstates changes to REVELACIONES, set state.WaitMessage to 'Esperando el efecto revelaciones'
         if (state.turnState === turnStates.VUELTA_Y_VUELTA) {
-            actions.setWaitMessage('Esperando el efecto "Vuelta y vuelta"');
+            if (state.alreadySelected){
+                actions.setWaitMessage('Esperando el efecto "Vuelta y vuelta"');
+            }
+            else{
+                actions.setWaitMessage('Tenés que intercambiar con el siguiente');
+            }
+
         }
         if (state.turnState === turnStates.REVELACIONES) {
             actions.setWaitMessage('Esperando el efecto "Revelaciones"');
@@ -88,6 +94,8 @@ const Notifications = () => {
                             ? 'Tenés que jugar la carta de pánico'
                             : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
                             ? 'Tenés que intercambiar con el siguiente'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected)
+                            ? 'Esperando el efecto "Vuelta y vuelta"'
                             : state.turnState === turnStates.REVELACIONES
                             ? 'Elegí si revelar o no las cartas de tu mano'
                             : state.turnState === turnStates.DISCARD
@@ -105,8 +113,10 @@ const Notifications = () => {
                             ? 'Esperando intercambio'
                             : state.turnState === turnStates.WAIT_DEFENSE
                             ? 'Esperando defensa'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
+                            ? 'Tenés que intercambiar con el siguiente'
                             : state.turnState === turnStates.VUELTA_Y_VUELTA
-                            ? 'Esperando que el efecto "Vuelta y vuelta"'
+                            ? 'Esperando el efecto "Vuelta y vuelta"'
                             : state.turnState === turnStates.REVELACIONES
                             ? 'Esperando el efecto "Revelaciones"'
                             : state.turnState === turnStates.DISCARD
