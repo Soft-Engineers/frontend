@@ -39,7 +39,7 @@ import rev from '../../assets/cartas_recortadas/rev.png';
 
 
 
-const mapaCartas = {
+export const mapaCartas = {
     'rev': rev,
     'La Cosa': lacosa,
     '¡Infectado!': infectado1,

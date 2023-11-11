@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import ExpandMoreSharpIcon from '@mui/icons-material/ExpandMoreSharp';
 import ExpandLessSharpIcon from '@mui/icons-material/ExpandLessSharp';
 import IconButton from "@mui/material/IconButton";
+import Tooltip from '@mui/material/Tooltip';
+import { mapaCartas } from '../../components/Carta/index.jsx';
 
 const BoxStyle = {
     display: 'flex',
@@ -22,55 +24,93 @@ const BoxStyle = {
 
 const buttonStyle = {
     position: 'absolute',
-    top: '10px',
+    top: '40px',
     right: '15px',
 };
 
 const Notifications = () => {
-    const { state , actions} = useMatchC();
+    const { state } = useMatchC();
     const [notificationsList, setNotificationsList] = useState([]);
-    const [minimized, setMinimized] = useState(false);
-
+    const [minimized, setMinimized] = useState();
+  
     useEffect(() => {
-        setNotificationsList((prevNotifications) => {
-            return [...state.notifications, ...prevNotifications];
-        });
+      setNotificationsList((prevNotifications) => {
+        return [...state.notifications, ...prevNotifications];
+      });
     }, [state.notifications]);
-
-    useEffect(() => {
-        //if turnstates changes to VUELTA_Y_VUELTA, set state.waitMessage to 'Esperando que se termine el efecto vuelta y vuelta'
-        // if turnstates changes to REVELACIONES, set state.WaitMessage to 'Esperando el efecto revelaciones'
-        if (state.turnState === turnStates.VUELTA_Y_VUELTA) {
-            if (state.alreadySelected){
-                actions.setWaitMessage('Esperando el efecto "Vuelta y vuelta"');
-            }
-            else{
-                actions.setWaitMessage('Tenés que intercambiar con el siguiente');
-            }
-
-        }
-        if (state.turnState === turnStates.REVELACIONES) {
-            actions.setWaitMessage('Esperando el efecto "Revelaciones"');
-        }
-    }, [state.turnState]);
-
-
-    const renderNotification = (notification, index) => {
-        const isInfected = notification.includes('LA COSA TE INFECTÓ!!');
-        const notificationStyle = {
-            color: isInfected ? 'red' : 'black',
-        };
-
-        return (
-            <ListItem key={index} style={{ borderTop: index === 0 ? 'none' : '1px dashed black' }}>
-                <ListItemText primary={notification} style={notificationStyle} />
-            </ListItem>
-        );
+  
+    const renderNotificationWithTooltips = (notification, index) => {
+      const isInfected = notification.includes('LA COSA TE INFECTÓ!!');
+      const notificationStyle = {
+        color: isInfected ? 'red' : 'black',
+      };
+  
+      const typeColors = {
+        normal: 'black',
+        infected: 'red',
+        action: 'red',
+        type3: 'green',
+      };
+  
+      const renderTextWithTooltips = (text) => {
+        const words = text.split(' ');
+  
+        return words.map((word, i) => {
+          const type = determineNotificationType(word);
+          const hasTooltip = type !== 'normal';
+  
+          if (hasTooltip) {
+            const tooltipContent = (
+              <img
+                src={mapaCartas[word]}
+                alt={`Tooltip for ${word}`}
+                style={{ maxWidth: '200px', maxHeight: '200px' }}
+              />
+            );
+  
+            return (
+              <React.Fragment key={i}>
+                <Tooltip title={tooltipContent} arrow>
+                  <span
+                    style={{
+                      color: typeColors[type],
+                      padding: '2px',
+                      borderRadius: '2px',
+                      cursor: 'help',
+                    }}
+                  >
+                    {word}
+                  </span>
+                </Tooltip>{' '}
+              </React.Fragment>
+            );
+          }
+  
+          return <span key={i}>{word} </span>;
+        });
+      };
+  
+      return (
+        <ListItem key={index} style={{ borderTop: index === 0 ? 'none' : '1px dashed black' }}>
+          <ListItemText primary={renderTextWithTooltips(notification)} style={notificationStyle} />
+        </ListItem>
+      );
     };
-
+  
     const toggleMinimized = () => {
-        setMinimized(!minimized);
+      setMinimized(!minimized);
     };
+  
+    const determineNotificationType = (word) => {
+        const cartaKeys = Object.keys(mapaCartas);
+        for (const key of cartaKeys) {
+          if (word.includes(key)) {
+            return key;
+          }
+        }
+        return 'normal';
+      };
+
 
     return (
         <Box style={BoxStyle}>
@@ -85,43 +125,27 @@ const Notifications = () => {
                         {state.turnState === turnStates.WAIT_DEFENSE
                             ? 'Te estas defendiendo'
                             : state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.EXCHANGE
-                            ? 'Tenés que intercambiar una carta'
-                            : state.turnState === turnStates.DRAW_CARD
-                            ? 'Tenés que robar una carta'
-                            : state.turnState === turnStates.PLAY_TURN
-                            ? 'Tenés que jugar o descartar una carta'
-                            : state.turnState === turnStates.PANIC
-                            ? 'Tenés que jugar la carta de pánico'
-                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
-                            ? 'Tenés que intercambiar con el siguiente'
-                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected)
-                            ? 'Esperando el efecto "Vuelta y vuelta"'
-                            : state.turnState === turnStates.REVELACIONES
-                            ? 'Elegí si revelar o no las cartas de tu mano'
-                            : state.turnState === turnStates.DISCARD
-                            ? 'Tenés que descartar'
-                            : null }
+                                ? 'Tenés que intercambiar una carta'
+                                : state.turnState === turnStates.DRAW_CARD
+                                    ? 'Tenés que robar una carta'
+                                    : state.turnState === turnStates.PLAY_TURN
+                                        ? 'Tenés que jugar o descartar una carta'
+                                        : state.turnState === turnStates.PANIC
+                                            ? 'Tenés que jugar la carta de pánico'
+                                            : null }
 
                     </Typography>
                 )}
                 {!state.isTurn && (
                     <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
-                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE
-                        || state.turnState === turnStates.VUELTA_Y_VUELTA || state.turnState === turnStates.REVELACIONES) && state.waitMessage !== ''
+                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE) && state.waitMessage !== ''
                             ? state.waitMessage
                             : state.turnState === turnStates.WAIT_EXCHANGE
-                            ? 'Esperando intercambio'
-                            : state.turnState === turnStates.WAIT_DEFENSE
-                            ? 'Esperando defensa'
-                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
-                            ? 'Tenés que intercambiar con el siguiente'
-                            : state.turnState === turnStates.VUELTA_Y_VUELTA
-                            ? 'Esperando el efecto "Vuelta y vuelta"'
-                            : state.turnState === turnStates.REVELACIONES
-                            ? 'Esperando el efecto "Revelaciones"'
-                            : state.turnState === turnStates.DISCARD
-                            ? 'Esperando que' + state.currentTurn + ' descarte'
-                            : 'Esperando tu turno...'}
+                                ? 'Esperando intercambio'
+                                : state.turnState === turnStates.WAIT_DEFENSE
+                                    ? 'Esperando defensa'
+                                        : 'Esperando tu turno...'}
+
                     </Typography>
                 )}
             </ListItem>
@@ -131,7 +155,7 @@ const Notifications = () => {
             {!minimized && (notificationsList.length !== 0) && (
                 <div style={{ maxHeight: '100%', overflowY: 'auto', display: minimized ? 'none' : 'block', resize: 'vertical', scrollbarColor: 'gray white'}}>
                 <List>
-                    {notificationsList.map((notification, index) => renderNotification(notification, index))}
+                    {notificationsList.map((notification, index) => renderNotificationWithTooltips(notification, index))}
                 </List>
             </div>)}
         </Box>
