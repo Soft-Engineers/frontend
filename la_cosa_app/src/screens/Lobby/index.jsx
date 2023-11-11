@@ -29,18 +29,21 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         maxHeight: 'calc(100% - 82px)',
+        marginTop: '1rem',
 
     },
     buttons: {
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'space-evenly',
         flexDirection: 'column',
-        gap: '1rem',
         maxHeight: '100px',
         minHeight: '100px',
         height: '100px',
-        margin: '1rem',
+        marginBottom: '1rem',
+        padding: '7px',
+        border: '1px solid grey',
+        borderRadius: '10px',
     },
     chatBox: {
         border: '1px solid grey',
@@ -58,7 +61,6 @@ const Lobby = () => {
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [body, setBody] = useState('');
-    const [waitmsg, setWaitmsg] = useState('Esperando que el host inicie la partida...');
     const [socket, setSocket] = useState(null);
     const { match_name } = useParams();
     const player_name = sessionStorage.getItem('player_name');
@@ -78,7 +80,6 @@ const Lobby = () => {
                     break;
 
                 case "start_match":
-                    setWaitmsg(data.message_content);
                     navigate(`/match/${match_name}`);
                     break;
 
@@ -104,6 +105,9 @@ const Lobby = () => {
                 case 'notificación chat':
                     actions.setMessages([...state.messages, data.message_content]);
                     break;
+                case 'historial':
+                    actions.setChatHistory(data.message_content);
+                    break;
                 default:
                     console.log('Mensaje no reconocido');
             }
@@ -120,6 +124,7 @@ const Lobby = () => {
 
     useEffect(() => {
         actions.setMessages([]);
+        actions.setChatHistory([]);
         setJugadores([]);
     }, []);
 
@@ -128,7 +133,6 @@ const Lobby = () => {
         const response = checkIsHost(player_name, match_name);
         response.then((data) => {
             setIsHost(data.data.is_host);
-            console.log(isHost);
         });
     }, [player_name, match_name]);
 
@@ -189,7 +193,7 @@ const Lobby = () => {
                              icon={<VideogameAssetOutlinedIcon />}
                          />
                      ) : (
-                         <h3>Esperando que el host inicie la partida...</h3>
+                         <h3 style={{color: '#1976d2'}}>Esperando que el host inicie la partida...</h3>
                      )}
                      <RButton
                          text="Abandonar Sala"
