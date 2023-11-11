@@ -65,7 +65,7 @@ export const mapaCartas = {
     'Olvidadizo': olvidadizo,
     'Uno, dos..': unodos,
     'Tres, cuatro..': trescuatro,
-    '¿Es aquí la fiesta?': esaqui,
+    '¿Es aquí la fiesta?': esaqui, 
     'Que quede entre nosotros...': quequedeentre,
     'Vuelta y vuelta': vueltayvuelta,
     '¿No podemos ser amigos?': nopodemosseramigos,
@@ -73,6 +73,13 @@ export const mapaCartas = {
     '¡Ups!': ups,
     'Whisky': whisky,
 };
+
+export const typeCard = {
+    'action': ['Lanzallamas', 'Análisis', 'Hacha', 'Sospecha', 'Determinación', 'Vigila tus espaldas', '¡Cambio de Lugar!', '¡Más vale que corras!', 'Seducción', 'Whisky'],
+    'defense': ['Aquí estoy bien', 'Aterrador', '¡No, gracias!', '¡Fallaste!', '¡Nada de barbacoas!'],
+    'panic': ['Revelaciones', 'Cuerdas podridas', '¡Sal de aquí!', 'Olvidadizo', 'Uno, dos..', 'Tres, cuatro..', '¿Es aquí la fiesta?', 'Que quede entre nosotros...', 'Vuelta y vuelta', '¿No podemos ser amigos?', 'Cita a ciegas', '¡Ups!'],
+    'obstacle': ['Puerta atrancada', 'Cuarentena'],
+}
 
 
 // Regular Button

@@ -9,7 +9,7 @@ import ExpandMoreSharpIcon from '@mui/icons-material/ExpandMoreSharp';
 import ExpandLessSharpIcon from '@mui/icons-material/ExpandLessSharp';
 import IconButton from "@mui/material/IconButton";
 import Tooltip from '@mui/material/Tooltip';
-import { mapaCartas } from '../../components/Carta/index.jsx';
+import { mapaCartas, typeCard } from '../../components/Carta/index.jsx';
 
 const BoxStyle = {
     display: 'flex',
@@ -47,10 +47,10 @@ const Notifications = () => {
   
       const typeColors = {
         normal: 'black',
-        action: 'red',
-        defense: 'green',
-        obstacle: 'blue',
-        panic: 'orange',
+        action: '#9ecb60',
+        defense: '#039fe9',
+        obstacle: '#ffde19',
+        panic: '#fd62aa',
       };
   
       const renderTextWithTooltips = (text) => {
@@ -65,11 +65,11 @@ const Notifications = () => {
           const hasTooltip = type !== 'normal';
       
           if (hasTooltip) {
-            const tooltipContent = mapaCartas[type] ? (
+            const tooltipContent = mapaCartas[word] ? (
               <img
-                src={mapaCartas[type]}
+                src={mapaCartas[word]}
                 alt={`Tooltip for ${type}`}
-                style={{ maxWidth: '200px', maxHeight: '200px' }}
+                style={{ maxWidth: '230px', maxHeight: '230px' }}
               />
             ) : null;
       
@@ -107,9 +107,17 @@ const Notifications = () => {
     };
   
     const determineNotificationType = (word) => {
-        const foundKey = Object.keys(mapaCartas).find(key => word.includes(key));
-        return foundKey || 'normal';
-      };
+        const cardTypes = Object.keys(typeCard);
+      
+        for (const type of cardTypes) {
+          const cardsInType = typeCard[type];
+          if (cardsInType.some(cardName => word.includes(cardName))) {
+            return type;
+          }
+        }
+      
+        return 'normal';
+    };
 
 
     return (
