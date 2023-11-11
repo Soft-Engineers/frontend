@@ -41,7 +41,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
         justifyContent: 'center',
         alignItems: 'center',
         transform: `rotate(${angle}rad)`,
-        border: state.isTurn == false || state.targetDoor != index ? '0.1px solid black' : '2px solid red',
+        border: state.isTurn == false || state.targetDoor != index || (state.turnState != 2 && state.turnState != 7) ? '0.1px solid black' : '2px solid red',
     };
 
     const doorStyle = {
