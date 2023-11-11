@@ -47,27 +47,32 @@ const Notifications = () => {
   
       const typeColors = {
         normal: 'black',
-        infected: 'red',
         action: 'red',
-        type3: 'green',
+        defense: 'green',
+        obstacle: 'blue',
+        panic: 'orange',
       };
   
       const renderTextWithTooltips = (text) => {
-        const words = text.split(' ');
-  
+        const cartaKeys = Object.keys(mapaCartas);
+        let regexPattern = cartaKeys.map(key => `(${key})`).join('|');
+        regexPattern = new RegExp(regexPattern, 'g');
+      
+        const words = text.split(regexPattern).filter(Boolean);
+      
         return words.map((word, i) => {
           const type = determineNotificationType(word);
           const hasTooltip = type !== 'normal';
-  
+      
           if (hasTooltip) {
-            const tooltipContent = (
+            const tooltipContent = mapaCartas[type] ? (
               <img
-                src={mapaCartas[word]}
-                alt={`Tooltip for ${word}`}
+                src={mapaCartas[type]}
+                alt={`Tooltip for ${type}`}
                 style={{ maxWidth: '200px', maxHeight: '200px' }}
               />
-            );
-  
+            ) : null;
+      
             return (
               <React.Fragment key={i}>
                 <Tooltip title={tooltipContent} arrow>
@@ -85,7 +90,7 @@ const Notifications = () => {
               </React.Fragment>
             );
           }
-  
+      
           return <span key={i}>{word} </span>;
         });
       };
@@ -102,13 +107,8 @@ const Notifications = () => {
     };
   
     const determineNotificationType = (word) => {
-        const cartaKeys = Object.keys(mapaCartas);
-        for (const key of cartaKeys) {
-          if (word.includes(key)) {
-            return key;
-          }
-        }
-        return 'normal';
+        const foundKey = Object.keys(mapaCartas).find(key => word.includes(key));
+        return foundKey || 'normal';
       };
 
 
