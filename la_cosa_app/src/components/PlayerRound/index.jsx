@@ -22,6 +22,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
         //console.log(id);
         if (state.isTurn === true && state.targetDoor != id) {
             actions.setTargetDoor(id);
+            actions.setTargetName(null);
         }
         else {
             actions.setTargetDoor(null);
@@ -167,6 +168,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
             actions.setTargetName(null);
         } else {
             actions.setTargetName(player.player_name);
+            actions.setTargetDoor(null);
         }
     };
 
