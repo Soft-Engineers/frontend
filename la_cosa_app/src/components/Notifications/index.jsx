@@ -55,9 +55,12 @@ const Notifications = () => {
   
       const renderTextWithTooltips = (text) => {
         const cartaKeys = Object.keys(mapaCartas);
-        let regexPattern = cartaKeys.map(key => `(${key})`).join('|');
+        let regexPattern = cartaKeys.map(key => `(${escapeRegExp(key)})`).join('|');
         regexPattern = new RegExp(regexPattern, 'g');
-      
+        
+        function escapeRegExp(string) {
+          return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escaping special characters
+        }
         const words = text.split(regexPattern).filter(Boolean);
       
         return words.map((word, i) => {
