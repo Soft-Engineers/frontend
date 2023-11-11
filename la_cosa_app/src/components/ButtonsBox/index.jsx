@@ -16,6 +16,7 @@ const ButtonsBox = () => {
     }, [state.defenseTimeoutEnded]);
 
     const handleDiscardCard = () => {
+
         if (state.selectedCard !== null) {
             const request = {
                 message_type: 'descartar carta',
