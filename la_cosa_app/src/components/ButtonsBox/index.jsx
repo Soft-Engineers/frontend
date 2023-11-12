@@ -15,45 +15,45 @@ const ButtonsBox = () => {
     }
   }, [state.defenseTimeoutEnded]);
 
-    const handleDiscardCard = () => {
-        if (state.selectedCard !== null) {
-            const request = {
-                message_type: 'descartar carta',
-                message_content: {
-                    card_id: state.selectedCard.card_id,
-                },
-            };
-            state.socket.send(JSON.stringify(request));
-        } else {
-            actions.setSeverity('error');
-            actions.setBody('Elige una carta para descartar.');
-            actions.setOpen(true);
-        }
-    };
-    const handlePlayCard = () => {
-        if (state.selectedCard !== null) {
-            let card_target = null;
-            if (state.targetDoor !== null) {
-                card_target = parseInt(state.targetDoor);
-            }else{
-                card_target = state.target_name;
-            }
+  const handleDiscardCard = () => {
+    if (state.selectedCard !== null) {
+      const request = {
+        message_type: "descartar carta",
+        message_content: {
+          card_id: state.selectedCard.card_id,
+        },
+      };
+      state.socket.send(JSON.stringify(request));
+    } else {
+      actions.setSeverity("error");
+      actions.setBody("Elige una carta para descartar.");
+      actions.setOpen(true);
+    }
+  };
+  const handlePlayCard = () => {
+    if (state.selectedCard !== null) {
+      let card_target = null;
+      if (state.targetDoor !== null) {
+        card_target = parseInt(state.targetDoor);
+      } else {
+        card_target = state.target_name;
+      }
 
-            const request = {
-                message_type: 'jugar carta',
-                message_content: {
-                    card_name: state.selectedCard.card_name,
-                    card_id: state.selectedCard.card_id,
-                    target: card_target
-                },
-            };
-            state.socket.send(JSON.stringify(request));
-        } else {
-            actions.setSeverity('error');
-            actions.setBody('Elige una carta para jugar.');
-            actions.setOpen(true);
-        }
-    };
+      const request = {
+        message_type: "jugar carta",
+        message_content: {
+          card_name: state.selectedCard.card_name,
+          card_id: state.selectedCard.card_id,
+          target: card_target,
+        },
+      };
+      state.socket.send(JSON.stringify(request));
+    } else {
+      actions.setSeverity("error");
+      actions.setBody("Elige una carta para jugar.");
+      actions.setOpen(true);
+    }
+  };
 
   const handleExchange = () => {
     if (state.selectedCard !== null) {
@@ -136,8 +136,8 @@ const ButtonsBox = () => {
       borderRadius: "10px",
       marginLeft: "1rem",
       fontSize: "18px",
-      minWidth: "40%",
-      maxWidth: "50%",
+      minWidth: "30%",
+      maxWidth: "40%",
       flex: "1",
     },
     button: {
