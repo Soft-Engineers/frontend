@@ -78,7 +78,14 @@ const Match = () => {
   };
 
   return (
-    <Grid container sx={{ minHeight: "95vh", backgroundColor: "#fafffa" }}>
+    <Grid
+      container
+      sx={{
+        minHeight: "95vh",
+        backgroundColor: "#fafffa",
+        cursor: state.inspect === true ? "zoom-in" : "default",
+      }}
+    >
       {!state.isDeadPlayer && (
         <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
           <PlayerRound>

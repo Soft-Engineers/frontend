@@ -1,4 +1,4 @@
-import Deck from "../../components/Deck/";
+import Deck from "../Deck/index.jsx";
 import { useMatchC } from "../../screens/Match/matchContext.jsx";
 import RoleSign from "../RoleSign/index.jsx";
 import React, { useEffect } from "react";
@@ -7,6 +7,8 @@ import RotateRightIcon from "@mui/icons-material/RotateRight";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import quarantineIcon from "../../assets/quarantine.png";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import Button from "@mui/material/Button";
 
 const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
   const { state, actions } = useMatchC();
@@ -112,6 +114,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "50%",
+    boxShadow: isCurrentPlayer
+      ? "0 0 0px 4px black"
+      : "0 0 0px 4px transparent",
   };
 
   const cardStyle = {
@@ -168,7 +173,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     position: "absolute",
     width: "60px",
     height: "60px",
-    transform: inCuarentena ? "translate( 0, -75px)" : "translate(0, -60px)",
+    transform: inCuarentena ? "translate( 0, -90px)" : "translate(0, -80px)",
     rotate: `${angle + 29.85}rad`,
     zIndex: "990",
   };
@@ -222,7 +227,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 };
 
 const PlayerRound = () => {
-  const { state } = useMatchC();
+  const { state, actions } = useMatchC();
 
   const currentPlayerName = sessionStorage.getItem("player_name");
   const currentPlayer = state.posiciones.find(
@@ -250,6 +255,10 @@ const PlayerRound = () => {
     }
   };
 
+  const toggleInspectMode = () => {
+    actions.setInspect(!state.inspect);
+  };
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -263,12 +272,14 @@ const PlayerRound = () => {
     position: "relative",
   };
   const roleSignStyle = {
+    marginTop: "6px",
     height: "100%",
     width: "100%",
   };
   const iconsContainerStyle = {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
+    alignItems: "center",
     width: "100%",
   };
 
@@ -278,6 +289,16 @@ const PlayerRound = () => {
     marginRight: "1rem",
     width: "80px",
     height: "80px",
+  };
+
+  const zoomStyle = {
+    marginTop: "1rem",
+    marginLeft: "1rem",
+    backgroundColor: "#515952",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#2a2e2b",
+    },
   };
 
   return (
@@ -324,6 +345,15 @@ const PlayerRound = () => {
         </React.Fragment>
       ))}
       <div style={iconsContainerStyle}>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<SearchIcon />}
+          onClick={toggleInspectMode}
+          sx={zoomStyle}
+        >
+          {!state.inspect ? "Inspeccionar Cartas" : "Dejar de inspeccionar"}
+        </Button>
         {state.isClockwise ? (
           <RotateRightIcon sx={rotationStyle} />
         ) : (

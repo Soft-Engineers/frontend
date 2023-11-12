@@ -1,12 +1,24 @@
-import { useEffect, useState, React } from "react";
+import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
 import Carta from "../../components/Carta";
 import { useMatchC } from "../../screens/Match/matchContext.jsx";
+import { mapaCartas } from "../Carta/index.jsx";
+import { styled } from "@mui/system";
+import { tooltipClasses } from "@mui/material";
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "transparent",
+  },
+}));
 
 const styles = {
   cartaHovered: {
     transform: "translateY(-1cm)",
-    transition: "transform 0.2s",
+    marginBottom: "1rem",
   },
 };
 
@@ -20,7 +32,7 @@ const PlayersHand = () => {
     }
   };
 
-  const handleCardLeave = () => {
+  const handleHandLeave = () => {
     if (state.selectedCard === null) {
       setHoveredCard(null);
     }
@@ -41,18 +53,31 @@ const PlayersHand = () => {
     setHoveredCard(null);
   }, [state.currentTurn, state.hand]);
 
+  const renderTooltipContent = (carta) => (
+    <img
+      src={mapaCartas[carta.card_name]}
+      alt={`Tooltip for ${carta.card_name}`}
+      style={{ width: "80%", height: "90%" }}
+    />
+  );
+
   return (
-    <Stack direction="row" spacing={-0.1}>
+    <Stack direction="row" spacing={-0.1} onMouseLeave={handleHandLeave}>
       {state.hand.map((objCarta, index) => (
-        <div
+        <CustomTooltip
           key={index}
-          onMouseEnter={() => handleCardHover(objCarta)}
-          onMouseLeave={handleCardLeave}
-          onClick={() => handleCardClick(objCarta)}
-          style={hoveredCard === objCarta ? styles.cartaHovered : {}}
+          title={renderTooltipContent(objCarta)}
+          placement="top"
+          open={state.inspect && hoveredCard === objCarta}
         >
-          <Carta nombre={objCarta.card_name} />
-        </div>
+          <div
+            onMouseEnter={() => handleCardHover(objCarta)}
+            onClick={() => handleCardClick(objCarta)}
+            style={hoveredCard === objCarta ? styles.cartaHovered : {}}
+          >
+            <Carta nombre={objCarta.card_name} />
+          </div>
+        </CustomTooltip>
       ))}
     </Stack>
   );
