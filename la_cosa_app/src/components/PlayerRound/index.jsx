@@ -49,7 +49,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     };
 
     return (
-        <div className="player-card" style={cardStyle} onClick={handleClick}>
+        <div className="player-card" style={cardStyle} onClick={handleClick} data-testid="player-card">
             <div className="circle" style={circleStyle}>
                 <span className="player-name" style={nameStyle}>
                     {player.player_name}
@@ -120,6 +120,7 @@ const PlayerRound = () => {
             {sortedPlayers.map((player, index) => (
                 <PlayerCard
                     key={index}
+                    data-testid="player-card"
                     player={player}
                     angle={(2 * Math.PI) * (currentPlayerIndex - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
                     radiusX={radiusX}
