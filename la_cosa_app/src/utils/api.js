@@ -166,6 +166,9 @@ export const handle_socket_messages = () => {
           case 'historial':
             actions.setChatHistory(data.message_content);
             break;
+          case 'logs':
+            actions.setLogs(data.message_content);
+            break;
           case 'partida finalizada':
             actions.setWinners(data.message_content.winners);
             actions.setReason(data.message_content.reason);

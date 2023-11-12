@@ -48,7 +48,7 @@ const RoleSign = () => {
         title={<div style={{ fontSize: "16px" }}>{description}</div>}
         placement="bottom-end"
         arrow
-        interactive={true}
+        interactive="true"
       >
         <span
           style={style}

@@ -35,7 +35,7 @@ const Match = () => {
           </a>
         </span>
       ),
-      timestamp: new Date().getTime(),
+      timestamp: "",
     };
     actions.setMessages([...state.messages, newMessage]);
   }, []);

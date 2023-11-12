@@ -81,6 +81,7 @@ const Lobby = () => {
           break;
 
         case "start_match":
+          actions.setMessages([]);
           navigate(`/match/${match_name}`);
           break;
 
@@ -98,6 +99,7 @@ const Lobby = () => {
           setSeverity("error");
           setBody(data.message_content.message_content);
           setOpen(true);
+          actions.setMessages([]);
           // Agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
           setTimeout(() => {
             navigate(`/mainpage/${player_name}`);
@@ -110,7 +112,7 @@ const Lobby = () => {
           actions.setChatHistory(data.message_content);
           break;
         default:
-          console.log("Mensaje no reconocido");
+        //console.log("Mensaje no reconocido");
       }
     };
 
@@ -154,6 +156,7 @@ const Lobby = () => {
     try {
       const response = await leaveLobby(player_name, match_name);
       if (response.status === 200) {
+        actions.setMessages([]);
         navigate(`/mainpage/${player_name}`);
       }
     } catch (error) {

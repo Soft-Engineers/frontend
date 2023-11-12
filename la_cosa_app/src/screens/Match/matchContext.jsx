@@ -50,6 +50,7 @@ export const MatchProvider = ({ children }) => {
   const [alreadySelected, setAlreadySelected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
+  const [logs, setLogs] = useState([]);
   const [targetDoor, setTargetDoor] = useState(null);
 
   const state = {
@@ -81,6 +82,7 @@ export const MatchProvider = ({ children }) => {
     Cuarentena,
     messages,
     chatHistory,
+    logs,
     alreadySelected,
     targetDoor,
   };
@@ -114,6 +116,7 @@ export const MatchProvider = ({ children }) => {
     setCuarentena,
     setMessages,
     setChatHistory,
+    setLogs,
     setAlreadySelected,
     setTargetDoor,
   };

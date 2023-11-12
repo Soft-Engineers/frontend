@@ -71,7 +71,9 @@ const Chat = ({ socket }) => {
             color="textSecondary"
             sx={{ marginRight: "1rem" }}
           >
-            {new Date(message.timestamp * 1000).toLocaleTimeString()}
+            {message.timestamp !== ""
+              ? new Date(message.timestamp * 1000).toLocaleTimeString()
+              : ""}
           </Typography>
         )}
         <Box
@@ -103,7 +105,9 @@ const Chat = ({ socket }) => {
             color="textSecondary"
             sx={{ marginLeft: "1rem" }}
           >
-            {new Date(message.timestamp * 1000).toLocaleTimeString()}
+            {message.timestamp !== ""
+              ? new Date(message.timestamp * 1000).toLocaleTimeString()
+              : ""}
           </Typography>
         )}
       </ListItem>
