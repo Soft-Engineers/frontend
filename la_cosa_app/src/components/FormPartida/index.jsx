@@ -1,56 +1,56 @@
-import { Formik, Form, Field } from 'formik';
-import { Grid, TextField } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import RButton from '../../components/Button';
-import ForwardOutlinedIcon from '@mui/icons-material/ForwardOutlined';
-import { createPartida } from '../../utils/api';
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import SnackBar from '../../components/SnackBar';
-import * as Yup from 'yup';
+import { Formik, Form, Field } from "formik";
+import { Grid, TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import RButton from "../../components/Button";
+import ForwardOutlinedIcon from "@mui/icons-material/ForwardOutlined";
+import { createPartida } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import SnackBar from "../../components/SnackBar";
+import * as Yup from "yup";
 import IconButton from "@mui/material/IconButton";
 
 const styles = {
   form: {
-    minHeight: '40vh',
-    width: '90%',
-    maxWidth: '40vh',
-    border: '1px solid #ccc',
-    padding: '16px',
-    borderRadius: '10px',
-    alignItems: 'center',
+    minHeight: "40vh",
+    width: "90%",
+    maxWidth: "40vh",
+    border: "1px solid #ccc",
+    padding: "16px",
+    borderRadius: "10px",
+    alignItems: "center",
   },
   input: {
-    width: '85%',
-    height: '60%',
-    marginBottom: '16px',
-    marginTop: '10px',
+    width: "85%",
+    height: "60%",
+    marginBottom: "16px",
+    marginTop: "10px",
   },
   label: {
-    paddingBottom: '5px',
-    textAlign: 'center',
+    paddingBottom: "5px",
+    textAlign: "center",
   },
   button: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
   },
 };
 
 const validationSchema = Yup.object().shape({
-  nombrePartida: Yup.string().required('Este campo es obligatorio'),
+  nombrePartida: Yup.string().required("Este campo es obligatorio"),
 });
 
 const FormPartida = () => {
   const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [severity, setSeverity] = useState('success');
-  const [body, setBody] = useState('');
+  const [severity, setSeverity] = useState("success");
+  const [body, setBody] = useState("");
   const [minPlayers, setMinPlayers] = useState(4);
   const [maxPlayers, setMaxPlayers] = useState(12);
 
   const handleClose = (reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -60,25 +60,25 @@ const FormPartida = () => {
     <div style={styles.form}>
       <Formik
         initialValues={{
-          nombrePartida: '',
+          nombrePartida: "",
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           try {
-            const player_name = sessionStorage.getItem('player_name');
+            const player_name = sessionStorage.getItem("player_name");
             const response = await createPartida(
               values.nombrePartida,
               player_name,
               minPlayers,
-              maxPlayers
+              maxPlayers,
             );
             if (response.status === 201) {
               Navigate(`/lobby/${values.nombrePartida}`);
-              sessionStorage.setItem('match_name', values.nombrePartida);
+              sessionStorage.setItem("match_name", values.nombrePartida);
             }
           } catch (err) {
             setOpen(true);
-            setSeverity('error');
+            setSeverity("error");
             setBody(err.response.data.detail);
           }
         }}
@@ -86,7 +86,9 @@ const FormPartida = () => {
         <Form>
           <Grid container spacing={2}>
             <Grid item xs={12} sx={styles.label}>
-              <label htmlFor="nombrePartida">Ingrese nombre de la partida:</label>
+              <label htmlFor="nombrePartida">
+                Ingrese nombre de la partida:
+              </label>
               <Field
                 as={TextField}
                 id="nombrePartida"
@@ -139,14 +141,19 @@ const FormPartida = () => {
             <Grid item xs={12} sx={styles.button}>
               <RButton
                 text="Crear partida"
-                action={() => { }}
+                action={() => {}}
                 icon={<ForwardOutlinedIcon />}
               />
             </Grid>
           </Grid>
         </Form>
       </Formik>
-      <SnackBar open={open} handleClose={handleClose} severity={severity} body={body} />
+      <SnackBar
+        open={open}
+        handleClose={handleClose}
+        severity={severity}
+        body={body}
+      />
     </div>
   );
 };
