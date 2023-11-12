@@ -77,7 +77,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
   };
 
   return (
-    <div onClick={handleDoorClick} style={doorStyle} id={index}>
+    <div onClick={handleDoorClick} style={doorStyle} id={index} data-testid="player-cards">
       <div style={lineStyle}>
         <div style={nailStyle1} /> {/* Left nail */}
         <div style={nailStyle2} /> {/* Right nail */}
@@ -197,7 +197,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
   };
 
   return (
-    <div className="player-card" style={cardStyle} onClick={handleClick}>
+    <div className="player-card" style={cardStyle} onClick={handleClick} data-testid="player-cards">
       <div style={{ display: "flex" }}>
         <div className="circle" style={circleStyle}>
           {inCuarentena && (
@@ -302,12 +302,13 @@ const PlayerRound = () => {
   };
 
   return (
-    <Box sx={containerStyle} data-testid="playersRound">
-      <div style={roleSignStyle}>
+    <Box sx={containerStyle} >
+      <div style={roleSignStyle} data-testid="player-cards">
         <RoleSign />
       </div>
 
       <div
+        data-testid="player-cards"
         className="deck"
         style={{
           position: "absolute",
@@ -320,6 +321,7 @@ const PlayerRound = () => {
       {sortedPlayers.map((player, index) => (
         <React.Fragment key={index}>
           <PlayerCard
+            data-testid="player-cards"
             player={player}
             angle={
               (2 *
@@ -333,6 +335,7 @@ const PlayerRound = () => {
           />
           {sortedboolDoors[index] && (
             <DoorBtPlayers
+              data-testid="player-cards"
               angle={
                 (2 * Math.PI * (totalPlayers - index + 0.5 - 1)) / totalPlayers
               }
