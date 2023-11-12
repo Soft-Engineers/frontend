@@ -116,10 +116,6 @@ describe('Match', () => {
             //y deberia mockear la respuesta del back con el cambio de estado, esta dificil :P
         });
 
-
-
-
-
         await waitFor(() => {
             expect(progressBar).toHaveStyle({ opacity: '0' });
         }, { timeout: 500 });

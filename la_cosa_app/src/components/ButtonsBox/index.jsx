@@ -47,7 +47,9 @@ const ButtonsBox = () => {
           target: card_target,
         },
       };
+
       state.socket.send(JSON.stringify(request));
+
     } else {
       actions.setSeverity("error");
       actions.setBody("Elige una carta para jugar.");
