@@ -6,22 +6,43 @@ import Box from "@mui/material/Box";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import quarantineIcon from "../../assets/quarantine.png";
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import { useState } from 'react';
 
-const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
-  const offset = Math.PI * 0.5;
-  const x = (radiusX - 30) * Math.cos(angle + offset);
-  const y = (radiusY - 30) * Math.sin(angle + offset);
 
-  const lineStyle = {
-    width: "10px",
-    height: "120px",
-    backgroundColor: "brown",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    transform: `rotate(${angle}rad)`,
-    border: "0.1px solid black",
-  };
+const DoorBtPlayers = ({ angle, radiusX, radiusY, array, index }) => {
+    const { state, actions } = useMatchC();
+    const offset = Math.PI * 0.5;
+    const x = (radiusX - 30) * Math.cos(angle + offset);
+    const y = (radiusY - 30) * Math.sin(angle + offset);
+
+    const handleDoorClick = (event) => {
+        const id = event.currentTarget.id;
+        //console.log(array[id]);
+        //console.log(id);
+        if (state.isTurn === true && state.targetDoor != id) {
+            actions.setTargetDoor(id);
+            actions.setTargetName(null);
+        }
+        else {
+            actions.setTargetDoor(null);
+        }
+    }
+
+    useEffect(() => {
+        actions.setTargetDoor(null); // Cuando cambia el turno, se resetea el target
+    }, [state.currentTurn])
+
+    const lineStyle = {
+        width: '10px',
+        height: '120px',
+        backgroundColor: '#8b4513', // Color of the door
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: `rotate(${angle}rad)`,
+        border: state.isTurn == false || state.targetDoor != index || (state.turnState != 2 && state.turnState != 7) ? '0.1px solid black' : '2px solid red',
+    };
 
   const doorStyle = {
     position: "absolute",
@@ -46,16 +67,14 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
     transform: "translate(0, -33px)",
   };
 
-  return (
-    <div style={doorStyle}>
-      <div style={lineStyle}>
-        <div style={nailStyle1} />
-        {/* Left nail */}
-        <div style={nailStyle2} />
-        {/* Right nail */}
-      </div>
-    </div>
-  );
+    return (
+        <div onClick={handleDoorClick} style={doorStyle} id={index}>
+            <div style={lineStyle}>
+                <div style={nailStyle1} /> {/* Left nail */}
+                <div style={nailStyle2} /> {/* Right nail */}
+            </div>
+        </div>
+    );
 };
 
 const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
@@ -102,68 +121,81 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     fontWeight: isCurrentPlayer ? "bold" : "normal",
   };
 
-  const cuarentenaStyle = {
-    box: {
-      position: "absolute",
-      width: "70%",
-      height: "65px",
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      border: "1px solid black",
-      boxShadow: "0 0 0 5px yellow, 0 0 0 6px black",
-      borderRadius: "35%",
-    },
-    desc: {
-      textAlign: "center",
-      fontWeight: "bolder",
-      color: "black",
-      border: "2px solid black",
-      backgroundColor: "yellow",
-      height: "20px",
-      width: "80%",
-      transform: "translate(10%, -100%)",
-    },
-    icon: {
-      display: "flex",
-      width: "40px",
-      height: "40px",
-      transform: "translate(0%, -70%)",
-    },
-  };
+    const cuarentenaStyle = {
+        box: {
+            position: 'absolute',
+            width: '70%',
+            height: '65px',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            border: '1px solid black',
+            boxShadow: '0 0 0 5px yellow, 0 0 0 6px black',
+            borderRadius: '35%',
+        },
+        desc: {
+            textAlign: 'center',
+            fontWeight: 'bolder',
+            color: 'black',
+            border: '2px solid black',
+            backgroundColor: 'yellow',
+            height: '20px',
+            width: '80%',
+            transform: 'translate(10%, -100%)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+        },
+        icon: {
+            display: 'flex',
+            width: '40px',
+            height: '40px',
+            transform: 'translate(0%, -70%)',
+        }
+    };
 
-  useEffect(() => {
-    actions.setTargetName(null); // Cuando cambia el turno, se resetea el target
-  }, [state.currentTurn]);
-
-  const handleClick = () => {
-    if (isThisPlayerDead || !(state.turnState === 2 || state.turnState === 7)) {
-      return;
+    const currPlayerStyle = {
+        position: 'absolute',
+        width: '40px',
+        height: '40px',
+        transform: inCuarentena ? 'translate( 0, -65px)' : 'translate(0, -40px)',
+        rotate: `${angle - 29.85}rad`,
+        zIndex: '990',
     }
-    if (state.target_name === player.player_name) {
-      actions.setTargetName(null);
-    } else {
-      actions.setTargetName(player.player_name);
-    }
-  };
 
-  return (
-    <div className="player-card" style={cardStyle} onClick={handleClick}>
-      <div style={{ display: "flex" }}>
-        <div className="circle" style={circleStyle}>
-          {inCuarentena && (
-            <>
-              <div style={cuarentenaStyle.box} />
-              <img
-                src={quarantineIcon}
-                alt="Quarantine"
-                style={cuarentenaStyle.icon}
-              />
-            </>
-          )}
-          <span className="player-name" style={nameStyle}>
-            {player.player_name}
-          </span>
-        </div>
-      </div>
+    useEffect(() => {
+        actions.setTargetName(null); // Cuando cambia el turno, se resetea el target
+    }, [state.currentTurn]);
+
+    const handleClick = () => {
+        if (isThisPlayerDead) {
+            return;
+        }
+        if (state.target_name === player.player_name) {
+            actions.setTargetName(null);
+        } else {
+            actions.setTargetName(player.player_name);
+            actions.setTargetDoor(null);
+        }
+    };
+
+    return (
+        <div className="player-card" style={cardStyle} onClick={handleClick}>
+
+            <div style={{ display: 'flex' }}>
+                <div className="circle" style={circleStyle}>
+                    {inCuarentena &&
+                        <>
+                            <div style={cuarentenaStyle.box} />
+                            <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon} />
+                        </>
+
+                    }
+                    <span className="player-name" style={nameStyle}>
+                        {player.player_name}
+                    </span>
+                    {isCurrentPlayer && (<KeyboardDoubleArrowDownIcon style={currPlayerStyle} />)}
+                </div>
+
+            </div>
 
       {inCuarentena && (
         <div style={cuarentenaStyle.desc}>{Cuarentena[currPlayer]} turnos</div>
@@ -175,22 +207,16 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 const PlayerRound = () => {
   const { state } = useMatchC();
 
-  const currentPlayerName = sessionStorage.getItem("player_name");
-  const currentPlayer = state.posiciones.find(
-    (player) => player.player_name === currentPlayerName,
-  );
-  const totalPlayers = state.posiciones.length;
-  const sortedPlayers = state.posiciones.sort(
-    (a, b) => a.position - b.position,
-  );
-  const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
-  const sortedboolDoors = state.Obstacles.sort(
-    (a, b) => a.position - b.position,
-  );
-  const radiusX = 200;
-  const radiusY = 170;
-  const centerX = 0;
-  const centerY = 0;
+    const currentPlayerName = sessionStorage.getItem('player_name');
+    const currentPlayer = state.posiciones.find((player) => player.player_name === currentPlayerName);
+    const totalPlayers = state.posiciones.length;
+    const sortedPlayers = state.posiciones.sort((a, b) => a.position - b.position);//state.posiciones;//
+    const currentPlayerIndex = sortedPlayers.indexOf(currentPlayer);
+    const sortedboolDoors = state.Obstacles.sort((a, b) => a.position - b.position); //state.Obstacles;//
+    const radiusX = 200;
+    const radiusY = 170;
+    const centerX = 0;
+    const centerY = 0;
 
   const handleDrawCard = async () => {
     try {
@@ -223,13 +249,15 @@ const PlayerRound = () => {
     width: "100%",
   };
 
-  const rotationStyle = {
-    display: "flex",
-    fontSize: "large",
-    marginRight: "1rem",
-    width: "100px",
-    height: "100px",
-  };
+    const rotationStyle = {
+        display: 'flex',
+        fontSize: 'large',
+        marginRight: '1rem',
+        width: '100px',
+        height: '100px',
+    };
+
+
 
   return (
     <Box sx={containerStyle}>
@@ -247,42 +275,33 @@ const PlayerRound = () => {
         <Deck onDrawCard={() => handleDrawCard()} />
       </div>
 
-      {sortedPlayers.map((player, index) => (
-        <React.Fragment key={index}>
-          <PlayerCard
-            player={player}
-            angle={
-              (2 *
-                Math.PI *
-                (currentPlayerIndex -
-                  index +
-                  Math.max(1, (totalPlayers / 12) * 3))) /
-              totalPlayers
-            }
-            radiusX={radiusX}
-            radiusY={radiusY}
-            isCurrentPlayer={player.player_name === currentPlayerName}
-          />
-          {sortedboolDoors[index] && (
-            <DoorBtPlayers
-              angle={
-                (2 * Math.PI * (currentPlayerIndex - index + 0.5 - 1)) /
-                totalPlayers
-              }
-              radiusX={radiusX}
-              radiusY={radiusY}
-            />
-          )}
-        </React.Fragment>
-      ))}
-      <div style={iconsContainerStyle}>
-        {state.isClockwise ? (
-          <RotateRightIcon sx={rotationStyle} />
-        ) : (
-          <RotateLeftIcon sx={rotationStyle} />
-        )}
-      </div>
-    </Box>
-  );
+            {sortedPlayers.map((player, index) => (
+                <React.Fragment key={index}>
+                    <PlayerCard
+                        player={player}
+                        angle={(2 * Math.PI) * (totalPlayers - index + (Math.max(1, (totalPlayers / 12) * 3))) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                        isCurrentPlayer={player.player_name === currentPlayerName}
+                    />
+                    {sortedboolDoors[index] && <DoorBtPlayers
+                        angle={(2 * Math.PI) * (totalPlayers - index + 0.5 - 1) / totalPlayers}
+                        radiusX={radiusX}
+                        radiusY={radiusY}
+                        array={sortedboolDoors}
+                        index={index}
+                    />}
+                </React.Fragment>
+            ))}
+            <div style={iconsContainerStyle}>
+                {state.isClockwise ? (
+                    <RotateRightIcon sx={rotationStyle} />
+
+                ) : (
+                    <RotateLeftIcon sx={rotationStyle} />
+                )}
+            </div>
+        </Box>
+    );
 };
 export default PlayerRound;

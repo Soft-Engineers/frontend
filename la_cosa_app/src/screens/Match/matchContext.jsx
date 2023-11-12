@@ -21,99 +21,103 @@ export const turnStates = {
 };
 
 export const MatchProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [posiciones, setPosiciones] = useState([]);
-  const [currentTurn, setCurrentTurn] = useState("");
-  const [hand, setHand] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [severity, setSeverity] = useState("success");
-  const [body, setBody] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [waitMessage, setWaitMessage] = useState("");
-  const [isFinished, setIsFinished] = useState(false);
-  const [winners, setWinners] = useState([]);
-  const [reason, setReason] = useState("");
-  const [target_name, setTargetName] = useState("");
-  const [isDeadPlayer, setIsDeadPlayer] = useState(false);
-  const [deadPlayerNames, setDeadPlayerNames] = useState("");
-  const [revealCard, setRevealCard] = useState(false);
-  const [reveal, setReveal] = useState(false);
-  const [role, setRole] = useState("");
-  const [turnState, setTurnState] = useState(null);
-  const [isTurn, setIsTurn] = useState(false);
-  const [defenseTimestamp, setDefenseTimestamp] = useState(0);
-  const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
-  const [isClockwise, setIsClockwise] = useState(false);
-  const [Obstacles, setObstacles] = useState([]);
-  const [Cuarentena, setCuarentena] = useState(null);
-  const [alreadySelected, setAlreadySelected] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [chatHistory, setChatHistory] = useState([]);
 
-  const state = {
-    socket,
-    posiciones,
-    currentTurn,
-    hand,
-    selectedCard,
-    open,
-    severity,
-    body,
-    waitMessage,
-    notifications,
-    isFinished,
-    winners,
-    reason,
-    target_name,
-    isDeadPlayer,
-    deadPlayerNames,
-    reveal,
-    revealCard,
-    role,
-    turnState,
-    isTurn,
-    defenseTimestamp,
-    defenseTimeoutEnded,
-    isClockwise,
-    Obstacles,
-    Cuarentena,
-    messages,
-    chatHistory,
-    alreadySelected,
-  };
+    const [socket, setSocket] = useState(null);
+    const [posiciones, setPosiciones] = useState([]);
+    const [currentTurn, setCurrentTurn] = useState('');
+    const [hand, setHand] = useState([]);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success');
+    const [body, setBody] = useState('');
+    const [notifications, setNotifications] = useState([]);
+    const [waitMessage, setWaitMessage] = useState('');
+    const [isFinished, setIsFinished] = useState(false);
+    const [winners, setWinners] = useState([]);
+    const [reason, setReason] = useState('');
+    const [target_name, setTargetName] = useState('');
+    const [isDeadPlayer, setIsDeadPlayer] = useState(false);
+    const [deadPlayerNames, setDeadPlayerNames] = useState('');
+    const [revealCard, setRevealCard] = useState(false);
+    const [reveal, setReveal] = useState(false);
+    const [role, setRole] = useState('');
+    const [turnState, setTurnState] = useState(null);
+    const [isTurn, setIsTurn] = useState(false);
+    const [defenseTimestamp, setDefenseTimestamp] = useState(0);
+    const [defenseTimeoutEnded, setDefenseTimeoutEnded] = useState(false);
+    const [isClockwise, setIsClockwise] = useState(false);
+    const [Obstacles, setObstacles] = useState([]);
+    const [Cuarentena, setCuarentena] = useState(null);
+    const [alreadySelected, setAlreadySelected] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [chatHistory, setChatHistory] = useState([]);
+    const [targetDoor, setTargetDoor] = useState(null);
 
-  const actions = {
-    setSocket,
-    setPosiciones,
-    setHand,
-    setSelectedCard,
-    setOpen,
-    setSeverity,
-    setBody,
-    setWaitMessage,
-    setNotifications,
-    setIsFinished,
-    setWinners,
-    setReason,
-    setTargetName,
-    setIsDeadPlayer,
-    setDeadPlayerNames,
-    setCurrentTurn,
-    setRevealCard,
-    setReveal,
-    setRole,
-    setTurnState,
-    setIsTurn,
-    setDefenseTimestamp,
-    setDefenseTimeoutEnded,
-    setIsClockwise,
-    setObstacles,
-    setCuarentena,
-    setMessages,
-    setChatHistory,
-    setAlreadySelected,
-  };
+    const state = {
+        socket,
+        posiciones,
+        currentTurn,
+        hand,
+        selectedCard,
+        open,
+        severity,
+        body,
+        waitMessage,
+        notifications,
+        isFinished,
+        winners,
+        reason,
+        target_name,
+        isDeadPlayer,
+        deadPlayerNames,
+        reveal,
+        revealCard,
+        role,
+        turnState,
+        isTurn,
+        defenseTimestamp,
+        defenseTimeoutEnded,
+        isClockwise,
+        Obstacles,
+        Cuarentena,
+        messages,
+        chatHistory,
+        alreadySelected,
+        targetDoor,
+    };
+
+    const actions = {
+        setSocket,
+        setPosiciones,
+        setHand,
+        setSelectedCard,
+        setOpen,
+        setSeverity,
+        setBody,
+        setWaitMessage,
+        setNotifications,
+        setIsFinished,
+        setWinners,
+        setReason,
+        setTargetName,
+        setIsDeadPlayer,
+        setDeadPlayerNames,
+        setCurrentTurn,
+        setRevealCard,
+        setReveal,
+        setRole,
+        setTurnState,
+        setIsTurn,
+        setDefenseTimestamp,
+        setDefenseTimeoutEnded,
+        setIsClockwise,
+        setObstacles,
+        setCuarentena,
+        setMessages,
+        setChatHistory,
+        setAlreadySelected,
+        setTargetDoor,
+    };
 
   return (
     <MatchContext.Provider value={{ state, actions }}>
