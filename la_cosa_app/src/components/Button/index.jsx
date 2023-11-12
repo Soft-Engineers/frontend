@@ -1,14 +1,14 @@
-import React from 'react';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import React from "react";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 // Regular Button
-const RButton = ({text, action, icon}) => {
+const RButton = ({ text, action, icon }) => {
   return (
     <Stack direction="row" spacing={2}>
-      <Button 
+      <Button
         type="submit"
-        variant="outlined" 
+        variant="outlined"
         endIcon={icon}
         onClick={() => action()}
       >
@@ -16,6 +16,6 @@ const RButton = ({text, action, icon}) => {
       </Button>
     </Stack>
   );
-}
+};
 
 export default RButton;

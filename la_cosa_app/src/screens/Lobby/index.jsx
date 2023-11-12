@@ -5,171 +5,223 @@ import PlayerList from "../../components/PlayersList";
 import Header from "../../components/Header";
 import RButton from "../../components/Button";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost as checkIsHost, startMatch, leaveLobby } from '../../utils/api';
-import SnackBar from '../../components/SnackBar';
-import React from 'react';
+import { isHost as checkIsHost, startMatch, leaveLobby } from "../../utils/api";
+import SnackBar from "../../components/SnackBar";
+import React from "react";
+import Chat from "../../components/Chat/index.jsx";
+import { Box } from "@mui/material";
+import { useMatchC } from "../Match/matchContext.jsx";
 
 const styles = {
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-
-    },
-    buttons: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        gap: '1rem',
-    },
+  container: {
+    height: "95vh",
+  },
+  list: {
+    maxHeight: "calc(100% - 82px)",
+    minHeight: "calc(100% - 82px)",
+    height: "calc(100% - 82px)",
+  },
+  buttonsAndChat: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    maxHeight: "calc(100% - 82px)",
+    marginTop: "1rem",
+  },
+  buttons: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    flexDirection: "column",
+    maxHeight: "100px",
+    minHeight: "100px",
+    height: "100px",
+    marginBottom: "1rem",
+    padding: "7px",
+    border: "1px solid rgba(0, 0, 0, 0.23)",
+    borderRadius: "10px",
+  },
+  chatBox: {
+    border: "1px solid rgba(0, 0, 0, 0.23)",
+    borderRadius: "10px",
+    maxHeight: "calc(100% - 115px)",
+    height: "calc(100% - 115px)",
+  },
 };
 
 const Lobby = () => {
-    // State
-    const navigate = useNavigate();
-    const [jugadores, setJugadores] = useState([]);
-    const [isHost, setIsHost] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('success');
-    const [body, setBody] = useState('');
-    const [waitmsg, setWaitmsg] = useState('Esperando que el host inicie la partida...');
+  const { state, actions } = useMatchC();
+  const navigate = useNavigate();
+  const [jugadores, setJugadores] = useState([]);
+  const [isHost, setIsHost] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState("success");
+  const [body, setBody] = useState("");
+  const [socket, setSocket] = useState(null);
+  const { match_name } = useParams();
+  const player_name = sessionStorage.getItem("player_name");
 
-    const { match_name } = useParams();
-    const player_name = sessionStorage.getItem('player_name');
-
-    //Conectarse al socket
-    useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
-        socket.onopen = () => {
-            console.log("Conectado al socket del lobby");
-        };
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.message_type === "jugadores lobby") {
-                setJugadores(data.message_content);
-            }
-            else if (data.message_type === "start_match") {
-                setWaitmsg(data.message_content)
-                navigate(`/match/${match_name}`);
-                console.log(waitmsg);
-            }
-            else if (data.message_type === "player_left") {
-                console.log(data.message_content);
-                console.log(data.message_content.message);
-                setSeverity("error");
-                setBody(data.message_content.message);
-                setOpen(true);
-                setJugadores(data.message_content.players);
-            }
-            else if (data.message_type === "match_deleted") {
-                setSeverity("error");
-                setBody(data.message_content.message_content);
-                setOpen(true);
-                // agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
-                setTimeout(() => {
-                }, 1000);
-                navigate(`/mainpage/${player_name}`)
-            }
-
-            else {
-                console.log('Mensaje no reconocido');
-            }
-        };
-
-        socket.onclose = () => {
-            console.log("Desconectado del socket del lobby");
-        }
-        return () => {
-            socket.close();
-        }
-    }, [match_name, player_name]);
-
-
-    // Verificar si es el host
-    useEffect(() => {
-        const response = checkIsHost(player_name, match_name);
-        response.then((data) => {
-            setIsHost(data.data.is_host);
-            console.log(isHost);
-        });
-
-    }, [player_name, match_name]);
-
-    // Funcion para iniciar la partida
-    const handleStartMatch = async (player_name, match_name) => {
-        try {
-            const response = await startMatch(player_name, match_name);
-            console.log("response", response);
-        } catch (error) {
-            setSeverity("error");
-            setBody(error.response.data.detail);
-            setOpen(true);
-        }
-    };
-
-    // Function para salir del lobby
-    const handleLeaveMatch = async (player_name, match_name) => {
-        try {
-            const response = await leaveLobby(player_name, match_name);
-            if (response.status === 200) {
-                navigate(`/mainpage/${player_name}`)
-            }
-        } catch (error) {
-            setSeverity("error");
-            setBody(error.response.data.detail);
-            setOpen(true);
-        }
-    }
-
-
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
-    return (
-        <Container >
-            <Header />
-            <Grid container spacing={2} sx={styles.container}>
-                {/* Primera mitad */}
-                <Grid item xs={6}>
-                    <PlayerList
-                        jugadores={jugadores}
-                    />
-                </Grid>
-                {/* Segunda mitad */}
-                <Grid item xs={6} container sx={styles.buttons}>
-                    {isHost ? (
-                        <RButton
-                            text="Iniciar Partida"
-                            action={() => handleStartMatch(player_name, match_name)}
-                            icon={<VideogameAssetOutlinedIcon />}
-                        />
-                    ) : (
-                        <h2>Esperando que el host inicie la partida...</h2>
-                    )}
-                    <RButton
-                        text="Abandonar Sala"
-                        action={() => handleLeaveMatch(player_name, match_name)}
-                        icon={<ExitToAppIcon />}
-                    />
-                </Grid>
-            </Grid>
-            <SnackBar
-                open={open}
-                body={body}
-                severity={severity}
-                handleClose={handleClose}
-            />
-        </Container>
+  // Conectarse al socket
+  useEffect(() => {
+    const lobbySocket = new WebSocket(
+      `ws://localhost:8000/ws/${match_name}/${player_name}`,
     );
-}
+    lobbySocket.onopen = () => {
+      console.log("Conectado al socket del lobby");
+    };
+
+    lobbySocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      switch (data.message_type) {
+        case "jugadores lobby":
+          setJugadores(data.message_content);
+          break;
+
+        case "start_match":
+          actions.setMessages([]);
+          navigate(`/match/${match_name}`);
+          break;
+
+        case "player_left":
+          const newMessage = {
+            author: "", // Replace with the actual author's name
+            message: data.message_content.message,
+            timestamp: new Date().getTime(),
+          };
+          actions.setMessages([...state.messages, newMessage]);
+          setJugadores(data.message_content.players);
+          break;
+
+        case "match_deleted":
+          setSeverity("error");
+          setBody(data.message_content.message_content);
+          setOpen(true);
+          actions.setMessages([]);
+          // Agregar un tiempo de espera para que se vea el mensaje de error: 3 segundos
+          setTimeout(() => {
+            navigate(`/mainpage/${player_name}`);
+          }, 2000);
+          break;
+        case "notificación chat":
+          actions.setMessages([...state.messages, data.message_content]);
+          break;
+        case "historial":
+          actions.setChatHistory(data.message_content);
+          break;
+        default:
+        //console.log("Mensaje no reconocido");
+      }
+    };
+
+    lobbySocket.onclose = () => {
+      console.log("Desconectado del socket del lobby");
+    };
+    setSocket(lobbySocket);
+    return () => {
+      lobbySocket.close();
+    };
+  }, [match_name, player_name]);
+
+  useEffect(() => {
+    actions.setMessages([]);
+    actions.setChatHistory([]);
+    setJugadores([]);
+  }, []);
+
+  // Verificar si es el host
+  useEffect(() => {
+    const response = checkIsHost(player_name, match_name);
+    response.then((data) => {
+      setIsHost(data.data.is_host);
+    });
+  }, [player_name, match_name]);
+
+  // Funcion para iniciar la partida
+  const handleStartMatch = async (player_name, match_name) => {
+    try {
+      const response = await startMatch(player_name, match_name);
+      console.log("response", response);
+    } catch (error) {
+      setSeverity("error");
+      setBody(error.response.data.detail);
+      setOpen(true);
+    }
+  };
+
+  // Function para salir del lobby
+  const handleLeaveMatch = async (player_name, match_name) => {
+    try {
+      const response = await leaveLobby(player_name, match_name);
+      if (response.status === 200) {
+        actions.setMessages([]);
+        navigate(`/mainpage/${player_name}`);
+      }
+    } catch (error) {
+      setSeverity("error");
+      setBody(error.response.data.detail);
+      setOpen(true);
+    }
+  };
+
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  return (
+    <Container>
+      <Grid container spacing={2} sx={styles.container}>
+        {/* Header */}
+        <Grid item xs={12}>
+          <Header />
+        </Grid>
+
+        {/* Players List */}
+        <Grid item xs={12} sm={6} md={5} sx={styles.list}>
+          <PlayerList jugadores={jugadores} />
+        </Grid>
+
+        {/* Buttons and Chat */}
+        <Grid item xs={12} sm={6} md={7} sx={styles.buttonsAndChat}>
+          <Box sx={styles.buttons}>
+            {isHost ? (
+              <RButton
+                text="Iniciar Partida"
+                action={() => handleStartMatch(player_name, match_name)}
+                icon={<VideogameAssetOutlinedIcon />}
+              />
+            ) : (
+              <h3 style={{ color: "rgba(0, 0, 0, 0.87)" }}>
+                Esperando que el host inicie la partida...
+              </h3>
+            )}
+            <RButton
+              text="Abandonar Sala"
+              action={() => handleLeaveMatch(player_name, match_name)}
+              icon={<ExitToAppIcon />}
+            />
+          </Box>
+
+          {/* Chat */}
+          <Box sx={styles.chatBox}>
+            <Chat socket={socket} />
+          </Box>
+        </Grid>
+
+        <SnackBar
+          open={open}
+          body={body}
+          severity={severity}
+          handleClose={handleClose}
+        />
+      </Grid>
+    </Container>
+  );
+};
 
 export default Lobby;
