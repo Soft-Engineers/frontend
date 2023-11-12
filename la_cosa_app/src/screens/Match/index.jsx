@@ -53,7 +53,7 @@ const Match = () => {
     }
     actions.setOpen(false);
   };
-
+  console.log(state.isTurn && state.turnState === turnStates.WAIT_DEFENSE);
   return (
     <Grid container sx={{ minHeight: '95vh', backgroundColor: '#fafffa' }}>
 

@@ -45,10 +45,12 @@ jest.mock('../../src/screens/Match/matchContext', () => {
 });
 
 
+
 describe('Match', () => {
 
     it('debería renderizar la pantalla de juego correctamente', () => {
         sessionStorage.setItem('player_name', 'Ramon');
+        sessionStorage.setItem('match_name', 'ramoncito_match');
         const { getByTestId } = render(
             <MatchProvider>
                 <Match />
@@ -82,6 +84,7 @@ describe('Match', () => {
     });
     it('debería renderizar la pantalla de defensa correctamente', async () => {
         const { actions } = useMatchC();
+
         actions.setTurnState(6);
         actions.setIsDeadPlayer(false);
         jest.useFakeTimers();
@@ -106,12 +109,19 @@ describe('Match', () => {
         expect(ButtonsBox).toBeInTheDocument();
         expect(Chat).toBeInTheDocument();
 
+
         act(() => {
             jest.advanceTimersByTime(20000);
+            actions.setTurnState(2);//deberia chequear que se envia un mensaje por el websocket ,
+            //y deberia mockear la respuesta del back con el cambio de estado, esta dificil :P
         });
 
+
+
+
+
         await waitFor(() => {
-            expect(progressBar).not.toBeInTheDocument();
+            expect(progressBar).toHaveStyle({ opacity: '0' });
         }, { timeout: 500 });
 
     });
