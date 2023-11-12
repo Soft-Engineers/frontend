@@ -75,8 +75,8 @@ describe('PlayersHand', () => {
             </MatchProvider>
         );
 
-        const carta1 = getByAltText(`Carta La Cosa`);
-        const carta2 = getByAltText(`Carta Sospecha`);
+        const carta1 = getByAltText(`Carta La Cosa`).parentElement.parentElement;
+        const carta2 = getByAltText(`Carta Sospecha`).parentElement.parentElement;
 
         fireEvent.mouseEnter(carta1);
         expect(carta1.parentElement).toHaveStyle('transform: translateY(-1cm)');
@@ -90,7 +90,6 @@ describe('PlayersHand', () => {
         expect(carta2.parentElement).not.toHaveStyle('transform: translateY(-1cm)');
         fireEvent.click(carta1);
         expect(carta1.parentElement).not.toHaveStyle('transform: translateY(-1cm)');
-
 
     });
 
