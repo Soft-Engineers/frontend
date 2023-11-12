@@ -198,7 +198,7 @@ const Notifications = () => {
   };
 
   return (
-    <Box style={BoxStyle}>
+    <Box style={BoxStyle} ref={tooltipContainerRef}>
       <ListItem
         sx={{
           flexDirection: "column",

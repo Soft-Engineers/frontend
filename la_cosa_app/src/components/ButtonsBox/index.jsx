@@ -137,7 +137,7 @@ const ButtonsBox = () => {
       marginLeft: "1rem",
       fontSize: "18px",
       minWidth: "30%",
-      maxWidth: "40%",
+      maxWidth: "60%",
       flex: "1",
     },
     button: {
