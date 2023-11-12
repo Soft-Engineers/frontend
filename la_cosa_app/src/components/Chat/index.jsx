@@ -1,23 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useMatchC } from "../../screens/Match/matchContext.jsx";
+import {useMatchC} from "../../screens/Match/matchContext.jsx";
 import ListItem from "@mui/material/ListItem";
 
 
 const Chat = ({socket}) => {
-    const { state} = useMatchC();
+    const {state, actions} = useMatchC();
     const scrollRef = useRef(null);
     const [messagesList, setMessagesList] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
 
     useEffect(() => {
-        if (state.chatHistory.length > 0) {
-            setMessagesList([...state.messages, ...state.chatHistory]);
+        actions.setMessages([]);
+        setMessagesList([]);
+    }, []);
+
+    useEffect(() => {
+            if (state.chatHistory.length > 0) {
+                setMessagesList([...state.messages, ...state.chatHistory]);
+            }
         }
-    }
-    , [state.chatHistory]);
+        , [state.chatHistory]);
 
     useEffect(() => {
         setMessagesList((prevMessages) => {
@@ -53,11 +58,11 @@ const Chat = ({socket}) => {
     const renderMessage = (message, index) => {
         const isMainUser = message.author === sessionStorage.getItem('player_name');
         return (
-            <ListItem key={index} sx={isMainUser ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }}>
+            <ListItem key={index} sx={isMainUser ? {justifyContent: 'flex-end'} : {justifyContent: 'flex-start'}}>
                 {isMainUser && (
-                <Typography variant="caption" color="textSecondary" sx={{marginRight:'1rem'}} >
-                    {new Date(message.timestamp).toLocaleTimeString()}
-                </Typography>
+                    <Typography variant="caption" color="textSecondary" sx={{marginRight: '1rem'}}>
+                        {new Date(message.timestamp * 1000).toLocaleTimeString()}
+                    </Typography>
                 )}
                 <Box
                     sx={{
@@ -70,14 +75,14 @@ const Chat = ({socket}) => {
                     }}
                 >
                     {!isMainUser && (
-                        <Typography variant="caption" color="blue" sx={{ fontWeight: 'bold', alignSelf: 'flex-start' }}>
+                        <Typography variant="caption" color="blue" sx={{fontWeight: 'bold', alignSelf: 'flex-start'}}>
                             {message.author}
                         </Typography>
                     )}
                     <Typography variant={message.author === '' ? "caption" : "body1"}>{message.message}</Typography>
                 </Box>
                 {!isMainUser && (
-                    <Typography variant="caption" color="textSecondary" sx={{marginLeft:'1rem'}} >
+                    <Typography variant="caption" color="textSecondary" sx={{marginLeft: '1rem'}}>
                         {new Date(message.timestamp * 1000).toLocaleTimeString()}
                     </Typography>
                 )}
@@ -87,8 +92,8 @@ const Chat = ({socket}) => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 ,height: '100%',maxHeight: '100%',}}>
-            <div style={{ overflowY: 'auto',overflowX: 'hidden', minWidth: '100%', flexGrow: 1 }} ref={scrollRef}>
+        <Box sx={{display: 'flex', flexDirection: 'column', flexGrow: 1, height: '100%', maxHeight: '100%',}}>
+            <div style={{overflowY: 'auto', overflowX: 'hidden', minWidth: '100%', flexGrow: 1}} ref={scrollRef}>
                 {messagesList.map((message, index) => renderMessage(message, index))}
             </div>
             <TextField

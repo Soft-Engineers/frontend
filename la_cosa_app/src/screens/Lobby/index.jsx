@@ -42,11 +42,11 @@ const styles = {
         height: '100px',
         marginBottom: '1rem',
         padding: '7px',
-        border: '1px solid grey',
+        border: '1px solid rgba(0, 0, 0, 0.23)',
         borderRadius: '10px',
     },
     chatBox: {
-        border: '1px solid grey',
+        border: '1px solid rgba(0, 0, 0, 0.23)',
         borderRadius: '10px',
         maxHeight: 'calc(100% - 115px)',
         height: 'calc(100% - 115px)',
@@ -193,7 +193,7 @@ const Lobby = () => {
                              icon={<VideogameAssetOutlinedIcon />}
                          />
                      ) : (
-                         <h3 style={{color: '#1976d2'}}>Esperando que el host inicie la partida...</h3>
+                         <h3 style={{color: 'rgba(0, 0, 0, 0.87)'}}>Esperando que el host inicie la partida...</h3>
                      )}
                      <RButton
                          text="Abandonar Sala"

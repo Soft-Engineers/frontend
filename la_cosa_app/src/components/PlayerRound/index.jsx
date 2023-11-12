@@ -1,5 +1,5 @@
 import Deck from '../../components/Deck/';
-import { useMatchC } from '../../screens/Match/matchContext.jsx';
+import {useMatchC} from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React, {useEffect} from "react";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import quarantineIcon from "../../assets/quarantine.png";
 
 
-const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
+const DoorBtPlayers = ({angle, radiusX, radiusY}) => {
     const offset = Math.PI * 0.5;
     const x = (radiusX - 30) * Math.cos(angle + offset);
     const y = (radiusY - 30) * Math.sin(angle + offset);
@@ -35,36 +35,36 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY }) => {
     const nailStyle1 = {
         width: '6px',
         height: '6px',
-        backgroundColor: 'grey', // Color of the nails
-        borderRadius: '50%', // Make it circular
+        backgroundColor: 'grey',
+        borderRadius: '50%',
         position: 'absolute',
-        transform: 'translate(0, 33px)', // Adjust the transform for the first nail
+        transform: 'translate(0, 33px)',
     };
 
     const nailStyle2 = {
         width: '6px',
         height: '6px',
-        backgroundColor: 'grey', // Color of the nails
-        borderRadius: '50%', // Make it circular
+        backgroundColor: 'grey',
+        borderRadius: '50%',
         position: 'absolute',
-        transform: 'translate(0, -33px)', // Adjust the transform for the second nail
+        transform: 'translate(0, -33px)',
     };
 
     return (
         <div style={doorStyle}>
             <div style={lineStyle}>
-                <div style={nailStyle1} /> {/* Left nail */}
-                <div style={nailStyle2} /> {/* Right nail */}
+                <div style={nailStyle1}/>
+                {/* Left nail */}
+                <div style={nailStyle2}/>
+                {/* Right nail */}
             </div>
         </div>
     );
 };
 
 
-
-
-const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
-    const { state, actions } = useMatchC();
+const PlayerCard = ({player, angle, radiusX, radiusY, isCurrentPlayer}) => {
+    const {state, actions} = useMatchC();
     const x = radiusX * Math.cos(angle);
     const y = radiusY * Math.sin(angle);
     const Cuarentena = state.Cuarentena;
@@ -131,7 +131,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     }, [state.currentTurn]);
 
     const handleClick = () => {
-        if (isThisPlayerDead) {
+        if (isThisPlayerDead || !(state.turnState === 2 || state.turnState === 7)) {
             return;
         }
         if (state.target_name === player.player_name) {
@@ -144,12 +144,12 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     return (
         <div className="player-card" style={cardStyle} onClick={handleClick}>
 
-            <div style={{ display: 'flex' }}>
+            <div style={{display: 'flex'}}>
                 <div className="circle" style={circleStyle}>
                     {inCuarentena &&
                         <>
-                    <div style={cuarentenaStyle.box}/>
-                    <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon} />
+                            <div style={cuarentenaStyle.box}/>
+                            <img src={quarantineIcon} alt="Quarantine" style={cuarentenaStyle.icon}/>
                         </>
 
                     }
@@ -173,7 +173,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 };
 
 const PlayerRound = () => {
-    const { state } = useMatchC();
+    const {state} = useMatchC();
 
     const currentPlayerName = sessionStorage.getItem('player_name');
     const currentPlayer = state.posiciones.find((player) => player.player_name === currentPlayerName);
@@ -188,7 +188,7 @@ const PlayerRound = () => {
 
     const handleDrawCard = async () => {
         try {
-            const request = { message_type: 'robar carta', message_content: '' };
+            const request = {message_type: 'robar carta', message_content: ''};
             state.socket.send(JSON.stringify(request));
         } catch (error) {
             console.log(error);
@@ -221,17 +221,16 @@ const PlayerRound = () => {
     const rotationStyle = {
         display: 'flex',
         fontSize: 'large',
-        marginRight:'1rem',
+        marginRight: '1rem',
         width: '100px',
         height: '100px',
     };
 
 
-
     return (
         <Box sx={containerStyle}>
             <div style={roleSignStyle}>
-                <RoleSign />
+                <RoleSign/>
             </div>
 
             <div
@@ -241,7 +240,7 @@ const PlayerRound = () => {
                     transform: `translate(${centerX}px, ${centerY}px)`,
                 }}
             >
-                <Deck onDrawCard={() => handleDrawCard()} />
+                <Deck onDrawCard={() => handleDrawCard()}/>
             </div>
 
             {sortedPlayers.map((player, index) => (
@@ -262,10 +261,10 @@ const PlayerRound = () => {
             ))}
             <div style={iconsContainerStyle}>
                 {state.isClockwise ? (
-                    <RotateRightIcon sx={rotationStyle} />
+                    <RotateRightIcon sx={rotationStyle}/>
 
                 ) : (
-                    <RotateLeftIcon sx={rotationStyle} />
+                    <RotateLeftIcon sx={rotationStyle}/>
                 )}
             </div>
 

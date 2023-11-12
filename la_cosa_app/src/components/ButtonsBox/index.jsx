@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useMatchC, turnStates } from '../../screens/Match/matchContext.jsx';
+import {useMatchC, turnStates} from '../../screens/Match/matchContext.jsx';
 import ConfirmWindow from "../ConfirmWindow/index.jsx";
 
 const ButtonsBox = () => {
-    const { state, actions } = useMatchC();
+    const {state, actions} = useMatchC();
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
     useEffect(() => {
@@ -98,7 +98,7 @@ const ButtonsBox = () => {
                 'decision': 'revelar carta',
             },
         };
-        state.socket.send(JSON.stringify(request));        
+        state.socket.send(JSON.stringify(request));
     };
 
     const handleSkipRevelaciones = () => {
@@ -131,7 +131,7 @@ const ButtonsBox = () => {
             marginLeft: '1rem',
             fontSize: '18px',
             minWidth: '40%',
-            maxWidth: '40%',
+            maxWidth: '50%',
             flex: '1',
         },
         button: {
@@ -169,7 +169,7 @@ const ButtonsBox = () => {
             {state.isTurn && (
                 <>
                     {state.turnState === turnStates.DRAW_CARD && (
-                        <p>Antes de jugar tenés que robar una carta del mazo.</p>
+                        <p>Tenés que robar una carta del mazo.</p>
                     )}
                     {state.turnState === turnStates.PLAY_TURN && (
                         <>
@@ -271,7 +271,7 @@ const ButtonsBox = () => {
                     )}
                     {(state.turnState === turnStates.REVELACIONES) && (
                         <>
-                            {hasInfectedCard(state.hand) &&(
+                            {hasInfectedCard(state.hand) && (
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -313,18 +313,18 @@ const ButtonsBox = () => {
             )}
             {state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected ? (
                 <p>Esperando a los demás jugadores...</p>
-              ) : (
+            ) : (
                 state.turnState === turnStates.VUELTA_Y_VUELTA && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleExchange}
-                    sx={styles.button}
-                  >
-                    Intercambiar
-                  </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleExchange}
+                        sx={styles.button}
+                    >
+                        Intercambiar
+                    </Button>
                 )
-              )
+            )
             }
             {!state.isTurn && (
                 <>
@@ -335,7 +335,7 @@ const ButtonsBox = () => {
                     ) : state.turnState === turnStates.REVELACIONES ? (
                         <p>Esperando a los demás jugadores...</p>
                     ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null
-                    : <p>Esperando turno...</p>}
+                        : <p>Esperando turno...</p>}
                 </>
             )}
         </Box>
