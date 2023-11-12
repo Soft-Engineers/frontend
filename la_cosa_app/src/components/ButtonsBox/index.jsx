@@ -331,9 +331,10 @@ const ButtonsBox = () => {
                         <p>Esperando intercambio....</p>
                     ) : state.turnState === turnStates.WAIT_DEFENSE ? (
                         <p>Esperando defensa...</p>
-                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null: (
-                        <p>Esperando turno...</p>
-                    )}
+                    ) : state.turnState === turnStates.REVELACIONES ? (
+                        <p>Esperando a los demás jugadores...</p>
+                    ) : state.turnState === turnStates.VUELTA_Y_VUELTA ? null
+                    : <p>Esperando turno...</p>}
                 </>
             )}
         </Box>

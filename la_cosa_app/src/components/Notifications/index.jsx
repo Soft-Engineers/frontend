@@ -22,12 +22,12 @@ const BoxStyle = {
 
 const buttonStyle = {
     position: 'absolute',
-    top: '40px',
+    top: '10px',
     right: '15px',
 };
 
 const Notifications = () => {
-    const { state } = useMatchC();
+    const { state , actions} = useMatchC();
     const [notificationsList, setNotificationsList] = useState([]);
     const [minimized, setMinimized] = useState(false);
 
@@ -36,6 +36,23 @@ const Notifications = () => {
             return [...state.notifications, ...prevNotifications];
         });
     }, [state.notifications]);
+
+    useEffect(() => {
+        //if turnstates changes to VUELTA_Y_VUELTA, set state.waitMessage to 'Esperando que se termine el efecto vuelta y vuelta'
+        // if turnstates changes to REVELACIONES, set state.WaitMessage to 'Esperando el efecto revelaciones'
+        if (state.turnState === turnStates.VUELTA_Y_VUELTA) {
+            if (state.alreadySelected){
+                actions.setWaitMessage('Esperando el efecto "Vuelta y vuelta"');
+            }
+            else{
+                actions.setWaitMessage('Tenés que intercambiar con el siguiente');
+            }
+
+        }
+        if (state.turnState === turnStates.REVELACIONES) {
+            actions.setWaitMessage('Esperando el efecto "Revelaciones"');
+        }
+    }, [state.turnState]);
 
 
     const renderNotification = (notification, index) => {
@@ -68,27 +85,43 @@ const Notifications = () => {
                         {state.turnState === turnStates.WAIT_DEFENSE
                             ? 'Te estas defendiendo'
                             : state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.EXCHANGE
-                                ? 'Tenés que intercambiar una carta'
-                                : state.turnState === turnStates.DRAW_CARD
-                                    ? 'Tenés que robar una carta'
-                                    : state.turnState === turnStates.PLAY_TURN
-                                        ? 'Tenés que jugar o descartar una carta'
-                                        : state.turnState === turnStates.PANIC
-                                            ? 'Tenés que jugar la carta de pánico'
-                                            : null }
+                            ? 'Tenés que intercambiar una carta'
+                            : state.turnState === turnStates.DRAW_CARD
+                            ? 'Tenés que robar una carta'
+                            : state.turnState === turnStates.PLAY_TURN
+                            ? 'Tenés que jugar o descartar una carta'
+                            : state.turnState === turnStates.PANIC
+                            ? 'Tenés que jugar la carta de pánico'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
+                            ? 'Tenés que intercambiar con el siguiente'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && state.alreadySelected)
+                            ? 'Esperando el efecto "Vuelta y vuelta"'
+                            : state.turnState === turnStates.REVELACIONES
+                            ? 'Elegí si revelar o no las cartas de tu mano'
+                            : state.turnState === turnStates.DISCARD
+                            ? 'Tenés que descartar'
+                            : null }
 
                     </Typography>
                 )}
                 {!state.isTurn && (
                     <Typography variant="h6" style={{ color: '#3968B1', marginTop: '12px' }}>
-                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE) && state.waitMessage !== ''
+                        {(state.turnState === turnStates.WAIT_EXCHANGE || state.turnState === turnStates.WAIT_DEFENSE
+                        || state.turnState === turnStates.VUELTA_Y_VUELTA || state.turnState === turnStates.REVELACIONES) && state.waitMessage !== ''
                             ? state.waitMessage
                             : state.turnState === turnStates.WAIT_EXCHANGE
-                                ? 'Esperando intercambio'
-                                : state.turnState === turnStates.WAIT_DEFENSE
-                                    ? 'Esperando defensa'
-                                        : 'Esperando tu turno...'}
-
+                            ? 'Esperando intercambio'
+                            : state.turnState === turnStates.WAIT_DEFENSE
+                            ? 'Esperando defensa'
+                            : (state.turnState === turnStates.VUELTA_Y_VUELTA && !state.alreadySelected)
+                            ? 'Tenés que intercambiar con el siguiente'
+                            : state.turnState === turnStates.VUELTA_Y_VUELTA
+                            ? 'Esperando el efecto "Vuelta y vuelta"'
+                            : state.turnState === turnStates.REVELACIONES
+                            ? 'Esperando el efecto "Revelaciones"'
+                            : state.turnState === turnStates.DISCARD
+                            ? 'Esperando que' + state.currentTurn + ' descarte'
+                            : 'Esperando tu turno...'}
                     </Typography>
                 )}
             </ListItem>

@@ -70,15 +70,15 @@ const Chat = ({socket}) => {
                     }}
                 >
                     {!isMainUser && (
-                        <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 'bold', alignSelf: 'flex-start' }}>
+                        <Typography variant="caption" color="blue" sx={{ fontWeight: 'bold', alignSelf: 'flex-start' }}>
                             {message.author}
                         </Typography>
                     )}
-                    <Typography variant="body1">{message.message}</Typography>
+                    <Typography variant={message.author === '' ? "caption" : "body1"}>{message.message}</Typography>
                 </Box>
                 {!isMainUser && (
                     <Typography variant="caption" color="textSecondary" sx={{marginLeft:'1rem'}} >
-                        {new Date(message.timestamp).toLocaleTimeString()}
+                        {new Date(message.timestamp * 1000).toLocaleTimeString()}
                     </Typography>
                 )}
             </ListItem>
