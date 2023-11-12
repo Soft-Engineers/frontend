@@ -18,6 +18,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
 const styles = {
   cartaHovered: {
     transform: "translateY(-1cm)",
+    transition: "transform 0.2s",
     marginBottom: "1rem",
   },
 };

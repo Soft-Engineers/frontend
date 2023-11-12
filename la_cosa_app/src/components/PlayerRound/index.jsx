@@ -115,7 +115,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     alignItems: "center",
     borderRadius: "50%",
     boxShadow: isCurrentPlayer
-      ? "0 0 0px 4px black"
+      ? "0 0 0px 3px black"
       : "0 0 0px 4px transparent",
   };
 

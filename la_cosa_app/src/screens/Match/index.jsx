@@ -87,81 +87,94 @@ const Match = () => {
       }}
     >
       {!state.isDeadPlayer && (
-        <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
-          <PlayerRound>
-            <RoleSign />
-          </PlayerRound>
-          <LinearProgress
-            variant="determinate"
-            value={(timeoutRemaining / timeoutDuration) * 100}
+        <>
+          <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
+            <PlayerRound>
+              <RoleSign />
+            </PlayerRound>
+            <LinearProgress
+              variant="determinate"
+              value={(timeoutRemaining / timeoutDuration) * 100}
+              sx={{
+                height: "12px",
+                marginTop: "4px",
+                marginBottom: "4px",
+                opacity:
+                  state.isTurn && state.turnState === turnStates.WAIT_DEFENSE
+                    ? 1
+                    : 0,
+              }}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                minHeight: "160px",
+                maxHeight: "160px",
+                height: "160px",
+                justifyContent: "space-between",
+              }}
+            >
+              <PlayersHand />
+              <ButtonsBox />
+            </Box>
+          </Grid>
+
+          {/* Second half */}
+          <Grid
+            item
+            xs={4}
             sx={{
-              height: "12px",
-              marginTop: "4px",
-              marginBottom: "4px",
-              opacity:
-                state.isTurn && state.turnState === turnStates.WAIT_DEFENSE
-                  ? 1
-                  : 0,
+              height: "95vh",
+              display: "flex",
+              flexDirection: "column",
+              width: "95%",
             }}
-          />
+          >
+            <Notifications />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                border: "1px solid grey",
+                borderRadius: "10px",
+                marginLeft: "1.4rem",
+                minHeight: "158px",
+                flex: "1",
+              }}
+            >
+              <Chat socket={state.socket} />
+            </Box>
+          </Grid>
+        </>
+      )}
+      {state.isDeadPlayer && (
+        <>
+          <Box
+            sx={{
+              width: "40%",
+              height: "95vh",
+            }}
+          >
+            <Notifications />
+          </Box>
+
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
-              minHeight: "160px",
-              maxHeight: "160px",
-              height: "160px",
-              justifyContent: "space-between",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "50%",
+              marginLeft: "5rem",
+              marginTop: "5rem",
+              height: "100%",
             }}
           >
-            <PlayersHand />
-            <ButtonsBox />
+            {state.isDeadPlayer && (
+              <h1 style={{ fontSize: "6rem", color: "red" }}> Has muerto...</h1>
+            )}
           </Box>
-        </Grid>
-      )}
-      {/* Second half */}
-      <Grid
-        item
-        xs={4}
-        sx={{
-          height: "95vh",
-          display: "flex",
-          flexDirection: "column",
-          width: "95%",
-        }}
-      >
-        <Notifications />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            border: "1px solid grey",
-            borderRadius: "10px",
-            marginLeft: "1.4rem",
-            minHeight: "158px",
-            flex: "1",
-          }}
-        >
-          <Chat socket={state.socket} />
-        </Box>
-      </Grid>
-      {state.isDeadPlayer && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "60%",
-            marginLeft: "5rem",
-            marginTop: "5rem",
-
-            height: "100%",
-          }}
-        >
-          {state.isDeadPlayer && (
-            <h1 style={{ fontSize: "8rem", color: "red" }}> Has muerto...</h1>
-          )}
-        </Box>
+        </>
       )}
       {state.turnState === 3 && (
         <EndGameBanner reason={state.reason} winners={state.winners} />
