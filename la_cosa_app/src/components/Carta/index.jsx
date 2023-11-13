@@ -32,11 +32,10 @@ import citaciegas from "../../assets/cartas_recortadas/033.png";
 import ups from "../../assets/cartas_recortadas/034.png";
 import quequedeentre from "../../assets/cartas_recortadas/035.png";
 import revelaciones from "../../assets/cartas_recortadas/036.png";
-
-import rev from "../../assets/cartas_recortadas/rev.png";
+import reverso from "../../assets/cartas_recortadas/rev.png";
 
 export const mapaCartas = {
-  rev: rev,
+  reverso: reverso,
   "La Cosa": lacosa,
   "¡Infectado!": infectado1,
   Lanzallamas: lanzallamas,

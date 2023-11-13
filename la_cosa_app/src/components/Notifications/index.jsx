@@ -152,6 +152,7 @@ const Notifications = () => {
                       padding: "2px",
                       borderRadius: "2px",
                       cursor: "pointer",
+                      textDecoration: "underline",
                     }}
                     onClick={() => handleTooltipClick(index)}
                   >

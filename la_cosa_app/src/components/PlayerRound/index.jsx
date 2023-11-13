@@ -290,7 +290,7 @@ const PlayerRound = () => {
 
   const zoomStyle = {
     marginTop: "1rem",
-    marginLeft: "1rem",
+    marginRight: "2rem",
     backgroundColor: "#515952",
     color: "white",
     "&:hover": {
@@ -342,6 +342,11 @@ const PlayerRound = () => {
         </React.Fragment>
       ))}
       <div style={iconsContainerStyle}>
+        {state.isClockwise ? (
+          <RotateRightIcon sx={rotationStyle} />
+        ) : (
+          <RotateLeftIcon sx={rotationStyle} />
+        )}
         <Button
           variant="contained"
           color="secondary"
@@ -351,11 +356,6 @@ const PlayerRound = () => {
         >
           {!state.inspect ? "Inspeccionar Cartas" : "Dejar de inspeccionar"}
         </Button>
-        {state.isClockwise ? (
-          <RotateRightIcon sx={rotationStyle} />
-        ) : (
-          <RotateLeftIcon sx={rotationStyle} />
-        )}
       </div>
     </Box>
   );

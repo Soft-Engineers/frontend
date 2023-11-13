@@ -2,6 +2,7 @@ import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import Container from "@mui/material/Container";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -62,20 +63,28 @@ const CustomizedTables = ({ data }) => {
   const password = "";
 
   return (
-    <div>
-      <TableContainer
-        component={Paper}
-        style={{ maxHeight: "300px", overflowY: "auto" }}
-      >
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <Container>
+      <TableContainer component={Paper} sx={{ marginTop: "1rem" }}>
+        <Table aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">minPlayers</StyledTableCell>
-              <StyledTableCell align="right">maxPlayers</StyledTableCell>
-              <StyledTableCell align="right">Actual Players</StyledTableCell>
+              <StyledTableCell>Nombre</StyledTableCell>
+              <StyledTableCell align="left">
+                Mínimo de jugadores
+              </StyledTableCell>
+              <StyledTableCell align="left">
+                Máximo de jugadores
+              </StyledTableCell>
+              <StyledTableCell align="left">Jugadores</StyledTableCell>
             </TableRow>
           </TableHead>
+        </Table>
+      </TableContainer>
+      <TableContainer
+        component={Paper}
+        sx={{ height: "65vh", overflowY: "auto" }}
+      >
+        <Table aria-label="customized table">
           <TableBody>
             {data &&
               data.map((row) => (
@@ -84,17 +93,28 @@ const CustomizedTables = ({ data }) => {
                   onDoubleClick={() =>
                     handleRowDoubleClick(user_name, row.name, password)
                   }
+                  sx={{
+                    "&:hover": { backgroundColor: "#d2cbcb" },
+                    cursor: "pointer",
+                  }}
                 >
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell
+                    component="th"
+                    scope="row"
+                    align="left"
+                    sx={{ maxWidth: "20px" }}
+                  >
                     {row.name}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="left">
                     {row.min_players}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
+                  <StyledTableCell align="center">
                     {row.max_players}
                   </StyledTableCell>
-                  <StyledTableCell align="right">{row.players}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.players}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
           </TableBody>
@@ -106,7 +126,7 @@ const CustomizedTables = ({ data }) => {
         severity={severity}
         body={body}
       />
-    </div>
+    </Container>
   );
 };
 
