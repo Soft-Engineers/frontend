@@ -36,7 +36,6 @@ const styles = {
     display: "flex",
     marginTop: "1rem",
     minWidth: "50%",
-
   },
 };
 

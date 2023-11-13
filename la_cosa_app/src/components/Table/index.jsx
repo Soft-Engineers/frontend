@@ -19,6 +19,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    overflow: "hidden",    // Agregamos desbordamiento oculto
+    textOverflow: "ellipsis",
+    alignText: "center",
   },
 }));
 
@@ -112,7 +115,7 @@ const CustomizedTables = ({ data }) => {
                   <StyledTableCell align="center">
                     {row.max_players}
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  <StyledTableCell align="right">
                     {row.players}
                   </StyledTableCell>
                 </StyledTableRow>
