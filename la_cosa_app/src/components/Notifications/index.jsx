@@ -29,6 +29,7 @@ const BoxStyle = {
   marginBottom: "16.1px",
   border: "1px solid grey",
   borderRadius: "10px",
+  backgroundColor: "#f2f2ff",
 };
 
 const buttonStyle = {
@@ -152,6 +153,7 @@ const Notifications = () => {
                       padding: "2px",
                       borderRadius: "2px",
                       cursor: "pointer",
+                      textDecoration: "underline",
                     }}
                     onClick={() => handleTooltipClick(index)}
                   >
@@ -198,7 +200,7 @@ const Notifications = () => {
   };
 
   return (
-    <Box style={BoxStyle} data-testid="notifications">
+    <Box style={BoxStyle} data-testid='notifications' ref={tooltipContainerRef}>
       <ListItem
         sx={{
           flexDirection: "column",
@@ -271,7 +273,7 @@ const Notifications = () => {
           </Typography>
         )}
       </ListItem>
-      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
+      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle} data-testid='minimize-button'>
         {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
       </IconButton>
       {!minimized && notificationsList.length !== 0 && (

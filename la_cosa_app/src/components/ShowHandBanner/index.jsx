@@ -58,7 +58,6 @@ const ShowHandBanner = () => {
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
     flexDirection: "column",
     minWidth: hand.length === 1 ? "15%" : "60%",
-    minHeight: "60%",
     width: hand.length === 1 ? "20%" : "60%",
   };
 
@@ -75,7 +74,7 @@ const ShowHandBanner = () => {
   return (
     <div>
       <div style={overlayStyles}>
-        <Paper style={bannerStyles}>
+        <Paper style={bannerStyles} data-testid="banner">
           <Typography
             variant="h5"
             component="div"
@@ -92,6 +91,7 @@ const ShowHandBanner = () => {
             onClick={handleCloseBanner}
             variant="sharp"
             sx={{ position: "absolute", top: "0", right: "0", color: "black" }}
+            data-testid="close-button"
           >
             <CloseIcon />
           </IconButton>

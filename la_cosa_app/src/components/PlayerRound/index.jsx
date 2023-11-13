@@ -114,9 +114,6 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "50%",
-    boxShadow: isCurrentPlayer
-      ? "0 0 0px 3px black"
-      : "0 0 0px 4px transparent",
   };
 
   const cardStyle = {
@@ -171,9 +168,9 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
 
   const currPlayerStyle = {
     position: "absolute",
-    width: "60px",
-    height: "60px",
-    transform: inCuarentena ? "translate( 0, -90px)" : "translate(0, -80px)",
+    width: "50px",
+    height: "50px",
+    transform: inCuarentena ? "translate( 0, -85px)" : "translate(0, -80px)",
     rotate: `${angle + 29.85}rad`,
     zIndex: "990",
   };
@@ -293,7 +290,7 @@ const PlayerRound = () => {
 
   const zoomStyle = {
     marginTop: "1rem",
-    marginLeft: "1rem",
+    marginRight: "2rem",
     backgroundColor: "#515952",
     color: "white",
     "&:hover": {
@@ -348,6 +345,11 @@ const PlayerRound = () => {
         </React.Fragment>
       ))}
       <div style={iconsContainerStyle}>
+        {state.isClockwise ? (
+          <RotateRightIcon sx={rotationStyle} />
+        ) : (
+          <RotateLeftIcon sx={rotationStyle} />
+        )}
         <Button
           variant="contained"
           color="secondary"
@@ -357,11 +359,6 @@ const PlayerRound = () => {
         >
           {!state.inspect ? "Inspeccionar Cartas" : "Dejar de inspeccionar"}
         </Button>
-        {state.isClockwise ? (
-          <RotateRightIcon sx={rotationStyle} />
-        ) : (
-          <RotateLeftIcon sx={rotationStyle} />
-        )}
       </div>
     </Box>
   );

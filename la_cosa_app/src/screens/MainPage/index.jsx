@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RButton from "../../components/Button";
 import Table from "../../components/Table";
 import Header from "../../components/Header";
+import Container from "@mui/material/Container";
 import { Box, Grid } from "@mui/material";
 import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
 import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
@@ -10,22 +11,30 @@ import FormPartida from "../../components/FormPartida";
 
 const styles = {
   root: {
-    minHeight: "80vh",
-    justifyContent: "center",
-    alignItems: "center",
+    minHeight: "90vh",
+    minWidth: "90vw",
+  },
+  header: {
+    height : "10vh",
+  },
+  Container: {
+    display: "flex",
     flexDirection: "row",
-    display: "flex",
+    height : "80vh",
   },
-  left: {
+  buttonContainer: {
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  right: {
-    display: "flex",
+    width: "100%",
     flexDirection: "column",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    padding: "10px",
+    marginTop: "1rem",
+  },
+  table: {
+    display: "flex",
+    marginTop: "1rem",
+    minWidth: "50%",
+
   },
 };
 
@@ -42,31 +51,26 @@ const MainPage = () => {
   }, []);
 
   return (
-    <Box>
-      <Header />
-      <Grid container spacing={1} sx={styles.root}>
-        {/* Left part */}
-        <Grid item xs={12} sm={6} md={5} sx={styles.left}>
-          {!showForm && (
-            <RButton
-              text="Crear partida"
-              action={() => setShowForm(!showForm)}
-              icon={<VideogameAssetOutlinedIcon />}
-            />
-          )}
-          {showForm && <FormPartida />}
+    <Container>
+      <Grid container spacing={0} sx={styles.root}>
+        <Grid item xs={12}>
+          <Header sx={styles.header} />
         </Grid>
 
-        {/* Right part */}
-        <Grid item xs={12} sm={6} md={7}>
-          <Box sx={styles.right}>
-            <h1 style={{ borderBottom: "0.1rem solid black" }}>
-              Unete a una partida!
-            </h1>
-          </Box>
+        <Grid item xs={12} sx={styles.Container}>
+          <Box sx={styles.buttonContainer}>
+            <h2> ¡Crea o uníte a una partida para empezar a jugar!</h2>
 
-          <Table data={partidas} />
-          <Box sx={styles.right}>
+            {showForm ? (
+              <FormPartida />
+            ) : (
+              <RButton
+                text="Crear partida"
+                action={() => setShowForm(!showForm)}
+                icon={<VideogameAssetOutlinedIcon />}
+                sx={styles.button}
+              />
+            )}
             <RButton
               text="Recargar partidas"
               icon={<RotateLeftOutlinedIcon />}
@@ -74,11 +78,15 @@ const MainPage = () => {
                 const res = await getPartidas();
                 setPartidas(res);
               }}
+              sx={styles.button}
             />
+          </Box>
+          <Box sx={styles.table}>
+            <Table data={partidas} />
           </Box>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 

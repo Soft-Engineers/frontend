@@ -18,7 +18,7 @@ describe('MainPage', () => {
                 </Routes>
             </MemoryRouter>
         );
-        expect(getByText('Unete a una partida!')).toBeInTheDocument();
+        expect(getByText('¡Crea o uníte a una partida para empezar a jugar!')).toBeInTheDocument();
         expect(getByText('Recargar partidas')).toBeInTheDocument();
     });
 

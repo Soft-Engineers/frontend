@@ -1,4 +1,4 @@
-import {render, fireEvent, waitForElementToBeRemoved} from '@testing-library/react';
+import {render, fireEvent, waitForElementToBeRemoved, queryByText, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RoleSign from './../../src/components/RoleSign';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
@@ -26,15 +26,20 @@ describe('RoleSign', () => {
             actions: { setRole: jest.fn() },
         });
 
-        const { getByText } = render(
+        const { getByText, getByTestId } = render(
             <MatchProvider>
                 <RoleSign />
             </MatchProvider>
         );
 
         const roleText = getByText('HUMANO');
-
         expect(roleText).toBeInTheDocument();
+        fireEvent.mouseEnter(roleText);
+        await waitFor(() =>
+            expect(getByTestId('tooltip-content')).toBeVisible()
+        );
+        fireEvent.mouseLeave(roleText);
+
     });
 
     it('renders with role information and tooltip for INFECTADO role', async () => {
@@ -44,7 +49,7 @@ describe('RoleSign', () => {
             actions: { setRole: jest.fn() },
         });
 
-        const { getByText } = render(
+        const { getByText , getByTestId} = render(
             <MatchProvider>
                 <RoleSign />
             </MatchProvider>
@@ -57,11 +62,11 @@ describe('RoleSign', () => {
 
         const tooltip = getByText('INFECTADO');
 
-        fireEvent.click(tooltip);
-
-        expect(getByText('Su objetivo es trabajar con la Cosa para infectar al resto de los humanos o eliminarlos de la partida')).toBeInTheDocument();
-
-        fireEvent.click(tooltip);
+        fireEvent.mouseEnter(tooltip);
+        await waitFor(() =>
+            expect(getByTestId('tooltip-content')).toBeVisible()
+        );
+        fireEvent.mouseLeave(tooltip);
     });
 
     it('renders with role information and tooltip for LA_COSA role', async () => {
@@ -71,21 +76,25 @@ describe('RoleSign', () => {
             actions: { setRole: jest.fn() },
         });
 
-        const { getByText } = render(
+        const { getByText, queryByText, getByTestId } = render(
             <MatchProvider>
                 <RoleSign />
             </MatchProvider>
         );
 
+        // Find the role text
         const roleText = getByText('LA COSA');
-
         expect(roleText).toBeInTheDocument();
 
+        // Find the Tooltip
         const tooltip = getByText('LA COSA');
+        fireEvent.mouseEnter(tooltip);
 
-        fireEvent.click(tooltip);
+        await waitFor(() =>
+            expect(getByTestId('tooltip-content')).toBeVisible()
+        );
 
-        expect(getByText('Su objetivo es destruir a todos los Humanos, convirtiéndolos en aliados Infectados o eliminándolos de la partida.')).toBeInTheDocument();
-        fireEvent.click(tooltip);
+        fireEvent.mouseLeave(tooltip);
+
     });
 });

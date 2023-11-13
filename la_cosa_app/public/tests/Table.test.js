@@ -33,10 +33,10 @@ describe('Table', () => {
         expect(screen.getByText('2')).toBeInTheDocument();
         expect(screen.getByText('4')).toBeInTheDocument();
         expect(screen.getByText('3')).toBeInTheDocument();
-        expect(screen.getByText('Name')).toBeInTheDocument();
-        expect(screen.getByText('minPlayers')).toBeInTheDocument();
-        expect(screen.getByText('maxPlayers')).toBeInTheDocument();
-        expect(screen.getByText('Actual Players')).toBeInTheDocument();
+        expect(screen.getByText('Nombre')).toBeInTheDocument();
+        expect(screen.getByText('Mínimo de jugadores')).toBeInTheDocument();
+        expect(screen.getByText('Máximo de jugadores')).toBeInTheDocument();
+        expect(screen.getByText('Jugadores')).toBeInTheDocument();
     });
     it('Join Match Exitoso', async () => {
         const navigateMock = jest.fn();
