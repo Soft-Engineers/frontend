@@ -132,25 +132,35 @@ const ButtonsBox = () => {
       justifyContent: "space-evenly",
       alignItems: "center",
       textAlign: "center",
-      border: "1px solid grey",
-      backgroundColor: "#f2f2ff",
-      borderRadius: "10px",
-      marginLeft: "1rem",
+      border: "2px solid #305f87", 
+      borderRadius: "15px",
+      height: "160px",
+      margin: "0.5rem",
+      marginTop: "0rem",
       fontSize: "18px",
       minWidth: "40%",
       maxWidth: "50%",
       flex: "1",
+      backgroundColor: "#EAF7FF", 
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
     },
     button: {
-      backgroundColor: "#515952",
+      backgroundColor: "#3498db", 
       color: "white",
-      "&:hover": {
-        backgroundColor: "#2a2e2b",
-      },
+      padding: "8px 20px",
+      borderRadius: "8px",
+      border: "2px solid #305f87", 
+      cursor: "pointer",
+      transition: "background-color 0.3s ease, border 0.3s ease",
     },
     confirmButton: {
       backgroundColor: "red",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "darkred",
       },
@@ -158,6 +168,11 @@ const ButtonsBox = () => {
     panicButton: {
       backgroundColor: "#973F67",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "#5D2E39",
       },
@@ -165,12 +180,16 @@ const ButtonsBox = () => {
     defenseButton: {
       backgroundColor: "#3968B1",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "#393FA1",
       },
     },
   };
-
   return (
     <Box sx={styles.box}>
       {state.isTurn && (

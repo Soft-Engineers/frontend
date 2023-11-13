@@ -81,7 +81,7 @@ const Chat = ({ socket }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: isMainUser ? "flex-end" : "flex-start",
-            backgroundColor: isMainUser ? "#3498db" : "#f2f2ff",
+            backgroundColor: isMainUser ? "#3498db" : "#f2f2ff", 
             padding: "5px 10px",
             borderRadius: "10px",
           }}

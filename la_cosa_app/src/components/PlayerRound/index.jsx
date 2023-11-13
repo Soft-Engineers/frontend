@@ -263,9 +263,10 @@ const PlayerRound = () => {
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    border: "1px solid grey",
+    border: "2px solid #BAD4AA",
     borderRadius: "10px",
-    backgroundColor: "#f2f2ff",
+    backgroundColor: "#EBF5DF",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     position: "relative",
   };
   const roleSignStyle = {

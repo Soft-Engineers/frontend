@@ -29,7 +29,7 @@ const BoxStyle = {
   marginBottom: "16.1px",
   border: "1px solid grey",
   borderRadius: "10px",
-  backgroundColor: "#f2f2ff",
+  //backgroundColor: "#f2f2ff",
 };
 
 const buttonStyle = {
