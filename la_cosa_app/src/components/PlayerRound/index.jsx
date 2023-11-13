@@ -256,6 +256,8 @@ const PlayerRound = () => {
     actions.setInspect(!state.inspect);
   };
 
+
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",

@@ -105,6 +105,7 @@ const Notifications = () => {
       defense: "#039fe9",
       obstacle: "#fad201", // #ffde19
       panic: "#fd62aa",
+      infected: "red",
     };
 
     const renderTextWithTooltips = (text) => {
