@@ -25,7 +25,7 @@ describe('PlayerRound', () => {
                 role: 'HUMANO',
                 deadPlayerNames: [],
                 selectedCard: null,
-                avisos:'Es el turno de Player 1',
+                avisos: 'Es el turno de Player 1',
                 isDeadPlayer: false,
                 turnState: 2,
                 DtimeoutEnded: false,

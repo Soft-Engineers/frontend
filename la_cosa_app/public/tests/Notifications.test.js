@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, fireEvent  } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notifications from '../../src/components/Notifications';
-import {MatchProvider, useMatchC} from '../../src/screens/Match/matchContext';
+import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
 
 jest.mock('../../src/screens/Match/matchContext', () => {
+
     const state = {
         currentTurn: 'Ramon',
         logs: [],
@@ -17,6 +18,18 @@ jest.mock('../../src/screens/Match/matchContext', () => {
     };
 
     return {
+        turnStates: {
+            DRAW_CARD: 1,
+            PLAY_TURN: 2,
+            FINISHED: 3,
+            EXCHANGE: 4,
+            WAIT_EXCHANGE: 5,
+            WAIT_DEFENSE: 6,
+            PANIC: 7,
+            VUELTA_Y_VUELTA: 8,
+            REVELACIONES: 9,
+            DISCARD: 10,
+        },
         useMatchC: jest.fn(() => ({ state, actions })),
         MatchProvider: ({ children }) => children,
         turnStates: {
@@ -30,7 +43,7 @@ jest.mock('../../src/screens/Match/matchContext', () => {
             VUELTA_Y_VUELTA: 8,
             REVELACIONES: 9,
             DISCARD: 10,
-          },
+        },
     };
 });
 

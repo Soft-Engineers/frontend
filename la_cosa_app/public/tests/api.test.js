@@ -39,15 +39,27 @@ describe("API Functions", () => {
         expect(response.data.detail).toBe("Game1");
     });
 
-    it("should get jugadores", async () => {
-        // Simular una llamada HTTP exitosa
+    it("deberia obtener jugadores", async () => {
         const matchName = "Game1";
-        mock.onGet(`http://localhost:8000/match/players?match_name=${matchName}`).reply({ players: ["Juan", "Ramon"] });
+        mock.onGet(`http://localhost:8000/match/players`).reply(200, { players: ["Juan", "Ramon", "Raul", "Pepe"] });
 
         const response = await getJugadores("Game1");
-        //expect(response.status).toBe(200);
-        expect(response.data.players).toEqual(["Juan", "Ramon"]);
+        expect(response.status).toBe(200);
+        expect(response.data.players).toEqual(["Juan", "Ramon", "Raul", "Pepe"]);
     });
 
-    // Agrega pruebas para las demás funciones
+    it("deberia obtener partidas", async () => {
+        mock.onGet(`http://localhost:8000/match/list`).reply(200, { Matches: ["Game1", "Game2", "Game3"] });
+
+        const response = await getPartidas();
+        expect(response).toEqual(["Game1", "Game2", "Game3"]);
+    });
+
+    it("deberia unirse a una partida", async () => {
+        mock.onPost("http://localhost:8000/match/join").reply(200, { detail: "Game1" });
+
+        const response = await joinMatch("Juan", "Game1", "1234");
+        expect(response.status).toBe(200);
+        expect(response.data.detail).toBe("Game1");
+    });
 });
