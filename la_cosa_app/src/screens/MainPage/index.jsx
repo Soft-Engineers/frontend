@@ -33,7 +33,7 @@ const styles = {
     display: "flex",
     width: "100%",
     flexDirection: "column",
-    marginTop: '20vh',
+    marginTop: '5vh',
     gap: "30px",
     alignItems: "center",
   },
