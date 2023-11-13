@@ -82,7 +82,7 @@ const Match = () => {
       container
       sx={{
         minHeight: "95vh",
-        backgroundColor: "#fafffa",
+        //backgroundColor: "#fafffa",
         cursor: state.inspect === true ? "zoom-in" : "default",
       }}
     >
@@ -140,7 +140,7 @@ const Match = () => {
                 borderRadius: "10px",
                 marginLeft: "1.4rem",
                 minHeight: "158px",
-                backgroundColor: "#f2f2ff",
+                backgroundColor: "#f9ffe3",
                 flex: "1",
               }}
             >
