@@ -49,7 +49,6 @@ const ButtonsBox = () => {
       };
 
       state.socket.send(JSON.stringify(request));
-
     } else {
       actions.setSeverity("error");
       actions.setBody("Elige una carta para jugar.");
@@ -134,7 +133,7 @@ const ButtonsBox = () => {
       justifyContent: "space-evenly",
       alignItems: "center",
       textAlign: "center",
-      border: "2px solid #305f87", 
+      border: "2px solid #305f87",
       borderRadius: "15px",
       height: "160px",
       margin: "0.5rem",
@@ -144,7 +143,7 @@ const ButtonsBox = () => {
       maxWidth: "50%",
       flex: "1",
       backgroundColor: "#f3fdd2",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     },
     button: {
       backgroundColor: "#28918d",
@@ -341,7 +340,7 @@ const ButtonsBox = () => {
         </>
       )}
       {state.turnState === turnStates.VUELTA_Y_VUELTA &&
-        state.alreadySelected ? (
+      state.alreadySelected ? (
         <p>Esperando a los demás jugadores...</p>
       ) : (
         state.turnState === turnStates.VUELTA_Y_VUELTA && (

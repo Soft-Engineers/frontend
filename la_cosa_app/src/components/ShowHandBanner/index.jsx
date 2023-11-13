@@ -84,7 +84,7 @@ const ShowHandBanner = () => {
           </Typography>
           <Typography variant="h6" component="div" sx={{ marginTop: "10px" }}>
             {`Esta es ${
-                hand.length == 1 ? "una carta" : "la mano"
+              hand.length == 1 ? "una carta" : "la mano"
             } de ${player}`}
           </Typography>
           <IconButton

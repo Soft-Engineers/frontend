@@ -6,7 +6,7 @@ import PlayersHand from "../../components/PlayersHand";
 import ButtonsBox from "../../components/ButtonsBox";
 import EndGameBanner from "../../components/EndGameBanner";
 import Notifications from "../../components/Notifications";
-import {PlayerRound} from "../../components/PlayerRound";
+import { PlayerRound } from "../../components/PlayerRound";
 import { handle_socket_messages } from "../../utils/api";
 import ShowHandBanner from "../../components/ShowHandBanner";
 import RoleSign from "../../components/RoleSign";

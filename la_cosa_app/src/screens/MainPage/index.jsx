@@ -14,12 +14,12 @@ const styles = {
     minHeight: "90vh",
   },
   header: {
-    height : "10vh",
+    height: "10vh",
   },
   Container: {
     display: "flex",
     flexDirection: "row",
-    height : "80vh",
+    height: "80vh",
   },
   buttonContainer: {
     display: "flex",
@@ -33,7 +33,7 @@ const styles = {
     display: "flex",
     width: "100%",
     flexDirection: "column",
-    marginTop: '5vh',
+    marginTop: "5vh",
     gap: "30px",
     alignItems: "center",
   },
@@ -57,7 +57,7 @@ const MainPage = () => {
   }, []);
 
   return (
-    <Container  sx={styles.root} maxWidth={false}>
+    <Container sx={styles.root} maxWidth={false}>
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <Header sx={styles.header} />
@@ -65,29 +65,29 @@ const MainPage = () => {
 
         <Grid item xs={12} sx={styles.Container}>
           <Box sx={styles.buttonContainer}>
-            <h2> ¡Crea o uníte a una partida para empezar a jugar!</h2>
+            <h2> ¡Crea o unisste a una partida para empezar a jugar!</h2>
             <Box sx={styles.buttons}>
-            {showForm ? (
-              <FormPartida />
-            ) : (
+              {showForm ? (
+                <FormPartida />
+              ) : (
+                <RButton
+                  text="Crear partida"
+                  action={() => setShowForm(!showForm)}
+                  icon={<VideogameAssetOutlinedIcon />}
+                  sx={styles.button}
+                />
+              )}
               <RButton
-                text="Crear partida"
-                action={() => setShowForm(!showForm)}
-                icon={<VideogameAssetOutlinedIcon />}
+                text="Recargar partidas"
+                icon={<RotateLeftOutlinedIcon />}
+                action={async () => {
+                  const res = await getPartidas();
+                  setPartidas(res);
+                }}
                 sx={styles.button}
               />
-            )}
-            <RButton
-              text="Recargar partidas"
-              icon={<RotateLeftOutlinedIcon />}
-              action={async () => {
-                const res = await getPartidas();
-                setPartidas(res);
-              }}
-              sx={styles.button}
-            />
+            </Box>
           </Box>
-        </Box>
           <Box sx={styles.table}>
             <Table data={partidas} />
           </Box>

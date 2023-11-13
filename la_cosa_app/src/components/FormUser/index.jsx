@@ -86,7 +86,7 @@ const FormUser = () => {
             <Grid item xs={12} sx={styles.button}>
               <RButton
                 text="Crear usuario"
-                action={() => { }}
+                action={() => {}}
                 icon={<ForwardOutlinedIcon />}
               />
             </Grid>
