@@ -12,7 +12,9 @@ import FormPartida from "../../components/FormPartida";
 const styles = {
   root: {
     minHeight: "90vh",
-    minWidth: "90vw",
+    minWidth: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   header: {
     height : "10vh",
