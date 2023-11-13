@@ -140,6 +140,7 @@ const Match = () => {
                 borderRadius: "10px",
                 marginLeft: "1.4rem",
                 minHeight: "158px",
+                backgroundColor: "#f2f2ff",
                 flex: "1",
               }}
             >
