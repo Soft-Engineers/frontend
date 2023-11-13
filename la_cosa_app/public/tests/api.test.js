@@ -79,4 +79,22 @@ describe("API Functions", () => {
         expect(response.data.detail).toBe("Game1");
     });
 
+    it("deberia salir de un lobby", async () => {
+        mock.onPut("http://localhost:8000/match/leave").reply(200, { detail: "Juan abandono el lobby" });
+
+        const response = await leaveLobby("Juan", "Game1");
+        expect(response.status).toBe(200);
+        expect(response.data.detail).toBe("Juan abandono el lobby");
+    });
+
+    it("deberia obtener el estado de host de un jugador", async () => {
+        mock.onGet(`http://localhost:8000/player/host`).reply(200, { is_host: true });
+
+        const response = await isHost("Juan", "Game1");
+        expect(response.status).toBe(200);
+        expect(response.data.is_host).toBe(true);
+    });
+
+    //it("deberia manejar los mensajes de socket", async () => {
+    //});
 });

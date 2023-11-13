@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, getByText } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notifications from '../../src/components/Notifications';
 import { MatchProvider, useMatchC } from '../../src/screens/Match/matchContext';
@@ -15,6 +15,10 @@ jest.mock('../../src/screens/Match/matchContext', () => {
     const actions = {
         setCurrentTurn: jest.fn(),
         setLogs: jest.fn(),
+        setNotifications: jest.fn().mockImplementation((notifications) => {
+            state.notifications = notifications;
+        }
+        ),
     };
 
     return {
@@ -32,18 +36,6 @@ jest.mock('../../src/screens/Match/matchContext', () => {
         },
         useMatchC: jest.fn(() => ({ state, actions })),
         MatchProvider: ({ children }) => children,
-        turnStates: {
-            DRAW_CARD: 1,
-            PLAY_TURN: 2,
-            FINISHED: 3,
-            EXCHANGE: 4,
-            WAIT_EXCHANGE: 5,
-            WAIT_DEFENSE: 6,
-            PANIC: 7,
-            VUELTA_Y_VUELTA: 8,
-            REVELACIONES: 9,
-            DISCARD: 10,
-        },
     };
 });
 
@@ -51,18 +43,33 @@ jest.mock('../../src/screens/Match/matchContext', () => {
 describe('Notifications', () => {
 
     // should render correctly
-    it('should render correctly', () => {
-        const { getByTestId } = render(
+    it('deberia renderizar correctamente', () => {
+        const { getByTestId, getByText } = render(
             <MatchProvider>
                 <Notifications />
             </MatchProvider>
         );
         expect(getByTestId('notifications')).toBeInTheDocument();
+        const mensajeTurno = getByText('Es el turno de Ramon');
+
+        expect(mensajeTurno).toBeInTheDocument();
+        expect(mensajeTurno).toHaveStyle('color: green');
+    });
+    it('deberia renderizar mensaje de infeccion correctamente', () => {
+        const { actions } = useMatchC();
+        actions.setNotifications(["LA COSA TE INFECTÓ!!"]);
+        const { getByText } = render(
+            <MatchProvider>
+                <Notifications />
+            </MatchProvider>
+        );
+        const mensajeInfeccion = getByText('LA COSA TE INFECTÓ!!');
+        expect(mensajeInfeccion).toBeInTheDocument();
+        expect(mensajeInfeccion.parentElement.parentElement).toHaveStyle('color: red');
     });
 
-
     // should display notifications correctly
-    it('should display notifications correctly', () => {
+    it('deberia desplegar las notificaciones correctamente', () => {
         const initialState = {
             currentTurn: 'Ramon',
             logs: [],
@@ -89,6 +96,4 @@ describe('Notifications', () => {
             expect(queryByText(notification)).toBeInTheDocument();
         });
     });
-
-
 });
