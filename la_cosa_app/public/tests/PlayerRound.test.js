@@ -22,7 +22,7 @@ describe('PlayerRound', () => {
             state: {
                 jugadores: mockJugadores,
                 posiciones: [],
-                role: 'HUMANO', // Asegúrate de que este valor esté definido
+                role: 'HUMANO',
                 deadPlayerNames: [],
                 selectedCard: null,
                 avisos:'Es el turno de Player 1',
