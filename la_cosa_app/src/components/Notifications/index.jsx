@@ -134,8 +134,8 @@ const Notifications = () => {
           ) : null;
 
           return (
-            <React.Fragment key={i}>
-              <CustomTooltip
+            <React.Fragment key={i} >
+              <CustomTooltip data-testid="toolTip"
                 title={tooltipContent}
                 open={tooltipOpen && selectedTooltip === index}
                 disableFocusListener

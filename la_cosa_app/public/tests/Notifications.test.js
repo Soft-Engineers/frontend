@@ -67,7 +67,22 @@ describe('Notifications', () => {
         expect(mensajeInfeccion).toBeInTheDocument();
         expect(mensajeInfeccion.parentElement.parentElement).toHaveStyle('color: red');
     });
-
+    it('despliega el tooltip correctamente', () => {
+        const { actions } = useMatchC();
+        actions.setNotifications(["Ramon jugó Sospecha a Raul"]);
+        const { getByTestId, getByText } = render(
+            <MatchProvider>
+                <Notifications />
+            </MatchProvider>
+        );
+        const texto_clickeable = getByText("Sospecha");
+        expect(texto_clickeable).toBeInTheDocument();
+        expect(getByText("a Raul")).toBeInTheDocument();
+        expect(texto_clickeable).toHaveStyle("color: #9ecb60");
+        fireEvent.click(texto_clickeable);
+        const tooltip = getByTestId("toolTip");
+        expect(tooltip).toBeInTheDocument();
+    });
     // should display notifications correctly
     it('deberia desplegar las notificaciones correctamente', () => {
         const initialState = {
