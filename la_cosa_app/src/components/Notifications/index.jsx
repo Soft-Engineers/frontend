@@ -29,7 +29,7 @@ const BoxStyle = {
   marginBottom: "16.1px",
   border: "1px solid grey",
   borderRadius: "10px",
-  backgroundColor: "#f2f2ff",
+  backgroundColor: "#f9ffe3",
 };
 
 const buttonStyle = {
@@ -103,8 +103,9 @@ const Notifications = () => {
       normal: "black",
       action: "#9ecb60",
       defense: "#039fe9",
-      obstacle: "#ffde19",
+      obstacle: "#fad201", // #ffde19
       panic: "#fd62aa",
+      infected: "red",
     };
 
     const renderTextWithTooltips = (text) => {
@@ -172,7 +173,7 @@ const Notifications = () => {
     return (
       <ListItem
         key={index}
-        style={{ borderTop: index === 0 ? "none" : "1px dashed black" }}
+        style={{ borderTop: index === 0 ? "none" : "1px dashed black"}}
       >
         <ListItemText
           primary={renderTextWithTooltips(notification)}
