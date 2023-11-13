@@ -19,6 +19,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    overflow: "hidden",
+    textOverflow : "ellipsis",
   },
 }));
 
@@ -82,7 +84,7 @@ const CustomizedTables = ({ data }) => {
       </TableContainer>
       <TableContainer
         component={Paper}
-        sx={{ maxHeight: "65vh", overflowY: "auto" }}
+        sx={{ maxHeight: "65vh", overflowY: "auto"}}
       >
         <Table aria-label="customized table">
           <TableBody>
@@ -109,10 +111,10 @@ const CustomizedTables = ({ data }) => {
                   <StyledTableCell align="left">
                     {row.min_players}
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  <StyledTableCell align="left">
                     {row.max_players}
                   </StyledTableCell>
-                  <StyledTableCell align="center">
+                  <StyledTableCell align="left">
                     {row.players}
                   </StyledTableCell>
                 </StyledTableRow>

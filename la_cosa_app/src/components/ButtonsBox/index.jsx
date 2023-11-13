@@ -141,24 +141,27 @@ const ButtonsBox = () => {
       minWidth: "40%",
       maxWidth: "50%",
       flex: "1",
-      backgroundColor: "#EAF7FF", 
+      backgroundColor: "#f3fdd2",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
     },
     button: {
-      backgroundColor: "#3498db", 
+      backgroundColor: "#28918d",
       color: "white",
       padding: "8px 20px",
       borderRadius: "8px",
-      border: "2px solid #305f87", 
+      border: "2px solid #066b59",
       cursor: "pointer",
-      transition: "background-color 0.3s ease, border 0.3s ease",
+      transition: "background-color 0.3s ease",
+      "&:hover": {
+        backgroundColor: "#066b59",
+      },
     },
     confirmButton: {
-      backgroundColor: "red",
+      backgroundColor: "#ee0a0a",
       color: "white",
       padding: "10px 20px",
       borderRadius: "8px",
-      border: "none",
+      border: "2px solid darkred",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
       "&:hover": {
@@ -182,11 +185,11 @@ const ButtonsBox = () => {
       color: "white",
       padding: "10px 20px",
       borderRadius: "8px",
-      border: "none",
+      border: "2px solid #2a2e7e",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
       "&:hover": {
-        backgroundColor: "#393FA1",
+        backgroundColor: "#2a2e7e",
       },
     },
   };
