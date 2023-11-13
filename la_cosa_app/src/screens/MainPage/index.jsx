@@ -12,7 +12,6 @@ import FormPartida from "../../components/FormPartida";
 const styles = {
   root: {
     minHeight: "90vh",
-    minWidth: "100%",
   },
   header: {
     height : "10vh",
@@ -58,8 +57,8 @@ const MainPage = () => {
   }, []);
 
   return (
-    <Container>
-      <Grid container spacing={0} sx={styles.root}>
+    <Container  sx={styles.root} maxWidth={false}>
+      <Grid container spacing={0}>
         <Grid item xs={12}>
           <Header sx={styles.header} />
         </Grid>

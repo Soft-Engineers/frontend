@@ -42,6 +42,7 @@ describe('<Lobby />', () => {
     // Espera a que ciertos elementos estén en el documento
     await waitFor(() => {
       expect(screen.getByText('Esperando que el host inicie la partida...')).toBeInTheDocument();
+      expect(screen.getByText('Abandonar Sala')).toBeInTheDocument();
     });
 
     // Puedes agregar más aserciones para verificar que los componentes se renderizan correctamente
