@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import PlayerRound from '../../src/components/PlayerRound';
+import {PlayerRound} from '../../src/components/PlayerRound';
 import { useMatchC } from '../../src/screens/Match/matchContext';
 
 // Mock useMatchC
