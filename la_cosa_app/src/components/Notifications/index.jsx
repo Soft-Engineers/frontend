@@ -103,7 +103,7 @@ const Notifications = () => {
       normal: "black",
       action: "#9ecb60",
       defense: "#039fe9",
-      obstacle: "#ffde19",
+      obstacle: "#fad201", // #ffde19
       panic: "#fd62aa",
     };
 
