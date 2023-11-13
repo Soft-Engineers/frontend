@@ -104,6 +104,7 @@ export const typeCard = {
     "¡Ups!",
   ],
   obstacle: ["Puerta atrancada", "Cuarentena"],
+  infected: ["¡Infectado!"],
 };
 
 // Regular Button

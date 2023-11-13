@@ -12,7 +12,7 @@ import FormPartida from "../../components/FormPartida";
 const styles = {
   root: {
     minHeight: "90vh",
-    minWidth: "90vw",
+    minWidth: "100%",
   },
   header: {
     height : "10vh",
@@ -26,15 +26,22 @@ const styles = {
     display: "flex",
     width: "100%",
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginTop: "1rem",
+  },
+  buttons: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    marginTop: '20vh',
+    gap: "30px",
+    alignItems: "center",
   },
   table: {
     display: "flex",
     marginTop: "1rem",
     minWidth: "50%",
-
   },
 };
 
@@ -60,7 +67,7 @@ const MainPage = () => {
         <Grid item xs={12} sx={styles.Container}>
           <Box sx={styles.buttonContainer}>
             <h2> ¡Crea o uníte a una partida para empezar a jugar!</h2>
-
+            <Box sx={styles.buttons}>
             {showForm ? (
               <FormPartida />
             ) : (
@@ -81,6 +88,7 @@ const MainPage = () => {
               sx={styles.button}
             />
           </Box>
+        </Box>
           <Box sx={styles.table}>
             <Table data={partidas} />
           </Box>

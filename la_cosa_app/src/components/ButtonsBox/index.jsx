@@ -134,25 +134,38 @@ const ButtonsBox = () => {
       justifyContent: "space-evenly",
       alignItems: "center",
       textAlign: "center",
-      border: "1px solid grey",
-      backgroundColor: "#f2f2ff",
-      borderRadius: "10px",
-      marginLeft: "1rem",
+      border: "2px solid #305f87", 
+      borderRadius: "15px",
+      height: "160px",
+      margin: "0.5rem",
+      marginTop: "0rem",
       fontSize: "18px",
       minWidth: "40%",
       maxWidth: "50%",
       flex: "1",
+      backgroundColor: "#f3fdd2",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)"
     },
     button: {
-      backgroundColor: "#515952",
+      backgroundColor: "#28918d",
       color: "white",
+      padding: "8px 20px",
+      borderRadius: "8px",
+      border: "2px solid #066b59",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
-        backgroundColor: "#2a2e2b",
+        backgroundColor: "#066b59",
       },
     },
     confirmButton: {
-      backgroundColor: "red",
+      backgroundColor: "#ee0a0a",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "2px solid darkred",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "darkred",
       },
@@ -160,6 +173,11 @@ const ButtonsBox = () => {
     panicButton: {
       backgroundColor: "#973F67",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "#5D2E39",
       },
@@ -167,12 +185,16 @@ const ButtonsBox = () => {
     defenseButton: {
       backgroundColor: "#3968B1",
       color: "white",
+      padding: "10px 20px",
+      borderRadius: "8px",
+      border: "2px solid #2a2e7e",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease",
       "&:hover": {
-        backgroundColor: "#393FA1",
+        backgroundColor: "#2a2e7e",
       },
     },
   };
-
   return (
     <Box sx={styles.box} data-testid="buttonsBox">
       {state.isTurn && (
