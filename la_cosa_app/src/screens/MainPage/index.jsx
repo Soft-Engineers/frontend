@@ -58,44 +58,44 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div>
-      <Header sx={styles.header} />
-      <Container >
-        <Grid container spacing={5} sx={styles.root}>
+    <Container sx={styles.root} maxWidth={false}>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <Header sx={styles.header} />
+        </Grid>
 
-          <Grid item xs={12} sx={styles.Container}>
-            <Box sx={styles.buttonContainer}>
-              <h2> ¡Crea o uníte a una partida </h2>
-              <h2>   para empezar a jugar!</h2>
-              <Box sx={styles.buttons}>
-                {showForm ? (
-                  <FormPartida />
-                ) : (
-                  <RButton
-                    text="Crear partida"
-                    action={() => setShowForm(!showForm)}
-                    icon={<VideogameAssetOutlinedIcon />}
-                    sx={styles.button}
-                  />
-                )}
+        <Grid item xs={12} sx={styles.Container}>
+          <Box sx={styles.buttonContainer}>
+            <h2> ¡Crea o uníte a una partida </h2>
+            <h2>   para empezar a jugar!</h2>
+            <Box sx={styles.buttons}>
+              {showForm ? (
+                <FormPartida />
+              ) : (
                 <RButton
-                  text="Recargar partidas"
-                  icon={<RotateLeftOutlinedIcon />}
-                  action={async () => {
-                    const res = await getPartidas();
-                    setPartidas(res);
-                  }}
+                  text="Crear partida"
+                  action={() => setShowForm(!showForm)}
+                  icon={<VideogameAssetOutlinedIcon />}
                   sx={styles.button}
                 />
-              </Box>
+              )}
+              <RButton
+                text="Recargar partidas"
+                icon={<RotateLeftOutlinedIcon />}
+                action={async () => {
+                  const res = await getPartidas();
+                  setPartidas(res);
+                }}
+                sx={styles.button}
+              />
             </Box>
-            <Box sx={styles.table}>
-              <Table data={partidas} />
-            </Box>
-          </Grid>
+          </Box>
+          <Box sx={styles.table}>
+            <Table data={partidas} />
+          </Box>
         </Grid>
-      </Container>
-    </div >
+      </Grid>
+    </Container>
   );
 };
 

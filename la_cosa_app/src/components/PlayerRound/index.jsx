@@ -77,7 +77,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
   };
 
   return (
-    <div onClick={handleDoorClick} style={doorStyle} id={index} data-testid="player-cards">
+    <div onClick={handleDoorClick} style={doorStyle} id={index} data-testid='asd'>
       <div style={lineStyle}>
         <div style={nailStyle1} /> {/* Left nail */}
         <div style={nailStyle2} /> {/* Right nail */}
@@ -256,8 +256,6 @@ const PlayerRound = () => {
     actions.setInspect(!state.inspect);
   };
 
-
-
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -265,10 +263,9 @@ const PlayerRound = () => {
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    border: "2px solid #BAD4AA",
+    border: "1px solid grey",
     borderRadius: "10px",
-    backgroundColor: "#EBF5DF",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f2f2ff",
     position: "relative",
   };
   const roleSignStyle = {
@@ -335,7 +332,7 @@ const PlayerRound = () => {
           />
           {sortedboolDoors[index] && (
             <DoorBtPlayers
-              data-testid="player-cards"
+              data-testid='asd'
               angle={
                 (2 * Math.PI * (totalPlayers - index + 0.5 - 1)) / totalPlayers
               }
@@ -366,4 +363,5 @@ const PlayerRound = () => {
     </Box>
   );
 };
-export default PlayerRound;
+
+export { PlayerRound, DoorBtPlayers, PlayerCard };
