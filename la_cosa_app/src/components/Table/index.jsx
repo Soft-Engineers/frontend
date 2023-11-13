@@ -82,7 +82,7 @@ const CustomizedTables = ({ data }) => {
       </TableContainer>
       <TableContainer
         component={Paper}
-        sx={{ height: "65vh", overflowY: "auto" }}
+        sx={{ maxHeight: "65vh", overflowY: "auto" }}
       >
         <Table aria-label="customized table">
           <TableBody>

@@ -11,16 +11,16 @@ import FormPartida from "../../components/FormPartida";
 
 const styles = {
   root: {
-    minHeight: "80vh",
+    minHeight: "90vh",
     minWidth: "90vw",
-    flexDirection: "column",
   },
   header: {
-    marginBottom: "20px",
+    height : "10vh",
   },
   Container: {
     display: "flex",
     flexDirection: "row",
+    height : "80vh",
   },
   buttonContainer: {
     display: "flex",
@@ -31,8 +31,10 @@ const styles = {
     marginTop: "1rem",
   },
   table: {
+    display: "flex",
     marginTop: "1rem",
-    width: "100%",
+    minWidth: "50%",
+
   },
 };
 
@@ -50,7 +52,7 @@ const MainPage = () => {
 
   return (
     <Container>
-      <Grid container spacing={3} sx={styles.root}>
+      <Grid container spacing={0} sx={styles.root}>
         <Grid item xs={12}>
           <Header sx={styles.header} />
         </Grid>
