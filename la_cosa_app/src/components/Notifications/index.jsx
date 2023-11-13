@@ -135,8 +135,8 @@ const Notifications = () => {
           ) : null;
 
           return (
-            <React.Fragment key={i}>
-              <CustomTooltip
+            <React.Fragment key={i} >
+              <CustomTooltip data-testid="toolTip"
                 title={tooltipContent}
                 open={tooltipOpen && selectedTooltip === index}
                 disableFocusListener
@@ -201,7 +201,7 @@ const Notifications = () => {
   };
 
   return (
-    <Box style={BoxStyle} ref={tooltipContainerRef}>
+    <Box style={BoxStyle} data-testid='notifications' ref={tooltipContainerRef}>
       <ListItem
         sx={{
           flexDirection: "column",
@@ -212,9 +212,8 @@ const Notifications = () => {
         <ListItemText
           primary={
             <Typography variant="h5" style={{ color: "green" }}>
-              {`Es ${
-                state.isTurn ? "tu turno" : "el turno de " + state.currentTurn
-              }`}
+              {`Es ${state.isTurn ? "tu turno" : "el turno de " + state.currentTurn
+                }`}
             </Typography>
           }
         />
@@ -227,24 +226,24 @@ const Notifications = () => {
               ? "Te estas defendiendo"
               : state.turnState === turnStates.WAIT_EXCHANGE ||
                 state.turnState === turnStates.EXCHANGE
-              ? "Tenés que intercambiar una carta"
-              : state.turnState === turnStates.DRAW_CARD
-              ? "Tenés que robar una carta"
-              : state.turnState === turnStates.PLAY_TURN
-              ? "Tenés que jugar o descartar una carta"
-              : state.turnState === turnStates.PANIC
-              ? "Tenés que jugar la carta de pánico"
-              : state.turnState === turnStates.VUELTA_Y_VUELTA &&
-                !state.alreadySelected
-              ? "Tenés que intercambiar con el siguiente"
-              : state.turnState === turnStates.VUELTA_Y_VUELTA &&
-                state.alreadySelected
-              ? 'Esperando el efecto "Vuelta y vuelta"'
-              : state.turnState === turnStates.REVELACIONES
-              ? "Elegí si revelar o no las cartas de tu mano"
-              : state.turnState === turnStates.DISCARD
-              ? "Tenés que descartar"
-              : null}
+                ? "Tenés que intercambiar una carta"
+                : state.turnState === turnStates.DRAW_CARD
+                  ? "Tenés que robar una carta"
+                  : state.turnState === turnStates.PLAY_TURN
+                    ? "Tenés que jugar o descartar una carta"
+                    : state.turnState === turnStates.PANIC
+                      ? "Tenés que jugar la carta de pánico"
+                      : state.turnState === turnStates.VUELTA_Y_VUELTA &&
+                        !state.alreadySelected
+                        ? "Tenés que intercambiar con el siguiente"
+                        : state.turnState === turnStates.VUELTA_Y_VUELTA &&
+                          state.alreadySelected
+                          ? 'Esperando el efecto "Vuelta y vuelta"'
+                          : state.turnState === turnStates.REVELACIONES
+                            ? "Elegí si revelar o no las cartas de tu mano"
+                            : state.turnState === turnStates.DISCARD
+                              ? "Tenés que descartar"
+                              : null}
           </Typography>
         )}
         {!state.isTurn && (
@@ -256,26 +255,26 @@ const Notifications = () => {
               state.turnState === turnStates.WAIT_DEFENSE ||
               state.turnState === turnStates.VUELTA_Y_VUELTA ||
               state.turnState === turnStates.REVELACIONES) &&
-            state.waitMessage !== ""
+              state.waitMessage !== ""
               ? state.waitMessage
               : state.turnState === turnStates.WAIT_EXCHANGE
-              ? "Esperando intercambio"
-              : state.turnState === turnStates.WAIT_DEFENSE
-              ? "Esperando defensa"
-              : state.turnState === turnStates.VUELTA_Y_VUELTA &&
-                !state.alreadySelected
-              ? "Tenés que intercambiar con el siguiente"
-              : state.turnState === turnStates.VUELTA_Y_VUELTA
-              ? 'Esperando el efecto "Vuelta y vuelta"'
-              : state.turnState === turnStates.REVELACIONES
-              ? 'Esperando el efecto "Revelaciones"'
-              : state.turnState === turnStates.DISCARD
-              ? "Esperando que " + state.currentTurn + " descarte"
-              : "Esperando tu turno..."}
+                ? "Esperando intercambio"
+                : state.turnState === turnStates.WAIT_DEFENSE
+                  ? "Esperando defensa"
+                  : state.turnState === turnStates.VUELTA_Y_VUELTA &&
+                    !state.alreadySelected
+                    ? "Tenés que intercambiar con el siguiente"
+                    : state.turnState === turnStates.VUELTA_Y_VUELTA
+                      ? 'Esperando el efecto "Vuelta y vuelta"'
+                      : state.turnState === turnStates.REVELACIONES
+                        ? 'Esperando el efecto "Revelaciones"'
+                        : state.turnState === turnStates.DISCARD
+                          ? "Esperando que " + state.currentTurn + " descarte"
+                          : "Esperando tu turno..."}
           </Typography>
         )}
       </ListItem>
-      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
+      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle} data-testid='minimize-button'>
         {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
       </IconButton>
       {!minimized && notificationsList.length !== 0 && (

@@ -45,9 +45,6 @@ const FormUser = () => {
   const [body, setBody] = useState("");
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     setOpen(false);
   };
 
@@ -89,7 +86,7 @@ const FormUser = () => {
             <Grid item xs={12} sx={styles.button}>
               <RButton
                 text="Crear usuario"
-                action={() => {}}
+                action={() => { }}
                 icon={<ForwardOutlinedIcon />}
               />
             </Grid>

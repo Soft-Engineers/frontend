@@ -45,7 +45,11 @@ const RoleSign = () => {
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <Tooltip
         open={open}
-        title={<div style={{ fontSize: "16px" }}>{description}</div>}
+        title={
+          <div style={{ fontSize: "16px" }} data-testid="tooltip-content">
+            {description}
+          </div>
+        }
         placement="bottom-end"
         arrow
         interactive="true"

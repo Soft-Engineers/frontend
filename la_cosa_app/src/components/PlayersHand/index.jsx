@@ -63,7 +63,7 @@ const PlayersHand = () => {
   );
 
   return (
-    <Stack direction="row" spacing={-0.1} onMouseLeave={handleHandLeave}>
+    <Stack direction="row" spacing={-0.1} onMouseLeave={handleHandLeave} data-testid="playersHand">
       {state.hand.map((objCarta, index) => (
         <CustomTooltip
           key={index}

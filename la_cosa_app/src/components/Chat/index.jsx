@@ -123,6 +123,7 @@ const Chat = ({ socket }) => {
         height: "100%",
         maxHeight: "100%",
       }}
+      data-testid="chat"
     >
       <div
         style={{

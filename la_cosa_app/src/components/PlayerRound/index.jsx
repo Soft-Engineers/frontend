@@ -1,5 +1,5 @@
-import Deck from "../Deck/index.jsx";
-import { useMatchC } from "../../screens/Match/matchContext.jsx";
+import Deck from '../../components/Deck/';
+import { useMatchC } from '../../screens/Match/matchContext.jsx';
 import RoleSign from "../RoleSign/index.jsx";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
@@ -77,7 +77,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
   };
 
   return (
-    <div onClick={handleDoorClick} style={doorStyle} id={index}>
+    <div onClick={handleDoorClick} style={doorStyle} id={index} data-testid='asd'>
       <div style={lineStyle}>
         <div style={nailStyle1} /> {/* Left nail */}
         <div style={nailStyle2} /> {/* Right nail */}
@@ -100,15 +100,15 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     height: "60px",
     border:
       state.target_name === player.player_name &&
-      !isThisPlayerDead &&
-      (state.turnState === 2 || state.turnState === 7)
+        !isThisPlayerDead &&
+        (state.turnState === 2 || state.turnState === 7)
         ? "2px solid red"
         : "2px solid transparent",
     backgroundColor: isThisPlayerDead
       ? "red"
       : state.currentTurn === player.player_name
-      ? "green"
-      : "#3498db",
+        ? "green"
+        : "#3498db",
     margin: "20px",
     display: "flex",
     justifyContent: "center",
@@ -123,8 +123,8 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
       ? "not-allowed"
       : (state.turnState === 2 || state.turnState === 7) &&
         state.isTurn === true
-      ? "pointer"
-      : "default",
+        ? "pointer"
+        : "default",
     borderRadius: "50%",
   };
 
@@ -194,7 +194,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
   };
 
   return (
-    <div className="player-card" style={cardStyle} onClick={handleClick}>
+    <div className="player-card" style={cardStyle} onClick={handleClick} data-testid="player-cards">
       <div style={{ display: "flex" }}>
         <div className="circle" style={circleStyle}>
           {inCuarentena && (
@@ -256,8 +256,6 @@ const PlayerRound = () => {
     actions.setInspect(!state.inspect);
   };
 
-
-
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -265,10 +263,9 @@ const PlayerRound = () => {
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    border: "2px solid #BAD4AA",
+    border: "1px solid grey",
     borderRadius: "10px",
-    backgroundColor: "#EBF5DF",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f2f2ff",
     position: "relative",
   };
   const roleSignStyle = {
@@ -302,12 +299,13 @@ const PlayerRound = () => {
   };
 
   return (
-    <Box sx={containerStyle}>
-      <div style={roleSignStyle}>
+    <Box sx={containerStyle} >
+      <div style={roleSignStyle} data-testid="player-cards">
         <RoleSign />
       </div>
 
       <div
+        data-testid="player-cards"
         className="deck"
         style={{
           position: "absolute",
@@ -320,6 +318,7 @@ const PlayerRound = () => {
       {sortedPlayers.map((player, index) => (
         <React.Fragment key={index}>
           <PlayerCard
+            data-testid="player-cards"
             player={player}
             angle={
               (2 *
@@ -333,6 +332,7 @@ const PlayerRound = () => {
           />
           {sortedboolDoors[index] && (
             <DoorBtPlayers
+              data-testid='asd'
               angle={
                 (2 * Math.PI * (totalPlayers - index + 0.5 - 1)) / totalPlayers
               }
@@ -363,4 +363,5 @@ const PlayerRound = () => {
     </Box>
   );
 };
-export default PlayerRound;
+
+export { PlayerRound, DoorBtPlayers, PlayerCard };

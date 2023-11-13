@@ -47,7 +47,9 @@ const ButtonsBox = () => {
           target: card_target,
         },
       };
+
       state.socket.send(JSON.stringify(request));
+
     } else {
       actions.setSeverity("error");
       actions.setBody("Elige una carta para jugar.");
@@ -194,7 +196,7 @@ const ButtonsBox = () => {
     },
   };
   return (
-    <Box sx={styles.box}>
+    <Box sx={styles.box} data-testid="buttonsBox">
       {state.isTurn && (
         <>
           {state.turnState === turnStates.DRAW_CARD && (
@@ -339,7 +341,7 @@ const ButtonsBox = () => {
         </>
       )}
       {state.turnState === turnStates.VUELTA_Y_VUELTA &&
-      state.alreadySelected ? (
+        state.alreadySelected ? (
         <p>Esperando a los demás jugadores...</p>
       ) : (
         state.turnState === turnStates.VUELTA_Y_VUELTA && (
@@ -356,7 +358,7 @@ const ButtonsBox = () => {
       {!state.isTurn && (
         <>
           {state.turnState === turnStates.WAIT_EXCHANGE ? (
-            <p>Esperando intercambio....</p>
+            <p>Esperando intercambio...</p>
           ) : state.turnState === turnStates.WAIT_DEFENSE ? (
             <p>Esperando defensa...</p>
           ) : state.turnState === turnStates.REVELACIONES ? (

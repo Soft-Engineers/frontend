@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useMatchC} from '../screens/Match/matchContext';
+import { useMatchC } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -42,7 +42,6 @@ export const createPartida = async (
 export const getJugadores = async (match_name) => {
   try {
     const Url = "http://localhost:8000/match/players";
-
     const response = await axios.get(Url, {
       params: { match_name: match_name },
     });
@@ -202,7 +201,7 @@ export const handle_socket_messages = () => {
             }
             actions.setRole('INFECTADO')
             break;
-          case 'timestamp' :
+          case 'timestamp':
             actions.setDefenseTimestamp(data.message_content);
             break;
           case 'sentido horario':
@@ -215,9 +214,9 @@ export const handle_socket_messages = () => {
             actions.setCuarentena(data.message_content);
             break;
           case 'carta ya seleccionada':
-            if (data.message_content === 1){
+            if (data.message_content === 1) {
               actions.setAlreadySelected(true);
-            }else{
+            } else {
               actions.setAlreadySelected(false);
             }
             break;

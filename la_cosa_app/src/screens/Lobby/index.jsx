@@ -121,7 +121,7 @@ const Lobby = () => {
     };
     setSocket(lobbySocket);
     return () => {
-      lobbySocket.close();
+      // lobbySocket.close();
     };
   }, [match_name, player_name]);
 
