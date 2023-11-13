@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent  } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notifications from '../../src/components/Notifications';
-import {MatchProvider} from '../../src/screens/Match/matchContext';
+import {MatchProvider, useMatchC} from '../../src/screens/Match/matchContext';
 
 jest.mock('../../src/screens/Match/matchContext', () => {
     const state = {
@@ -36,6 +36,8 @@ jest.mock('../../src/screens/Match/matchContext', () => {
 
 
 describe('Notifications', () => {
+
+    // should render correctly
     it('should render correctly', () => {
         const { getByTestId } = render(
             <MatchProvider>
@@ -44,4 +46,36 @@ describe('Notifications', () => {
         );
         expect(getByTestId('notifications')).toBeInTheDocument();
     });
+
+
+    // should display notifications correctly
+    it('should display notifications correctly', () => {
+        const initialState = {
+            currentTurn: 'Ramon',
+            logs: [],
+            notifications: [],
+        };
+
+        const mockActions = {
+            setCurrentTurn: jest.fn(),
+            setLogs: jest.fn(),
+        };
+        const mockNotifications = ['Notificación 1', 'Notificación 2', 'Notificación 3'];
+        useMatchC.mockImplementation(() => ({
+            state: { ...initialState, notifications: mockNotifications },
+            actions: mockActions,
+        }));
+
+        const { queryByText } = render(
+            <MatchProvider>
+                <Notifications />
+            </MatchProvider>
+        );
+
+        mockNotifications.forEach(notification => {
+            expect(queryByText(notification)).toBeInTheDocument();
+        });
+    });
+
+
 });

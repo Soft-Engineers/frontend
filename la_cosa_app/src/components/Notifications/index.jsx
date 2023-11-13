@@ -198,7 +198,7 @@ const Notifications = () => {
   };
 
   return (
-    <Box style={BoxStyle} data-testid="notifications">
+    <Box style={BoxStyle} data-testid="notifications" data-testid='notifications'>
       <ListItem
         sx={{
           flexDirection: "column",
@@ -271,7 +271,7 @@ const Notifications = () => {
           </Typography>
         )}
       </ListItem>
-      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle}>
+      <IconButton variant="sharp" onClick={toggleMinimized} style={buttonStyle} data-testid='minimize-button'>
         {minimized ? <ExpandMoreSharpIcon /> : <ExpandLessSharpIcon />}
       </IconButton>
       {!minimized && notificationsList.length !== 0 && (
