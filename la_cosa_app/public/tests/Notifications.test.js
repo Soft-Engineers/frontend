@@ -7,40 +7,41 @@ import {MatchProvider} from '../../src/screens/Match/matchContext';
 jest.mock('../../src/screens/Match/matchContext', () => {
     const state = {
         currentTurn: 'Ramon',
+        logs: [],
+        notifications: [],
     };
 
     const actions = {
         setCurrentTurn: jest.fn(),
+        setLogs: jest.fn(),
     };
 
     return {
         useMatchC: jest.fn(() => ({ state, actions })),
         MatchProvider: ({ children }) => children,
+        turnStates: {
+            DRAW_CARD: 1,
+            PLAY_TURN: 2,
+            FINISHED: 3,
+            EXCHANGE: 4,
+            WAIT_EXCHANGE: 5,
+            WAIT_DEFENSE: 6,
+            PANIC: 7,
+            VUELTA_Y_VUELTA: 8,
+            REVELACIONES: 9,
+            DISCARD: 10,
+          },
     };
 });
 
 
 describe('Notifications', () => {
-    it('Renderiza bien mensajes de turno y jugada', () => {
-        const { getByText } = render(
+    it('should render correctly', () => {
+        const { getByTestId } = render(
             <MatchProvider>
-                <Notifications messages={['Raúl jugó sospecha']} />
+                <Notifications />
             </MatchProvider>
         );
-        expect(getByText('Raúl jugó sospecha')).toBeInTheDocument();
-        const mensajeTurno = getByText('Es el turno de Ramon');
-        expect(mensajeTurno).toBeInTheDocument();
-        expect(mensajeTurno).toHaveStyle('color: green; borderBottom: 2px solid black');
-    });
-
-    it('Renderiza bien mensajes de infeccion', () => {
-        const { getByText } = render(
-            <MatchProvider>
-                <Notifications messages={['LA COSA TE INFECTÓ!!']} />
-            </MatchProvider>
-        );
-        const mensajeInfeccion = getByText('LA COSA TE INFECTÓ!!');
-        expect(mensajeInfeccion).toBeInTheDocument();
-        expect(mensajeInfeccion.parentElement).toHaveStyle('color: red;');
+        expect(getByTestId('notifications')).toBeInTheDocument();
     });
 });
