@@ -62,4 +62,21 @@ describe("API Functions", () => {
         expect(response.status).toBe(200);
         expect(response.data.detail).toBe("Game1");
     });
+
+    it("deberia obtener el estado de host de un jugador", async () => {
+        mock.onGet(`http://localhost:8000/player/host`).reply(200, { is_host: true });
+
+        const response = await isHost("Juan", "Game1");
+        expect(response.status).toBe(200);
+        expect(response.data.is_host).toBe(true);
+    });
+
+    it("deberia iniciar una partida", async () => {
+        mock.onPost("http://localhost:8000/match/start").reply(200, { detail: "Game1" });
+
+        const response = await startMatch("Game1");
+        expect(response.status).toBe(200);
+        expect(response.data.detail).toBe("Game1");
+    });
+
 });
