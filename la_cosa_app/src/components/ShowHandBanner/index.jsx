@@ -58,7 +58,6 @@ const ShowHandBanner = () => {
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
     flexDirection: "column",
     minWidth: hand.length === 1 ? "15%" : "60%",
-    minHeight: "60%",
     width: hand.length === 1 ? "20%" : "60%",
   };
 

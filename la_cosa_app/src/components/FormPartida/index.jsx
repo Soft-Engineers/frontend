@@ -13,8 +13,7 @@ import IconButton from "@mui/material/IconButton";
 
 const styles = {
   form: {
-    minHeight: "40vh",
-    width: "90%",
+    maxHeight: "40vh",
     maxWidth: "40vh",
     border: "1px solid #ccc",
     padding: "16px",
