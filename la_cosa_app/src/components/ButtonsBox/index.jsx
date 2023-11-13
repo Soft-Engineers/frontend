@@ -336,7 +336,7 @@ const ButtonsBox = () => {
       {!state.isTurn && (
         <>
           {state.turnState === turnStates.WAIT_EXCHANGE ? (
-            <p>Esperando intercambio....</p>
+            <p>Esperando intercambio...</p>
           ) : state.turnState === turnStates.WAIT_DEFENSE ? (
             <p>Esperando defensa...</p>
           ) : state.turnState === turnStates.REVELACIONES ? (

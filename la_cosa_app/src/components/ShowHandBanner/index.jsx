@@ -74,7 +74,7 @@ const ShowHandBanner = () => {
   return (
     <div>
       <div style={overlayStyles}>
-        <Paper style={bannerStyles}>
+        <Paper style={bannerStyles} data-testid="banner">
           <Typography
             variant="h5"
             component="div"
@@ -91,6 +91,7 @@ const ShowHandBanner = () => {
             onClick={handleCloseBanner}
             variant="sharp"
             sx={{ position: "absolute", top: "0", right: "0", color: "black" }}
+            data-testid="close-button"
           >
             <CloseIcon />
           </IconButton>
