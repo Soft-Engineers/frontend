@@ -1,74 +1,46 @@
 import React from 'react';
-import ListaJugadores from './../../src/components/PlayersList';
-import MockAdapter from "axios-mock-adapter";
-import axios from "axios";
-import {getJugadores} from "../../src/utils/api.js";
+import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {screen, render} from "@testing-library/react";
-import {MemoryRouter, Route, Routes} from "react-router-dom";
+import PlayersList from '../../src/components/PlayersList';
 
-const mock = new MockAdapter(axios);
+// Mock para sessionStorage
+const sessionStorageMock = (function() {
+  let store = {};
+  return {
+    getItem: function(key) {
+      return store[key] || null;
+    },
+    setItem: function(key, value) {
+      store[key] = value.toString();
+    },
+    clear: function() {
+      store = {};
+    }
+  };
+})();
 
-mock.onGet('http://localhost:8000/match/players', { params: { match_name: 'PartidaTest' } }).reply(200, { players: ["Jugador1", "Que_feo_lobby", "HOLAA"] });
-
-describe('getJugadores', () => {
-    it('retorna lista de jugadores si match_id es válido', async () => {
-        const response = await getJugadores('PartidaTest');
-        const jugadores = response.data.players;
-        expect(jugadores).toEqual(["Jugador1", "Que_feo_lobby", "HOLAA"]);
-    });
-
-    it('manejar error si match_id es inválido', async () => {
-        const jugadores= await getJugadores('456');
-        expect(jugadores).toEqual([]);
-    });
+Object.defineProperty(window, 'sessionStorage', {
+  value: sessionStorageMock
 });
 
-describe('ListaJugadores', () => {
+describe('PlayersList Component', () => {
+  afterEach(cleanup);
 
-    it('Renderiza sin errores', () => {
+  it('should render player names', () => {
+    const players = ['Alice', 'Bob', 'Charlie'];
+    const { getByText } = render(<PlayersList jugadores={players} />);
 
-        const jugadores = ["Jugador1", "Que_feo_lobby", "HOLAA"];
-
-
-        render(
-            <MemoryRouter initialEntries={['/']}>
-                <Routes>
-                    <Route path="/" element={<ListaJugadores jugadores={jugadores}/>} />
-                </Routes>
-            </MemoryRouter>
-        );
-
-        expect(screen.getByText('Lista de Jugadores')).toBeInTheDocument();
-        expect(screen.getByText('Jugador1')).toBeInTheDocument();
-        expect(screen.getByText('Que_feo_lobby')).toBeInTheDocument();
-        expect(screen.getByText('HOLAA')).toBeInTheDocument();
+    players.forEach(player => {
+      expect(getByText(player)).toBeInTheDocument();
     });
+  });
 
-    it('props cuando no hay jugadores', () => {
-        const jugadores = [];
-        const component = <ListaJugadores jugadores={jugadores} />;
+  it('should highlight the current player', () => {
+    const players = ['Alice', 'Bob', 'Charlie'];
+    window.sessionStorage.setItem('player_name', 'Bob');
+    const { getByText } = render(<PlayersList jugadores={players} />);
 
-        expect(component.props.jugadores).toEqual(jugadores);
-        expect(component.props.jugadores.length).toBe(0);
-    });
-
-    it('props cuando se proporciona una lista de 12 jugadores', () => {
-        const jugadores = [];
-        for (let i = 1; i <= 12; i++) {
-            jugadores.push(`Jugador ${i}`);
-        }
-        const component = <ListaJugadores jugadores={jugadores} />;
-
-
-        expect(component.props.jugadores).toEqual(jugadores);
-        expect(component.props.jugadores.length).toBe(12);
-    });
-
-
-    it('props al manejar una lista vacía', () => {
-        expect(() => {
-            const component = <ListaJugadores jugadores={[]} />;
-        }).not.toThrow();
-    });
+    const highlightedPlayer = getByText('Bob').parentNode;
+    expect(highlightedPlayer).toHaveStyle(`backgroundColor: lightblue`);
+  });
 });

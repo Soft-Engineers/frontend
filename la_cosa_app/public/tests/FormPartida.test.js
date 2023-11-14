@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {fireEvent, render, waitFor} from '@testing-library/react';
-import {MemoryRouter, Routes, Route, useNavigate} from 'react-router-dom';
+import {fireEvent, render, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
+import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import FormPartida from './../../src/components/FormPartida';
 import axios from "axios";
 import Lobby from "../../src/screens/Lobby/index.jsx";
@@ -17,8 +17,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('FormPartida', () => {
+
     it('Renderiza sin errores', () => {
-        const { getByLabelText, getByPlaceholderText } = render(
+        const { getByLabelText, getByPlaceholderText, getByText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<FormPartida />} />
@@ -26,11 +27,17 @@ describe('FormPartida', () => {
             </MemoryRouter>
         );
 
-        expect(getByLabelText('Ingrese nombre de la partida')).toBeInTheDocument();
+        expect(getByLabelText('Ingrese nombre de la partida:')).toBeInTheDocument();
         expect(getByPlaceholderText('Nombre de la partida')).toBeInTheDocument();
+        expect(getByText('Mínimo de jugadores:')).toBeInTheDocument();
+        expect(getByText('Máximo de jugadores:')).toBeInTheDocument();
+        expect(getByText('Crear partida')).toBeInTheDocument();
+        // Checkear que los botones para ajustar la cantidad de jugadores se renderizen correctamente
     });
 
+
     it('Envio exitoso', async () => {
+        sessionStorage.setItem('player_name', 'Juan');
 
         axios.post.mockResolvedValueOnce({
             status: 201,
@@ -56,13 +63,9 @@ describe('FormPartida', () => {
         );
 
         const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
-        const minJugadoresInput = getByPlaceholderText('Min 4');
-        const maxJugadoresInput = getByPlaceholderText('Max 12');
         const createPartidaButton = getByText('Crear partida');
 
         fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
-        fireEvent.change(minJugadoresInput, { target: { value: '4' } });
-        fireEvent.change(maxJugadoresInput, { target: { value: '6' } });
 
         fireEvent.click(createPartidaButton);
 
@@ -72,54 +75,35 @@ describe('FormPartida', () => {
                 expect.objectContaining({
                     match_name: 'TestPartida',
                     player_name: 'Juan',
-                    min_players: '4',
-                    max_players: '6',
+                    min_players: 4,
+                    max_players: 12,
                 })
-                // Checkeo que el post se haga con los argumentos correctos
             );
             expect(navigateMock).toHaveBeenCalledWith('/lobby/TestPartida');
         });
     });
-    it('Input invalido', async () => {
 
-        const { getByPlaceholderText, getByText } = render(
-            <MemoryRouter initialEntries={['/']}>
-                <Routes>
-                    <Route path="/" element={<FormPartida />} />
-                </Routes>
-            </MemoryRouter>
-        );
+    it('Envio con error', async () => {
 
-        const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
-        const minJugadoresInput = getByPlaceholderText('Min 4');
-        const maxJugadoresInput = getByPlaceholderText('Max 12');
-        const createPartidaButton = getByText('Crear partida');
-
-        fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
-        fireEvent.change(minJugadoresInput, { target: { value: 'a' } });
-        fireEvent.change(maxJugadoresInput, { target: { value: 'b' } });
-
-        fireEvent.click(createPartidaButton);
-
-        await waitFor(() => {
-            expect(axios.post).not.toHaveBeenCalled();
-        });
-    });
-
-    it('Caso: Invalid number of players', async () => {
-
+        sessionStorage.setItem('player_name', 'Juan');
         const navigateMock = jest.fn();
         useNavigate.mockReturnValue(navigateMock);
+
+        const localStorageMock = {
+            getItem: jest.fn(() => 'Juan'),
+        };
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
         axios.post.mockRejectedValueOnce({
             response: {
                 data: {
-                    detail: 'Invalid number of players',
+                    detail: 'Cantidad inválida de jugadores',
                 },
             },
         });
 
-        const {getByPlaceholderText, getByText } = render(
+
+        const { getByPlaceholderText, getByText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<FormPartida />} />
@@ -129,20 +113,56 @@ describe('FormPartida', () => {
         );
 
         const nombrePartidaInput = getByPlaceholderText('Nombre de la partida');
-        const minJugadoresInput = getByPlaceholderText('Min 4');
-        const maxJugadoresInput = getByPlaceholderText('Max 12');
         const createPartidaButton = getByText('Crear partida');
 
         fireEvent.change(nombrePartidaInput, { target: { value: 'TestPartida' } });
-        fireEvent.change(minJugadoresInput, { target: { value: '4' } });
-        fireEvent.change(maxJugadoresInput, { target: { value: '256' } });
 
         fireEvent.click(createPartidaButton);
 
         await waitFor(() => {
-            expect(navigateMock).not.toHaveBeenCalled(); // En caso de error no se llama la funcion navigate
-            expect(getByText('Invalid number of players')).toBeInTheDocument();
+            expect(getByText('Cantidad inválida de jugadores')).toBeInTheDocument();
+            expect(navigateMock).not.toHaveBeenCalled();
         });
+        //Testeo si hago click en cualquier lado se cierra el mensaje de error y si hago click en el mensaje no se cierra
+        fireEvent.click(getByText('Cantidad inválida de jugadores'))
+        expect(getByText('Cantidad inválida de jugadores')).toBeInTheDocument();
+        fireEvent.click(document)
+        await waitForElementToBeRemoved(() => getByText('Cantidad inválida de jugadores'));
     });
 
+
+    it('debería actualizar minPlayers y maxPlayers correctamente', () => {
+
+        const { getByText, getByLabelText } = render(
+            <MemoryRouter initialEntries={['/']}>
+                <Routes>
+                    <Route path="/" element={<FormPartida />} />
+                    <Route path="/lobby" element={<Lobby />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        expect(getByText('4')).toBeInTheDocument();
+        expect(getByText('12')).toBeInTheDocument();
+
+        const minIncrButton = getByLabelText('minPlayersIncrease');
+        const maxDecrButton = getByLabelText('maxPlayersDecrease');
+        const minDecrButton = getByLabelText('minPlayersDecrease');
+        const maxIncrButton = getByLabelText('maxPlayersIncrease');
+
+        fireEvent.click(maxDecrButton);
+        fireEvent.click(minIncrButton);
+
+
+        // Verifica que los valores se hayan actualizado correctamente
+        expect(getByText('5')).toBeInTheDocument(); // Actualizado minPlayers
+        expect(getByText('11')).toBeInTheDocument(); // Actualizado maxPlayers
+
+        fireEvent.click(minDecrButton);
+        fireEvent.click(maxIncrButton);
+
+        expect(getByText('4')).toBeInTheDocument(); // Actualizado minPlayers
+        expect(getByText('12')).toBeInTheDocument(); // Actualizado maxPlayers
+
+    });
 });

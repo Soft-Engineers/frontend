@@ -1,29 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import RButton from '../../components/Button';
-import Table from '../../components/Table';
-import Header from '../../components/Header';
-import { Box, Grid } from '@mui/material';
-import VideogameAssetOutlinedIcon from '@mui/icons-material/VideogameAssetOutlined';
-import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
-import { getPartidas } from '../../utils/api';
-import FormPartida from '../../components/FormPartida';
+import React, { useState, useEffect } from "react";
+import RButton from "../../components/Button";
+import Table from "../../components/Table";
+import Header from "../../components/Header";
+import Container from "@mui/material/Container";
+import { Box, Grid } from "@mui/material";
+import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlined";
+import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
+import { getPartidas } from "../../utils/api";
+import FormPartida from "../../components/FormPartida";
 
 const styles = {
   root: {
-    minHeight: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center',
+    minHeight: "97vh",
   },
-  left: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+  Container: {
+    display: "flex",
+    flexDirection: "row",
+    height: "80vh",
   },
-  right: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '10px',
+  buttonContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  buttons: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    marginTop: "5vh",
+    gap: "30px",
+    alignItems: "center",
+  },
+  table: {
+    display: "flex",
+    minWidth: "50%",
   },
 };
 
@@ -35,51 +48,48 @@ const MainPage = () => {
     const fetchData = async () => {
       const res = await getPartidas();
       setPartidas(res);
-    }
+    };
     fetchData();
   }, []);
 
-
   return (
-    <Box>
-      <Header/>
-      <Grid container spacing={1} sx={styles.root}>
-        {/* Left part */}
-        <Grid item xs={12} sm={6} md={5} sx={styles.left}>
-          {!showForm && (
-            <RButton
-              text="Crear partida"
-              action={() => setShowForm(!showForm)}
-              icon={<VideogameAssetOutlinedIcon />}
-            />
-          )}
-          {showForm && <FormPartida />}
+    <Container sx={styles.root} maxWidth={false}>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <Header sx={styles.header} />
         </Grid>
 
-        {/* Right part */}
-        <Grid item xs={12} sm={6} md={7}>
-          <Box sx={styles.right}>
-            <h1>Unete a una partida!</h1>
+        <Grid item xs={12} sx={styles.Container}>
+          <Box sx={styles.buttonContainer}>
+            <h2 style={{color:"white"}}> ¡Crea o unite a una partida para empezar a jugar!</h2>
+            <Box sx={styles.buttons}>
+              {showForm ? (
+                <FormPartida />
+              ) : (
+                <RButton
+                  text="Crear partida"
+                  action={() => setShowForm(!showForm)}
+                  icon={<VideogameAssetOutlinedIcon />}
+                  sx={styles.button}
+                />
+              )}
+              <RButton
+                text="Recargar partidas"
+                icon={<RotateLeftOutlinedIcon />}
+                action={async () => {
+                  const res = await getPartidas();
+                  setPartidas(res);
+                }}
+                sx={styles.button}
+              />
+            </Box>
           </Box>
-          <Box sx={styles.right}>
-            <RButton
-              text="Recargar partidas"
-              icon={<RotateLeftOutlinedIcon />}
-              action={
-                () => {
-                  const fetchData = async () => {
-                    const res = await getPartidas();
-                    setPartidas(res);
-                  }
-                  fetchData();
-                }
-              }
-            />
+          <Box sx={styles.table}>
+            <Table data={partidas} />
           </Box>
-          <Table data={partidas} />
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 

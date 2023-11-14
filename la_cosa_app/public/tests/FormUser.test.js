@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {render, fireEvent, waitFor, } from '@testing-library/react';
+import {render, fireEvent, waitFor, waitForElementToBeRemoved,} from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import SelectName from '../../src/screens/SelectName/index.jsx';
 import Main from '../../src/screens/MainPage/index.jsx';
@@ -15,6 +15,16 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(), // Mock de useNavigate
 }));
 
+jest.mock('canvas', () => {
+    const mCanvas = {
+        getContext: jest.fn(),
+    };
+    return {
+        ...mCanvas,
+        Canvas: jest.fn(() => mCanvas),
+    };
+});
+
 describe('FormUser', () => {
 
     it('Renderiza sin errores', () => {
@@ -22,13 +32,13 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
 
         expect(getByText('Elija un nombre!')).toBeInTheDocument();
-        expect(getByPlaceholderText('Por ejemplo: Juan')).toBeInTheDocument();
+        expect(getByPlaceholderText('Ingrese su nombre aquí')).toBeInTheDocument();
         expect(getByText('Crear usuario')).toBeInTheDocument();
         // Checkeo que ciertos elementos se renderizen correctamente
     });
@@ -47,12 +57,12 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: 'Juanito' } });
         fireEvent.click(getByText('Crear usuario'));
 
@@ -83,12 +93,12 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: 'bd' } });
         fireEvent.click(getByText('Crear usuario'));
 
@@ -96,6 +106,12 @@ describe('FormUser', () => {
             expect(navigateMock).not.toHaveBeenCalled(); // En caso de error no se llama la funcion navigate
             expect(getByText('Invalid fields')).toBeInTheDocument();
         });
+
+        //Testeo si hago click en cualquier lado se cierra el mensaje de error y si hago click en el mensaje no se cierra
+        fireEvent.click(getByText('Invalid fields'))
+        expect(getByText('Invalid fields')).toBeInTheDocument();
+        fireEvent.click(document)
+        await waitForElementToBeRemoved(() => getByText('Invalid fields'));
     });
 
     it('Caso: Input vacio', async () => {
@@ -104,12 +120,12 @@ describe('FormUser', () => {
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<SelectName />} />
-                    <Route path="/mainpage" element={<Main />} />
+                    <Route path="/mainpage/:user_name" element={<Main />} />
                 </Routes>
             </MemoryRouter>
         );
 
-        const input = getByPlaceholderText('Por ejemplo: Juan');
+        const input = getByPlaceholderText('Ingrese su nombre aquí');
         fireEvent.change(input, { target: { value: '' } });
         fireEvent.click(getByText('Crear usuario'));
 
@@ -117,4 +133,5 @@ describe('FormUser', () => {
             expect(axios.post).not.toHaveBeenCalled();
         });
     });
+
 });
