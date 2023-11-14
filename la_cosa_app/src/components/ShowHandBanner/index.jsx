@@ -53,7 +53,7 @@ const ShowHandBanner = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     padding: "20px",
-    backgroundColor: "white",
+    backgroundColor: "#FFF8DD",
     borderRadius: "8px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
     flexDirection: "column",

@@ -150,32 +150,18 @@ const Match = () => {
         </>
       )}
       {state.isDeadPlayer && (
-        <>
-          <Box
-            sx={{
-              width: "40%",
-              height: "95vh",
-            }}
-          >
-            <Notifications />
-          </Box>
+        <Grid container>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "50%",
-              marginLeft: "5rem",
-              marginTop: "5rem",
-              height: "100%",
-            }}
-          >
-            {state.isDeadPlayer && (
-              <h1 style={{ fontSize: "6rem", color: "#C85250" }}> Has muerto...</h1>
-            )}
-          </Box>
-        </>
+
+         <Grid item xs={8} sx={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+           <h1 style={{ fontSize: "6rem", color: "#C85250" }}> Has muerto...</h1>
+         </Grid>
+
+          <Grid item xs={4} sx={{height: "95vh"}}>
+            <Notifications />
+          </Grid>
+
+        </Grid>
       )}
       {state.turnState === 3 && (
         <EndGameBanner reason={state.reason} winners={state.winners} />
