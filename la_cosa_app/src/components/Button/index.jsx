@@ -11,6 +11,7 @@ const RButton = ({ text, action, icon }) => {
         variant="outlined"
         endIcon={icon}
         onClick={() => action()}
+        sx={{backgroundColor: "rgba(255,255,255,0.90)" , borderRadius : "6px"}}
       >
         {text}
       </Button>
