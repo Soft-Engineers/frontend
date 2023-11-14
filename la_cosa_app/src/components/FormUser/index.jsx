@@ -14,6 +14,8 @@ const styles = {
     width: "90%",
     maxWidth: "40vh",
     border: "1px solid #ccc",
+    backgroundColor: "#ebe7e7",
+    opacity: 0.7,
     padding: "16px",
     borderRadius: "10px",
     alignItems: "center",

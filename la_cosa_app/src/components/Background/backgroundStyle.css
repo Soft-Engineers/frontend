@@ -1,0 +1,11 @@
+.large-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; 
+    overflow: hidden;
+    background: url(https://wallpapercave.com/wp/wp1912230.jpg);
+    background-size: cover;
+}

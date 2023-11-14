@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../components/Header";
 import FormUser from "../../components/FormUser";
 import ShowHandBanner from "../../components/ShowHandBanner";
+import BackgroundAnimation from '../../components/Background';
 const style = {
   container: {
     display: "flex",
@@ -15,6 +16,7 @@ const SelectName = () => {
   return (
     <div>
       <Header />
+      <BackgroundAnimation />
       <div style={style.container}>
         <FormUser />
       </div>
