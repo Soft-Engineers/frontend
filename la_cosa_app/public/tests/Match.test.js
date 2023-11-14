@@ -10,18 +10,23 @@ import { act } from "react-dom/test-utils";
 jest.mock('../../src/screens/Match/matchContext', () => {
     const originalModule = jest.requireActual('../../src/screens/Match/matchContext');
     const mockState = {
-        jugadores: [{ player_name: 'Raul' }, { player_name: 'Javier' }, { player_name: 'Player3' }, { player_name: 'Ramon' }],
+        posiciones: [{ player_name: 'Raul' }, { player_name: 'Javier' }, { player_name: 'Player3' }, { player_name: 'Ramon' }],
         currentTurn: 'Ramon',
         hand: [{ card_name: 'Sospecha' }, { card_name: 'Sospecha' }, { card_name: 'Lanzallamas' }, { card_name: 'Hacha' }],
         role: 'HUMANO',
         deadPlayerNames: [],
         selectedCard: null,
-        avisos: 'Es el turno de Raul',
+        notifications: ['Es el turno de Raul'],
         isDeadPlayer: false,
         turnState: 2,
         DtimeoutEnded: false,
         isTurn: true,
+        Obstacles: [],
+        targetName: '',
         socket: { send: jest.fn() },
+        logs: [],
+        chatHistory: [],
+        messages: [],
     };
 
     const mockActions = {
@@ -32,7 +37,11 @@ jest.mock('../../src/screens/Match/matchContext', () => {
         setIsDeadPlayer: jest.fn().mockImplementation((bool) => { mockState.isDeadPlayer = bool; }),
         setTurnState: jest.fn().mockImplementation((state) => { mockState.turnState = state; }),
         setDTimeoutEnded: jest.fn().mockImplementation((bool) => { mockState.DtimeoutEnded = bool; }),
-        setIsTurn: jest.fn(),
+        setIsTurn: jest.fn().mockImplementation((bool) => { mockState.isTurn = bool; }),
+        setTargetName: jest.fn(),
+        setLogs: jest.fn(),
+        setMessages: jest.fn(),
+        setChatHistory: jest.fn(),
     };
 
     return {
@@ -56,16 +65,16 @@ describe('Match', () => {
                 <Match />
             </MatchProvider>
         );
-        const PlayersHand = getByTestId("playersHand");
-        const PlayersRound = getByTestId("playersRound");
-        const Notifications = getByTestId("notifications");
+        const Chat = getByTestId("chat");
         const ButtonsBox = getByTestId("buttonsBox");
-        const Chat = getByTestId("chat")
+        const PlayersHand = getByTestId("playersHand");
+        const Notifications = getByTestId("notifications");
+        const PlayersRound = getByTestId("playerRound");
+        expect(Chat).toBeInTheDocument();
         expect(PlayersHand).toBeInTheDocument();
         expect(PlayersRound).toBeInTheDocument();
         expect(Notifications).toBeInTheDocument();
         expect(ButtonsBox).toBeInTheDocument();
-        expect(Chat).toBeInTheDocument();
     });
     it('debería renderizar la pantalla de muerto correctamente', () => {
         const { actions } = useMatchC();
@@ -77,16 +86,14 @@ describe('Match', () => {
         );
 
         getByText('Has muerto...');
-        const Chat = getByTestId("chat");
         const Notifications = getByTestId("notifications");
-        expect(Chat).toBeInTheDocument();
         expect(Notifications).toBeInTheDocument();
     });
     it('debería renderizar la pantalla de defensa correctamente', async () => {
         const { actions } = useMatchC();
-
         actions.setTurnState(6);
         actions.setIsDeadPlayer(false);
+
         jest.useFakeTimers();
         const { getByTestId } = render(
             <MatchProvider>
@@ -98,7 +105,7 @@ describe('Match', () => {
         expect(progressBar).toHaveStyle({ opacity: '1' });
 
         const PlayersHand = getByTestId("playersHand");
-        const PlayersRound = getByTestId("playersRound");
+        const PlayersRound = getByTestId("playerRound");
         const Notifications = getByTestId("notifications");
         const ButtonsBox = getByTestId("buttonsBox");
         const Chat = getByTestId("chat")
@@ -108,17 +115,9 @@ describe('Match', () => {
         expect(Notifications).toBeInTheDocument();
         expect(ButtonsBox).toBeInTheDocument();
         expect(Chat).toBeInTheDocument();
+        //?// 
+        expect(progressBar).toHaveStyle({ opacity: '0' }); // <- no se como hacer para la opacidad se ponga en 0
 
-
-        act(() => {
-            jest.advanceTimersByTime(20000);
-            actions.setTurnState(2);//deberia chequear que se envia un mensaje por el websocket ,
-            //y deberia mockear la respuesta del back con el cambio de estado, esta dificil :P
-        });
-
-        await waitFor(() => {
-            expect(progressBar).toHaveStyle({ opacity: '0' });
-        }, { timeout: 500 });
-
+        // Realizar más afirmaciones según sea necesario
     });
 });

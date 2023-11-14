@@ -299,7 +299,7 @@ const PlayerRound = () => {
   };
 
   return (
-    <Box sx={containerStyle} >
+    <Box sx={containerStyle} data-testid="playerRound" >
       <div style={roleSignStyle} data-testid="player-cards">
         <RoleSign />
       </div>
