@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {fireEvent, render, screen, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
 import Table from "./../../src/components/Table";
-import {MemoryRouter, Route, Routes, useNavigate} from "react-router-dom";
+import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 jest.mock('axios');
@@ -28,20 +28,20 @@ describe('Table', () => {
                 </Routes>
             </MemoryRouter>
         );
-        
+
         expect(screen.getByText('Table 1')).toBeInTheDocument();
         expect(screen.getByText('2')).toBeInTheDocument();
         expect(screen.getByText('4')).toBeInTheDocument();
         expect(screen.getByText('3')).toBeInTheDocument();
-        expect(screen.getByText('Name')).toBeInTheDocument();
-        expect(screen.getByText('minPlayers')).toBeInTheDocument();
-        expect(screen.getByText('maxPlayers')).toBeInTheDocument();
-        expect(screen.getByText('Actual Players')).toBeInTheDocument();
+        expect(screen.getByText('Nombre')).toBeInTheDocument();
+        expect(screen.getByText('Mínimo de jugadores')).toBeInTheDocument();
+        expect(screen.getByText('Máximo de jugadores')).toBeInTheDocument();
+        expect(screen.getByText('Jugadores')).toBeInTheDocument();
     });
     it('Join Match Exitoso', async () => {
         const navigateMock = jest.fn();
         useNavigate.mockReturnValue(navigateMock);
-        localStorage.setItem('player_name', 'playerName');
+        sessionStorage.setItem('player_name', 'playerName');
         axios.post.mockResolvedValueOnce({ status: 200 });
 
         const data = [
@@ -101,6 +101,10 @@ describe('Table', () => {
             expect(screen.getByText('Match already started')).toBeInTheDocument();
             expect(navigateMock).not.toHaveBeenCalled();
         });
+        fireEvent.click(getByText('Match already started'))
+        expect(getByText('Match already started')).toBeInTheDocument();
+        fireEvent.click(document)
+        await waitForElementToBeRemoved(() => getByText('Match already started'));
 
     });
 });

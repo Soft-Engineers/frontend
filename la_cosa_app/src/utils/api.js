@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useEffect } from "react";
+import { useMatchC } from '../screens/Match/matchContext';
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
@@ -40,7 +42,6 @@ export const createPartida = async (
 export const getJugadores = async (match_name) => {
   try {
     const Url = "http://localhost:8000/match/players";
-
     const response = await axios.get(Url, {
       params: { match_name: match_name },
     });
@@ -63,7 +64,7 @@ export const getPartidas = async () => {
   }
 };
 
-// unirse a una partida
+// Unirse a una partida
 export const joinMatch = async (player_name, match_name, password) => {
   try {
     const response = await axios.post("http://localhost:8000/match/join", {
@@ -77,3 +78,165 @@ export const joinMatch = async (player_name, match_name, password) => {
     throw error;
   }
 };
+
+// Obtener el estado de host de un jugador
+export const isHost = async (player_name, match_name) => {
+  try {
+    const response = await axios.get("http://localhost:8000/player/host", {
+      params: { player_name, match_name },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// Empezar partida
+export const startMatch = async (player_name, match_name) => {
+  try {
+    const response = await axios.post("http://localhost:8000/match/start", {
+      player_name,
+      match_name,
+    });
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const leaveLobby = async (player_name, match_name) => {
+  try {
+    const response = await axios.put("http://localhost:8000/match/leave", {
+      player_name,
+      match_name,
+    });
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const handle_socket_messages = () => {
+  const { state, actions } = useMatchC();
+
+  const match_name = sessionStorage.getItem('match_name');
+  const player_name = sessionStorage.getItem('player_name');
+
+  useEffect(() => {
+    try {
+      const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+      matchSocket.onopen = () => {
+        console.log("Conectado al socket de la partida");
+      };
+
+
+      matchSocket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        switch (data.message_type) {
+          case "posiciones":
+            actions.setPosiciones(data.message_content);
+            break;
+          case "muertes":
+            actions.setDeadPlayerNames(data.message_content);
+            const isCurrentUserDead = data.message_content.includes(player_name);
+            actions.setIsDeadPlayer(isCurrentUserDead);
+            break;
+          case 'estado inicial':
+            actions.setHand(data.message_content.hand);
+            actions.setCurrentTurn(data.message_content.current_turn);
+            actions.setRole(data.message_content.role);
+            break;
+          case 'notificación muerte':
+          case 'notificación jugada':
+            actions.setNotifications([...state.notifications, data.message_content]);
+            break;
+          case 'notificación espera':
+            actions.setWaitMessage(data.message_content);
+            break;
+          case 'notificación chat':
+            console.log(data.message_content)
+            actions.setMessages([...state.messages, data.message_content]);
+            break;
+          case 'historial':
+            actions.setChatHistory(data.message_content);
+            break;
+          case 'logs':
+            actions.setLogs(data.message_content);
+            break;
+          case 'partida finalizada':
+            actions.setWinners(data.message_content.winners);
+            actions.setReason(data.message_content.reason);
+            actions.setIsFinished(true);
+            break;
+          case "cards":
+            actions.setHand(data.message_content);
+            break;
+          case 'error':
+            actions.setSeverity('error');
+            actions.setBody(data.message_content);
+            actions.setOpen(true);
+            break;
+          case 'revelar cartas':
+            actions.setRevealCard(data.message_content);
+            actions.setReveal(true);
+            break;
+          case 'estado partida':
+            actions.setCurrentTurn(data.message_content.turn);
+            if (data.message_content.turn === player_name) {
+              actions.setIsTurn(true);
+            }
+            else {
+              actions.setIsTurn(false);
+            }
+            actions.setTurnState(data.message_content.game_state);
+            break;
+          case 'infectado':
+            if (state.role !== 'INFECTADO') {
+              actions.setNotifications([...state.notifications, 'LA COSA TE INFECTÓ!!']);
+            }
+            actions.setRole('INFECTADO')
+            break;
+          case 'timestamp':
+            actions.setDefenseTimestamp(data.message_content);
+            break;
+          case 'sentido horario':
+            actions.setIsClockwise(data.message_content)
+            break;
+          case 'obstáculos':
+            actions.setObstacles(data.message_content);
+            break;
+          case 'cuarentena':
+            actions.setCuarentena(data.message_content);
+            break;
+          case 'carta ya seleccionada':
+            if (data.message_content === 1) {
+              actions.setAlreadySelected(true);
+            } else {
+              actions.setAlreadySelected(false);
+            }
+            break;
+          default:
+            //console.log("Mensaje no reconocido:" + data.message_content)
+            break;
+        }
+      };
+      matchSocket.onclose = () => {
+        console.log("Desconectado del socket de la partida");
+      };
+
+      actions.setSocket(matchSocket);
+
+      return () => {
+        matchSocket.close();
+      };
+    } catch (error) {
+      console.error("Error de conexión:", error);
+    }
+  }, [match_name]);
+
+}
