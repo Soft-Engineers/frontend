@@ -10,7 +10,7 @@ jest.mock('../../src/screens/Match/matchContext', () => ({
 }));
 
 describe('PlayerRound', () => {
-    test('renders correct number of PlayerCard', () => {
+    test('renders correct number of PlayerCard.test.js', () => {
         // Mock estado jugadores y role
         const mockJugadores = [
             { player_name: 'Player 1', position: 1 },

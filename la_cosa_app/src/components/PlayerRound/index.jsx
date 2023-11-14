@@ -81,7 +81,7 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
       onClick={handleDoorClick}
       style={doorStyle}
       id={index}
-      data-testid="asd"
+      data-testid="door-bt-players"
     >
       <div style={lineStyle}>
         <div style={nailStyle1} /> {/* Left nail */}
@@ -98,7 +98,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
   const Cuarentena = state.Cuarentena;
   const currPlayer = player.player_name;
   const inCuarentena = Cuarentena && Cuarentena[currPlayer] > 0;
-  const isThisPlayerDead = state.deadPlayerNames.includes(player.player_name);
+  const isThisPlayerDead = state.deadPlayerNames && state.deadPlayerNames.includes(player.player_name);
 
   const circleStyle = {
     width: "60px",

@@ -19,7 +19,8 @@ const styles = {
     padding: "16px",
     borderRadius: "10px",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.90)"
+    backgroundColor: "rgba(255,255,255,0.90)",
+    datatestid: "form-partida",
   },
   input: {
     width: "85%",
@@ -50,9 +51,6 @@ const FormPartida = () => {
   const [maxPlayers, setMaxPlayers] = useState(12);
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     setOpen(false);
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MatchProvider } from '../../src/screens/Match/matchContext'
 import Chat from "../../src/components/Chat/index.jsx";
@@ -32,19 +32,22 @@ const mockSocket = {
     send: jest.fn(),
 };
 
+const renderChatWithProvider = (socket) => {
+    return render(
+        <MatchProvider>
+            <Chat socket={socket} />
+        </MatchProvider>
+    );
+};
+
+
 afterEach(() => {
     jest.clearAllMocks();
 });
 
 describe('<Chat />', () => {
     test('renders correctly', async () => {
-        render(
-        <Router>
-            <MatchProvider>
-            <Chat socket={mockSocket} />
-            </MatchProvider>
-        </Router>
-        );
+        renderChatWithProvider(mockSocket);
 
         // Espera a que ciertos elementos estén en el documento
         await waitFor(() => {
@@ -55,5 +58,41 @@ describe('<Chat />', () => {
         await userEvent.type(input, 'test message');
         await userEvent.type(input, '{enter}');
     });
+    it("should allow users to type and send a message", () => {
+        renderChatWithProvider(mockSocket);
 
-    } );
+        // Simula la entrada de texto y el evento de envío
+        fireEvent.change(screen.getByLabelText("Escribe un mensaje"), {
+            target: { value: "Hello World" },
+        });
+        fireEvent.keyDown(screen.getByLabelText("Escribe un mensaje"), {
+            key: "Enter",
+            code: "Enter",
+        });
+
+        // Verifica si el socket.send ha sido llamado
+        expect(mockSocket.send).toHaveBeenCalled();
+
+    });
+
+    beforeEach(() => {
+        jest.clearAllMocks(); // Restablece todas las implementaciones de mock
+    });
+
+
+    it("should not send empty messages", () => {
+        renderChatWithProvider(mockSocket);
+
+        // Intenta enviar un mensaje vacío
+        fireEvent.change(screen.getByLabelText("Escribe un mensaje"), {
+            target: { value: "   " }, // Solo espacios
+        });
+        fireEvent.keyDown(screen.getByLabelText("Escribe un mensaje"), {
+            key: "Enter",
+            code: "Enter",
+        });
+
+        // Verifica que socket.send no haya sido llamado
+        expect(mockSocket.send).not.toHaveBeenCalled();
+    });
+} );

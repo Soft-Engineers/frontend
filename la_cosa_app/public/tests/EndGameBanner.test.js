@@ -41,4 +41,13 @@ describe('EndGameBanner', () => {
 
         expect(navigateMock).toHaveBeenCalledWith(`/mainpage/Player1`);
     });
+    it('no muestra ganadores si no hay', () => {
+        render(<MemoryRouter>
+            <EndGameBanner winners={[]} reason="La cosa ha muerto" />
+        </MemoryRouter>);
+
+        expect(screen.getByText('¡Fin de partida!')).toBeInTheDocument();
+        expect(screen.getByText('La cosa ha muerto')).toBeInTheDocument();
+        expect(screen.queryByText('Ganadores:')).not.toBeInTheDocument();
+    } );
 });

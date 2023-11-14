@@ -20,6 +20,7 @@ describe('MainPage', () => {
         );
         expect(getByText('¡Crea o unite a una partida para empezar a jugar!')).toBeInTheDocument();
         expect(getByText('Recargar partidas')).toBeInTheDocument();
+        expect(getByText('Crear partida')).toBeInTheDocument();
     });
 
     it('Recargar partidas - No hay nuevas partidas', async () => {
@@ -56,7 +57,7 @@ describe('MainPage', () => {
 
         axios.get.mockResolvedValueOnce({ status: 200, data: { Matches: sampleMatches } });
 
-        const { container, getByText } = render(
+        const { container, getByText,getByPlaceholderText } = render(
             <MemoryRouter initialEntries={['/']}>
                 <Routes>
                     <Route path="/" element={<Main />} />
@@ -73,5 +74,9 @@ describe('MainPage', () => {
         const updatedRows = container.querySelectorAll('tr').length;
 
         expect(updatedRows).toBeGreaterThan(initialRows);
+        // Si hago click en crear partida, se renderiza el form
+        fireEvent.click(getByText('Crear partida'));
+        expect(getByPlaceholderText('Nombre de la partida')).toBeInTheDocument();
+
     });
 });

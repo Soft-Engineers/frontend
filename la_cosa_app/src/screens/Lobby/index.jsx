@@ -163,9 +163,6 @@ const Lobby = () => {
   };
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     setOpen(false);
   };
 

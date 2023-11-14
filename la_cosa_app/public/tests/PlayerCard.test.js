@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { useMatchC } from '../../src/screens/Match/matchContext';
-import {DoorBtPlayers} from '../../src/components/PlayerRound';
+import { PlayerCard } from '../../src/components/PlayerRound';
 
 // Mock useMatchC
 jest.mock('../../src/screens/Match/matchContext', () => ({
@@ -9,7 +9,7 @@ jest.mock('../../src/screens/Match/matchContext', () => ({
     useMatchC: jest.fn(),
 }));
 
-describe('DoorBtPlayers', () => {
+describe('PlayerCards', () => {
     const mockState = {
         isTurn: true,
         turnState: 2,
@@ -25,7 +25,12 @@ describe('DoorBtPlayers', () => {
         setTargetName: jest.fn(),
     };
 
-    test('se renderiza correctamente y maneja clics en la puerta', () => {
+    test('se renderiza correctamente y maneja clics en jugadores', () => {
+        const mockPlayer = {
+            player_name: 'Player 1',
+            // Add other required properties here
+        };
+
         useMatchC.mockImplementation(() => ({
             state: mockState,
             actions: mockActions,
@@ -37,17 +42,25 @@ describe('DoorBtPlayers', () => {
         const index = 1;
 
         // Renderiza el componente
-        render(<DoorBtPlayers angle={angle} radiusX={radiusX} radiusY={radiusY} index={index} />);
+        render(
+            <PlayerCard
+                player={mockPlayer}
+                angle={angle}
+                radiusX={radiusX}
+                radiusY={radiusY}
+                index={index}
+            />
+        );
 
-        // Simula un clic en la puerta
-        const door = screen.getByTestId('door-bt-players');
-        fireEvent.click(door);
+        // Simula un clic en el jugador
+        const player = screen.getByTestId('player-cards');
+        fireEvent.click(player);
 
-        // Verifica si la acción setTargetDoor fue llamada
-        expect(mockActions.setTargetDoor).toHaveBeenCalledWith(index.toString());
-        // Verifica que si vuelvo a clickear la puerta, la acción setTargetDoor se llama con null
-        fireEvent.click(door);
+        // Verifica si la acción setTargetName fue llamada
+        expect(mockActions.setTargetName).toHaveBeenCalledWith('Player 1');
 
-        expect(mockActions.setTargetDoor).toHaveBeenCalledWith(null);
+        fireEvent.click(player);
+
+        expect(mockActions.setTargetName).toHaveBeenCalledWith(null);
     });
 });

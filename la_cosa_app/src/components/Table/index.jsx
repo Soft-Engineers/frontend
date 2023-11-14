@@ -42,9 +42,6 @@ const CustomizedTables = ({ data }) => {
   const [body, setBody] = useState("");
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     setOpen(false);
   };
 

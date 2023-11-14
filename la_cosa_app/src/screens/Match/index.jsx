@@ -71,9 +71,6 @@ const Match = () => {
   handle_socket_messages();
 
   const handleClose = (reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
     actions.setOpen(false);
   };
   console.log(state.turnState);

@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {fireEvent, render, screen, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
 import Table from "./../../src/components/Table";
 import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -101,6 +101,10 @@ describe('Table', () => {
             expect(screen.getByText('Match already started')).toBeInTheDocument();
             expect(navigateMock).not.toHaveBeenCalled();
         });
+        fireEvent.click(getByText('Match already started'))
+        expect(getByText('Match already started')).toBeInTheDocument();
+        fireEvent.click(document)
+        await waitForElementToBeRemoved(() => getByText('Match already started'));
 
     });
 });
