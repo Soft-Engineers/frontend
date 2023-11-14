@@ -19,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    overflow: "hidden",    // Agregamos desbordamiento oculto
+    overflow: "hidden", // Agregamos desbordamiento oculto
     textOverflow: "ellipsis",
     alignText: "center",
   },
@@ -85,7 +85,7 @@ const CustomizedTables = ({ data }) => {
       </TableContainer>
       <TableContainer
         component={Paper}
-        sx={{ maxHeight: "65vh", overflowY: "auto"}}
+        sx={{ maxHeight: "65vh", overflowY: "auto" }}
       >
         <Table aria-label="customized table">
           <TableBody>
@@ -115,9 +115,7 @@ const CustomizedTables = ({ data }) => {
                   <StyledTableCell align="left">
                     {row.max_players}
                   </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {row.players}
-                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.players}</StyledTableCell>
                 </StyledTableRow>
               ))}
           </TableBody>

@@ -53,7 +53,7 @@ const ShowHandBanner = () => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     padding: "20px",
-    backgroundColor: "white",
+    backgroundColor: "#FFF8DD",
     borderRadius: "8px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
     flexDirection: "column",
@@ -84,7 +84,7 @@ const ShowHandBanner = () => {
           </Typography>
           <Typography variant="h6" component="div" sx={{ marginTop: "10px" }}>
             {`Esta es ${
-                hand.length == 1 ? "una carta" : "la mano"
+              hand.length == 1 ? "una carta" : "la mano"
             } de ${player}`}
           </Typography>
           <IconButton

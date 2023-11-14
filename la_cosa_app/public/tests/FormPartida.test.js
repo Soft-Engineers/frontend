@@ -121,7 +121,7 @@ describe('FormPartida', () => {
 
         await waitFor(() => {
             expect(getByText('Cantidad inválida de jugadores')).toBeInTheDocument();
-            expect(navigateMock).not.toHaveBeenCalledWith('/lobby/TestPartida');
+            expect(navigateMock).not.toHaveBeenCalled();
         });
         //Testeo si hago click en cualquier lado se cierra el mensaje de error y si hago click en el mensaje no se cierra
         fireEvent.click(getByText('Cantidad inválida de jugadores'))

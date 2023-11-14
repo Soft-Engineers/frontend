@@ -1,5 +1,5 @@
-import Deck from '../../components/Deck/';
-import { useMatchC } from '../../screens/Match/matchContext.jsx';
+import Deck from "../../components/Deck/";
+import { useMatchC } from "../../screens/Match/matchContext.jsx";
 import RoleSign from "../RoleSign/index.jsx";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
@@ -77,7 +77,12 @@ const DoorBtPlayers = ({ angle, radiusX, radiusY, index }) => {
   };
 
   return (
-    <div onClick={handleDoorClick} style={doorStyle} id={index} data-testid='asd'>
+    <div
+      onClick={handleDoorClick}
+      style={doorStyle}
+      id={index}
+      data-testid="asd"
+    >
       <div style={lineStyle}>
         <div style={nailStyle1} /> {/* Left nail */}
         <div style={nailStyle2} /> {/* Right nail */}
@@ -100,20 +105,21 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     height: "60px",
     border:
       state.target_name === player.player_name &&
-        !isThisPlayerDead &&
-        (state.turnState === 2 || state.turnState === 7)
+      !isThisPlayerDead &&
+      (state.turnState === 2 || state.turnState === 7)
         ? "2px solid red"
         : "2px solid transparent",
     backgroundColor: isThisPlayerDead
       ? "red"
       : state.currentTurn === player.player_name
-        ? "green"
-        : "#3498db",
+      ? "green"
+      : "#3498db",
     margin: "20px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "50%",
+    opacity: "0.8",
   };
 
   const cardStyle = {
@@ -123,8 +129,8 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
       ? "not-allowed"
       : (state.turnState === 2 || state.turnState === 7) &&
         state.isTurn === true
-        ? "pointer"
-        : "default",
+      ? "pointer"
+      : "default",
     borderRadius: "50%",
   };
 
@@ -194,7 +200,12 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
   };
 
   return (
-    <div className="player-card" style={cardStyle} onClick={handleClick} data-testid="player-cards">
+    <div
+      className="player-card"
+      style={cardStyle}
+      onClick={handleClick}
+      data-testid="player-cards"
+    >
       <div style={{ display: "flex" }}>
         <div className="circle" style={circleStyle}>
           {inCuarentena && (
@@ -263,10 +274,10 @@ const PlayerRound = () => {
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    border: "1px solid grey",
+    border: "2px solid #305f87",
     borderRadius: "10px",
-    backgroundColor: "#f2f2ff",
-    position: "relative",
+    backgroundImage: "linear-gradient(320deg, hsl(186deg 22% 38%) 0%, hsl(181deg 20% 40%) 9%, hsl(177deg 18% 42%) 18%, hsl(173deg 17% 44%) 27%, hsl(167deg 15% 48%) 36%, hsl(155deg 13% 54%) 45%, hsl(141deg 13% 59%) 55%, hsl(126deg 13% 63%) 64%, hsl(120deg 12% 73%) 73%, hsl(120deg 11% 83%) 82%, hsl(120deg 11% 92%) 91%, hsl(0deg 0% 100%) 100%)",
+
   };
   const roleSignStyle = {
     marginTop: "6px",
@@ -291,15 +302,15 @@ const PlayerRound = () => {
   const zoomStyle = {
     marginTop: "1rem",
     marginRight: "2rem",
-    backgroundColor: "#515952",
-    color: "white",
+    backgroundColor: "#FFB85D",
+    color: "black",
     "&:hover": {
-      backgroundColor: "#2a2e2b",
+      backgroundColor: "#916a35",
     },
   };
 
   return (
-    <Box sx={containerStyle} data-testid="playerRound" >
+    <Box sx={containerStyle} data-testid="playerRound">
       <div style={roleSignStyle} data-testid="player-cards">
         <RoleSign />
       </div>
@@ -332,7 +343,7 @@ const PlayerRound = () => {
           />
           {sortedboolDoors[index] && (
             <DoorBtPlayers
-              data-testid='asd'
+              data-testid="asd"
               angle={
                 (2 * Math.PI * (totalPlayers - index + 0.5 - 1)) / totalPlayers
               }

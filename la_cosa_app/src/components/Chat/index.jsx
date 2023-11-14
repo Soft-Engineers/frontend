@@ -81,7 +81,11 @@ const Chat = ({ socket }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: isMainUser ? "flex-end" : "flex-start",
-            backgroundColor: isMainUser ? "#3498db" : message.author === "" ? "#a7f8f1" : "#efefef",
+            backgroundColor: isMainUser
+              ? "#3498db"
+              : message.author === ""
+              ? "#b3f3f1"
+              : "#efefef",
             padding: "5px 10px",
             borderRadius: "10px",
           }}

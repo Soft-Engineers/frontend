@@ -17,7 +17,7 @@ import { useMatchC } from "../Match/matchContext.jsx";
 
 const styles = {
   container: {
-    height: "95vh",
+    height: "100vh",
   },
   list: {
     maxHeight: "calc(100% - 82px)",
@@ -27,28 +27,24 @@ const styles = {
   buttonsAndChat: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-end",
-    maxHeight: "calc(100% - 82px)",
-    marginTop: "1rem",
+    justifyContent: "space-evenly",
+    maxHeight: "85%",
   },
   buttons: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "column",
-    maxHeight: "100px",
-    minHeight: "100px",
-    height: "100px",
-    marginBottom: "1rem",
-    padding: "7px",
+    height:"20vh",
     border: "1px solid rgba(0, 0, 0, 0.23)",
     borderRadius: "10px",
+    backgroundColor: "rgba(255,255,255,0.90)"
   },
   chatBox: {
     border: "1px solid rgba(0, 0, 0, 0.23)",
     borderRadius: "10px",
-    maxHeight: "calc(100% - 115px)",
-    height: "calc(100% - 115px)",
+    height: "70%",
+    backgroundColor: "rgba(255,255,255,0.90)"
   },
 };
 
@@ -196,7 +192,7 @@ const Lobby = () => {
                 icon={<VideogameAssetOutlinedIcon />}
               />
             ) : (
-              <h3 style={{ color: "rgba(0, 0, 0, 0.87)" }}>
+              <h3>
                 Esperando que el host inicie la partida...
               </h3>
             )}

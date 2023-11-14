@@ -14,6 +14,8 @@ const styles = {
     width: "90%",
     maxWidth: "40vh",
     border: "1px solid #ccc",
+    backgroundColor: "#ebe7e7",
+    opacity: 0.95,
     padding: "16px",
     borderRadius: "10px",
     alignItems: "center",
@@ -86,7 +88,7 @@ const FormUser = () => {
             <Grid item xs={12} sx={styles.button}>
               <RButton
                 text="Crear usuario"
-                action={() => { }}
+                action={() => {}}
                 icon={<ForwardOutlinedIcon />}
               />
             </Grid>

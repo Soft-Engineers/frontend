@@ -114,7 +114,7 @@ const Carta = ({ nombre }) => {
   const cartaStyles = {
     maxWidth: "130px",
     maxHeight: "180px",
-    backgroundColor: "#cccaca", // Color de fondo
+    backgroundColor: "transparent", // Color de fondo
     borderRadius: "10px", // Bordes redondeados
   };
 

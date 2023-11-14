@@ -31,7 +31,8 @@ const RoleSign = () => {
     fontWeight,
     cursor: "pointer",
     margin: "2rem",
-  };
+    fontFamily: "'Bungee Spice', sans-serif",
+};
 
   const handleTooltipClose = () => {
     setOpen(false);

@@ -19,7 +19,6 @@ const styles = {
   cartaHovered: {
     transform: "translateY(-1cm)",
     transition: "transform 0.2s",
-    marginBottom: "1rem",
   },
 };
 
@@ -63,7 +62,12 @@ const PlayersHand = () => {
   );
 
   return (
-    <Stack direction="row" spacing={-0.1} onMouseLeave={handleHandLeave} data-testid="playersHand">
+    <Stack
+      direction="row"
+      spacing={-0.1}
+      onMouseLeave={handleHandLeave}
+      data-testid="playersHand"
+    >
       {state.hand.map((objCarta, index) => (
         <CustomTooltip
           key={index}

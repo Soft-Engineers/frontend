@@ -15,6 +15,7 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#fafffa",
+    opacity: '0.8',
   },
   box: {
     maxHeight: "100%",
