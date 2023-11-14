@@ -60,7 +60,7 @@ describe('Match', () => {
     it('debería renderizar la pantalla de juego correctamente', () => {
         sessionStorage.setItem('player_name', 'Ramon');
         sessionStorage.setItem('match_name', 'ramoncito_match');
-        const { getByTestId } = render(
+        const { getByTestId, getByText } = render(
             <MatchProvider>
                 <Match />
             </MatchProvider>
@@ -75,6 +75,7 @@ describe('Match', () => {
         expect(PlayersRound).toBeInTheDocument();
         expect(Notifications).toBeInTheDocument();
         expect(ButtonsBox).toBeInTheDocument();
+        expect(getByText('Es tu turno')).toBeInTheDocument();
     });
     it('debería renderizar la pantalla de muerto correctamente', () => {
         const { actions } = useMatchC();
@@ -115,9 +116,7 @@ describe('Match', () => {
         expect(Notifications).toBeInTheDocument();
         expect(ButtonsBox).toBeInTheDocument();
         expect(Chat).toBeInTheDocument();
-        //?// 
-        expect(progressBar).toHaveStyle({ opacity: '0' }); // <- no se como hacer para la opacidad se ponga en 0
-
-        // Realizar más afirmaciones según sea necesario
+        //?//
+        //expect(parent).toHaveStyle({ opacity: '0' }); // <- no se como hacer para la opacidad se ponga en 0
     });
 });

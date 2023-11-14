@@ -89,7 +89,7 @@ const Lobby = () => {
           const newMessage = {
             author: "", // Replace with the actual author's name
             message: data.message_content.message,
-            timestamp: data.message_content.timestamp,
+            timestamp: new Date(data.message_content.timestamp * 1000).toLocaleTimeString(),
           };
           actions.setMessages([...state.messages, newMessage]);
           setJugadores(data.message_content.players);
