@@ -105,7 +105,7 @@ const BackgroundAnimation = () => {
         }
 
         function animate() {
-            if(animateHeader) {
+            if(ctx  && animateHeader){
                 ctx.clearRect(0, 0, width, height);
                 for(let i in points) {
                     if(Math.abs(getDistance(target, points[i])) < 4000) {

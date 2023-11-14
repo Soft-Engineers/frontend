@@ -15,6 +15,16 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(), // Mock de useNavigate
 }));
 
+jest.mock('canvas', () => {
+    const mCanvas = {
+        getContext: jest.fn(),
+    };
+    return {
+        ...mCanvas,
+        Canvas: jest.fn(() => mCanvas),
+    };
+});
+
 describe('FormUser', () => {
 
     it('Renderiza sin errores', () => {
