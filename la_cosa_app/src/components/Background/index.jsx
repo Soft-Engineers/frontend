@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './BackgroundStyle.css';
+import './backgroundStyle.css';
 
 const BackgroundAnimation = () => {
     useEffect(() => {
