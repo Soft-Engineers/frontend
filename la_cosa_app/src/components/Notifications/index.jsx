@@ -272,7 +272,7 @@ const Notifications = () => {
               ? 'Esperando el efecto "Revelaciones"'
               : state.turnState === turnStates.DISCARD
               ? "Esperando que " + state.currentTurn + " descarte"
-              : "Esperando tu turno..."}
+              : !state.isDeadPlayer && "Esperando tu turno..."}
           </Typography>
         )}
       </ListItem>

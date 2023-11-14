@@ -172,7 +172,7 @@ const Match = () => {
             }}
           >
             {state.isDeadPlayer && (
-              <h1 style={{ fontSize: "6rem", color: "red" }}> Has muerto...</h1>
+              <h1 style={{ fontSize: "6rem", color: "#C85250" }}> Has muerto...</h1>
             )}
           </Box>
         </>
