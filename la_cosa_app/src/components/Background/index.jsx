@@ -16,10 +16,10 @@ const BackgroundAnimation = () => {
             ctx = canvas.getContext('2d');
 
             points = [];
-            for(let x = 0; x < width; x = x + width/20) {
-                for(let y = 0; y < height; y = y + height/20) {
-                    let px = x + Math.random() * width/20;
-                    let py = y + Math.random() * height/20;
+            for(let x = 0; x < width; x = x + width/15) {
+                for(let y = 0; y < height; y = y + height/15) {
+                    let px = x + Math.random() * width/15;
+                    let py = y + Math.random() * height/15;
                     let p = {x: px, originX: px, y: py, originY: py };
                     points.push(p);
                 }
@@ -32,7 +32,7 @@ const BackgroundAnimation = () => {
                     let p2 = points[j];
                     if(!(p1 === p2)) {
                         let placed = false;
-                        for(let k = 0; k < 5; k++) {
+                        for(let k = 0; k < 3; k++) {
                             if(!placed) {
                                 if(closest[k] === undefined) {
                                     closest[k] = p2;
@@ -41,7 +41,7 @@ const BackgroundAnimation = () => {
                             }
                         }
 
-                        for(let k = 0; k < 5; k++) {
+                        for(let k = 0; k < 3; k++) {
                             if(!placed) {
                                 if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
                                     closest[k] = p2;

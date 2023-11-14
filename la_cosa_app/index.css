@@ -1,0 +1,23 @@
+body{
+    background-image: linear-gradient(
+            30deg,
+            hsl(0deg 0% 0%) 0%,
+            hsl(233deg 29% 4%) 0%,
+            hsl(233deg 29% 5%) 0%,
+            hsl(233deg 29% 7%) 0%,
+            hsl(233deg 29% 8%) 1%,
+            hsl(233deg 29% 9%) 2%,
+            hsl(233deg 29% 10%) 4%,
+            hsl(233deg 29% 10%) 8%,
+            hsl(233deg 29% 11%) 37%,
+            hsl(291deg 7% 20%) 74%,
+            hsl(330deg 7% 26%) 81%,
+            hsl(344deg 8% 31%) 86%,
+            hsl(350deg 8% 36%) 90%,
+            hsl(354deg 8% 40%) 93%,
+            hsl(357deg 8% 43%) 96%,
+            hsl(359deg 8% 47%) 98%,
+            hsl(0deg 8% 50%) 100%
+    );
+
+}

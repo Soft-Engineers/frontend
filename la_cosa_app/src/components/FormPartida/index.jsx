@@ -19,6 +19,7 @@ const styles = {
     padding: "16px",
     borderRadius: "10px",
     alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.90)"
   },
   input: {
     width: "85%",

@@ -142,23 +142,23 @@ const ButtonsBox = () => {
       minWidth: "40%",
       maxWidth: "50%",
       flex: "1",
-      backgroundColor: "#f3fdd2",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      backgroundImage: "linear-gradient(320deg, hsl(186deg 22% 38%) 0%, hsl(181deg 20% 40%) 9%, hsl(177deg 18% 42%) 18%, hsl(173deg 17% 44%) 27%, hsl(167deg 15% 48%) 36%, hsl(155deg 13% 54%) 45%, hsl(141deg 13% 59%) 55%, hsl(126deg 13% 63%) 64%, hsl(120deg 12% 73%) 73%, hsl(120deg 11% 83%) 82%, hsl(120deg 11% 92%) 91%, hsl(0deg 0% 100%) 100%)",
+
     },
     button: {
-      backgroundColor: "#28918d",
-      color: "white",
+      backgroundColor: "#FFB85D",
+      color: "black",
       padding: "8px 20px",
       borderRadius: "8px",
-      border: "2px solid #066b59",
+      border: "2px solid #916a35",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
       "&:hover": {
-        backgroundColor: "#066b59",
+        backgroundColor: "#916a35",
       },
     },
     confirmButton: {
-      backgroundColor: "#ee0a0a",
+      backgroundColor: "#C85250",
       color: "white",
       padding: "10px 20px",
       borderRadius: "8px",
@@ -166,7 +166,7 @@ const ButtonsBox = () => {
       cursor: "pointer",
       transition: "background-color 0.3s ease",
       "&:hover": {
-        backgroundColor: "darkred",
+        backgroundColor: "#800015",
       },
     },
     panicButton: {

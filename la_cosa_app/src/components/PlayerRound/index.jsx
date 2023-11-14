@@ -119,6 +119,7 @@ const PlayerCard = ({ player, angle, radiusX, radiusY, isCurrentPlayer }) => {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "50%",
+    opacity: "0.8",
   };
 
   const cardStyle = {
@@ -273,10 +274,10 @@ const PlayerRound = () => {
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    border: "1px solid grey",
+    border: "2px solid #305f87",
     borderRadius: "10px",
-    backgroundColor: "#f2f2ff",
-    position: "relative",
+    backgroundImage: "linear-gradient(320deg, hsl(186deg 22% 38%) 0%, hsl(181deg 20% 40%) 9%, hsl(177deg 18% 42%) 18%, hsl(173deg 17% 44%) 27%, hsl(167deg 15% 48%) 36%, hsl(155deg 13% 54%) 45%, hsl(141deg 13% 59%) 55%, hsl(126deg 13% 63%) 64%, hsl(120deg 12% 73%) 73%, hsl(120deg 11% 83%) 82%, hsl(120deg 11% 92%) 91%, hsl(0deg 0% 100%) 100%)",
+
   };
   const roleSignStyle = {
     marginTop: "6px",
@@ -301,10 +302,10 @@ const PlayerRound = () => {
   const zoomStyle = {
     marginTop: "1rem",
     marginRight: "2rem",
-    backgroundColor: "#515952",
-    color: "white",
+    backgroundColor: "#FFB85D",
+    color: "black",
     "&:hover": {
-      backgroundColor: "#2a2e2b",
+      backgroundColor: "#916a35",
     },
   };
 

@@ -84,7 +84,7 @@ const Chat = ({ socket }) => {
             backgroundColor: isMainUser
               ? "#3498db"
               : message.author === ""
-              ? "#a7f8f1"
+              ? "#b3f3f1"
               : "#efefef",
             padding: "5px 10px",
             borderRadius: "10px",
