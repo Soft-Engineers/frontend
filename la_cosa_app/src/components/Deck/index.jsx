@@ -24,11 +24,11 @@ const Deck = ({ onDrawCard }) => {
   };
 
   return (
-    <Card style={styles.deck}>
-      <CardActionArea onClick={handleDeckClick}>
-        <img src={rev} alt="Card Back" style={styles.card} />
-      </CardActionArea>
-    </Card>
+      <Card style={styles.deck} data-testid="deck">
+        <CardActionArea onClick={handleDeckClick} data-testid="card-action-area">
+          <img src={rev} alt="Card Back" style={styles.card} />
+        </CardActionArea>
+      </Card>
   );
 };
 export default Deck;
