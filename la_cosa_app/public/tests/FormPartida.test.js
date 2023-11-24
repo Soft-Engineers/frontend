@@ -1,10 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {fireEvent, render, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
+import { fireEvent, render, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import FormPartida from './../../src/components/FormPartida';
 import axios from "axios";
 import Lobby from "../../src/screens/Lobby/index.jsx";
+import { DOMAIN, PORT } from "../../src/utils/api";
+
 
 jest.mock('axios');
 beforeEach(() => {
@@ -71,7 +73,7 @@ describe('FormPartida', () => {
 
         await waitFor(() => {
             expect(axios.post).toHaveBeenCalledWith(
-                'http://localhost:8000/match/create',
+                'http://' + DOMAIN + ':' + PORT + '/match/create',
                 expect.objectContaining({
                     match_name: 'TestPartida',
                     player_name: 'Juan',

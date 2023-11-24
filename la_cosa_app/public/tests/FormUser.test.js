@@ -1,10 +1,11 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {render, fireEvent, waitFor, waitForElementToBeRemoved,} from '@testing-library/react';
+import { render, fireEvent, waitFor, waitForElementToBeRemoved, } from '@testing-library/react';
 import { MemoryRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import SelectName from '../../src/screens/SelectName/index.jsx';
 import Main from '../../src/screens/MainPage/index.jsx';
 import axios from 'axios';
+import { DOMAIN, PORT } from "../../src/utils/api";
 
 jest.mock('axios');
 beforeEach(() => {
@@ -68,7 +69,7 @@ describe('FormUser', () => {
 
         await waitFor(() => {
             expect(axios.post).toHaveBeenCalledWith(
-                'http://localhost:8000/player/create',
+                'http://' + DOMAIN + ':' + PORT + '/player/create',
                 expect.any(FormData) // Checkeo que el post se haga con los argumentos correctos
             );
 

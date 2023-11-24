@@ -2,13 +2,16 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useMatchC } from '../screens/Match/matchContext';
 
+export const DOMAIN = "lacosa.duckdns.org";
+export const PORT = "8000";
+
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
   const formData = new FormData();
   formData.append("name_player", name_player);
   try {
     const response = await axios.post(
-      "http://localhost:8000/player/create",
+      "http://" + DOMAIN + ":" + PORT + "/player/create",
       formData
     );
     return response;
@@ -26,7 +29,7 @@ export const createPartida = async (
   max_players
 ) => {
   try {
-    const response = await axios.post("http://localhost:8000/match/create", {
+    const response = await axios.post("http://" + DOMAIN + ":" + PORT + "/match/create", {
       match_name,
       player_name,
       min_players,
@@ -41,7 +44,7 @@ export const createPartida = async (
 
 export const getJugadores = async (match_name) => {
   try {
-    const Url = "http://localhost:8000/match/players";
+    const Url = "http://" + DOMAIN + ":" + PORT + "/match/players";
     const response = await axios.get(Url, {
       params: { match_name: match_name },
     });
@@ -55,7 +58,7 @@ export const getJugadores = async (match_name) => {
 // Obtener todas las partidas
 export const getPartidas = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/match/list");
+    const response = await axios.get("http://" + DOMAIN + ":" + PORT + "/match/list");
     if (response.status === 200) {
       return response.data.Matches;
     }
@@ -67,7 +70,7 @@ export const getPartidas = async () => {
 // Unirse a una partida
 export const joinMatch = async (player_name, match_name, password) => {
   try {
-    const response = await axios.post("http://localhost:8000/match/join", {
+    const response = await axios.post("http://" + DOMAIN + ":" + PORT + "/match/join", {
       player_name,
       match_name,
       password,
@@ -82,7 +85,7 @@ export const joinMatch = async (player_name, match_name, password) => {
 // Obtener el estado de host de un jugador
 export const isHost = async (player_name, match_name) => {
   try {
-    const response = await axios.get("http://localhost:8000/player/host", {
+    const response = await axios.get("http://" + DOMAIN + ":" + PORT + "/player/host", {
       params: { player_name, match_name },
     });
     return response;
@@ -95,7 +98,7 @@ export const isHost = async (player_name, match_name) => {
 // Empezar partida
 export const startMatch = async (player_name, match_name) => {
   try {
-    const response = await axios.post("http://localhost:8000/match/start", {
+    const response = await axios.post("http://" + DOMAIN + ":" + PORT + "/match/start", {
       player_name,
       match_name,
     });
@@ -109,7 +112,7 @@ export const startMatch = async (player_name, match_name) => {
 
 export const leaveLobby = async (player_name, match_name) => {
   try {
-    const response = await axios.put("http://localhost:8000/match/leave", {
+    const response = await axios.put("http://" + DOMAIN + ":" + PORT + "/match/leave", {
       player_name,
       match_name,
     });
@@ -129,7 +132,7 @@ export const handle_socket_messages = () => {
 
   useEffect(() => {
     try {
-      const matchSocket = new WebSocket(`ws://localhost:8000/ws/${match_name}/${player_name}`);
+      const matchSocket = new WebSocket(`ws://` + DOMAIN + `:` + PORT + `/ws/${match_name}/${player_name}`);
       matchSocket.onopen = () => {
         console.log("Conectado al socket de la partida");
       };

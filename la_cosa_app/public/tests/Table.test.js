@@ -1,9 +1,10 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {fireEvent, render, screen, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import Table from "./../../src/components/Table";
 import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { DOMAIN, PORT } from "../../src/utils/api";
 
 jest.mock('axios');
 beforeEach(() => {
@@ -60,7 +61,7 @@ describe('Table', () => {
         fireEvent.doubleClick(row);
 
         await waitFor(() => {
-            expect(axios.post).toHaveBeenCalledWith('http://localhost:8000/match/join', {
+            expect(axios.post).toHaveBeenCalledWith('http://' + DOMAIN + ':' + PORT + '/match/join', {
                 player_name: 'playerName',
                 match_name: 'Table 1',
                 password: '',

@@ -8,7 +8,7 @@ import VideogameAssetOutlinedIcon from "@mui/icons-material/VideogameAssetOutlin
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { isHost as checkIsHost, startMatch, leaveLobby } from "../../utils/api";
+import { isHost as checkIsHost, startMatch, leaveLobby, DOMAIN, PORT } from "../../utils/api";
 import SnackBar from "../../components/SnackBar";
 import React from "react";
 import Chat from "../../components/Chat/index.jsx";
@@ -35,7 +35,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "column",
-    height:"20vh",
+    height: "20vh",
     border: "1px solid rgba(0, 0, 0, 0.23)",
     borderRadius: "10px",
     backgroundColor: "rgba(255,255,255,0.90)"
@@ -63,7 +63,7 @@ const Lobby = () => {
   // Conectarse al socket
   useEffect(() => {
     const lobbySocket = new WebSocket(
-      `ws://localhost:8000/ws/${match_name}/${player_name}`,
+      `ws://` + DOMAIN + `:` + PORT + `/ws/${match_name}/${player_name}`,
     );
     lobbySocket.onopen = () => {
       console.log("Conectado al socket del lobby");
