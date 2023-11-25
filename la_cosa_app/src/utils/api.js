@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useMatchC } from '../screens/Match/matchContext';
 
-export const DOMAIN = "lacosa.duckdns.org";
-export const PORT = "8000";
+export const DOMAIN = "20.72.159.66";
+export const PORT = "80";
 
 // pasar como formdata a name_player
 export const createUser = async (name_player) => {
