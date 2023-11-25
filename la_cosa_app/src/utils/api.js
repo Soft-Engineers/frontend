@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useMatchC } from '../screens/Match/matchContext';
 
-export const DOMAIN = "20.72.159.66";
+export const DOMAIN = "4.157.32.240";
 export const PORT = "80";
 
 // pasar como formdata a name_player
